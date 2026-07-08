@@ -1,0 +1,18 @@
+.searchWrapper{
+  padding: 15vh 0 0 0 !important;
+  height: auto !important;
+}
+
+.iframe.searchWrapper{
+  padding: 0 0 0 0 !important;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .searchWrapper{
+    padding: 13vh 0 0 0 !important;
+  }
+}

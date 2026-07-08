@@ -1,0 +1,59 @@
+[data-theme='dark'] {
+  --color: rgba(255, 255, 255, 0.842);
+}
+
+[data-theme='light'] {
+  --color: rgba(38, 38, 38, 1);
+}
+
+.container {
+  color: var(--color);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  max-width: 100%;
+  padding-top: 96px !important;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+
+.container .header {
+  text-align: center;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  font-size: 5rem;
+  font-family: 'SB Sans Cond Mono', 'SBSansCondMono', sans-serif;
+  font-weight: 700;
+  line-height: 5.75rem;
+}
+
+.container .sheet {
+  font-size: 1.125rem;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .container .header {
+    font-size: 35px;
+    line-height: 1.4;
+    margin: 20px 0;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .container .header {
+    font-size: 35px;
+    line-height: 1.4;
+    margin: 20px 0;
+  }
+
+  .container .sheet {
+    font-size: 15px;
+  }
+
+  .container .sheet li:before {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,1 @@
+export { BackgroundGradients } from './BackgroundGradients';

@@ -1,0 +1,14 @@
+<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="8" cy="45" r="8" fill="#52525B"/>
+<circle cx="45" cy="82" r="8" fill="#52525B"/>
+<rect x="44" y="14" width="2" height="32" fill="#199AF0"/>
+<rect x="44" y="44" width="2" height="32" fill="#52525B"/>
+<rect x="44.6929" y="46.1382" width="2" height="31.3067" transform="rotate(-89.6932 44.6929 46.1382)" fill="#24B23E"/>
+<rect x="14" y="46.1382" width="2" height="31.3067" transform="rotate(-89.6932 14 46.1382)" fill="#52525B"/>
+<circle cx="45" cy="45" r="8" fill="#FF3D51"/>
+<path d="M43.4996 41.7273L44.9663 44.206H45.0231L46.4968 41.7273H48.2333L46.0138 45.3636L48.283 49H46.5146L45.0231 46.5178H44.9663L43.4748 49H41.7134L43.9897 45.3636L41.756 41.7273H43.4996Z" fill="black"/>
+<circle cx="82" cy="45" r="8" fill="#24B23E"/>
+<path d="M78.5829 41.7273H80.3052L81.9636 44.8594H82.0346L83.693 41.7273H85.4153L82.7626 46.429V49H81.2356V46.429L78.5829 41.7273Z" fill="black"/>
+<circle cx="45" cy="8" r="8" fill="#199AF0"/>
+<path d="M42.219 12V11.0874L45.8483 5.99503H42.2119V4.72727H47.7801V5.63991L44.1473 10.7322H47.7872V12H42.219Z" fill="black"/>
+</svg>

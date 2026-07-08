@@ -1,0 +1,65 @@
+.previewsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.galleryContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 212px);
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  width: 100%;
+  max-width: 93vw;
+  margin: 90px !important;
+  justify-content: center;
+}
+
+.galleryContainer_main {
+  margin: 0px 30px 69px 30px !important;
+  width: 100%;
+}
+
+.galleryContainer_few2 {
+  max-width: 680px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.galleryContainer_few3 {
+  max-width: 900px;
+}
+
+.createFirstLink {
+  color: #888;
+  text-decoration: none;
+  transition: text-decoration 0.15s;
+  cursor: pointer;
+}
+.createFirstLink:hover,
+.createFirstLink:focus {
+  text-decoration: underline;
+  color: #888;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .galleryContainer {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    margin: 15px !important;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .galleryContainer {
+    grid-template-columns: repeat(auto-fill, 160px);
+    margin: 72px 8px 20px 8px !important;
+  }
+
+  .galleryContainer_main {
+    margin: 30px 16px !important;
+    width: auto;
+  }
+}

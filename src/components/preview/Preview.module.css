@@ -1,0 +1,54 @@
+[data-theme='dark'] {
+  --button-bg: #1a1a1a;
+  --button-color: #f5f5f5;
+}
+
+[data-theme='light'] {
+  --button-bg: #f5f5f5;
+  --button-color: #1a1a1a;
+}
+
+.buttonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 0;
+  position: relative;
+
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  z-index: 15;
+  padding: 12px 0;
+}
+
+.longTimeoutMessage {
+  bottom: -65px;
+  text-align: center;
+  color: #888;
+  position: static;
+  width: 100%;
+  margin-top: 25px;
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .buttonWrapper,
+  .longTimeoutMessage {
+    margin-top: 0px;
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .longTimeoutMessage {
+    margin-top: 5px;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+}

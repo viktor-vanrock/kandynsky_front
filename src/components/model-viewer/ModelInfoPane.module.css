@@ -1,0 +1,267 @@
+[data-theme='light'] {
+  --slider-rail: #d9d9d9; /* дорожка */
+  --slider-track: #111; /* активная дорожка */
+  --slider-handle-bg: #ffffff; /* фон бегунка */
+  --slider-handle-border: #111; /* обводка бегунка */
+  --slider-tooltip-bg: #111;
+  --slider-tooltip-fg: #fff;
+}
+
+[data-theme='dark'] {
+  --slider-rail: #444;
+  --slider-track: #ffffff;
+  --slider-handle-bg: #111;
+  --slider-handle-border: #ffffff;
+  --slider-tooltip-bg: #fff;
+  --slider-tooltip-fg: #111;
+}
+
+.controlsContainer {
+  position: absolute;
+  top: 60px;
+  left: 65px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  pointer-events: auto;
+  cursor: default;
+  gap: 8px;
+  width: 350px;
+  border-radius: 14px;
+  padding: 4px;
+  background-color:var(--surface-transparent-secondary, rgba(8,8,8, 0.08));
+}
+
+.infoText {
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoText__prompt {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.infoText__subtext {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.infoText__polygonCount {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.styledPromt {
+  font-weight: 400;
+  /* color: var(--color); */
+  font-size: 20px;
+  max-height: 60vh;
+}
+
+.controlButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.lightPanel :global(.ant-slider) {
+  width: 260px;
+  margin: 0;
+}
+
+.lightPanel :global(.ant-slider-rail) {
+  background-color: var(--slider-rail) !important;
+  height: 4px;
+}
+
+.lightPanel :global(.ant-slider-track) {
+  background-color: var(--slider-track) !important;
+  height: 4px;
+}
+
+.lightPanel :global(.ant-slider:hover .ant-slider-track) {
+  background-color: var(--slider-track) !important;
+}
+
+.lightPanel :global(.ant-slider-handle) {
+  top: 50% !important;
+  inset-inline-start: auto;
+  transform: translate(-50%, -50%) !important;
+  transition: none !important;
+  outline: none !important;
+}
+
+/* бегунок */
+.lightPanel :global(.ant-slider-handle::after) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px !important;
+  height: 16px !important;
+  transform: translate(-50%, -50%) !important;
+  border: 2px solid var(--slider-handle-border) !important;
+  background-color: var(--slider-handle-bg) !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+.lightPanel :global(.ant-slider-handle:hover::after),
+.lightPanel :global(.ant-slider-handle:active::after),
+.lightPanel :global(.ant-slider-handle:focus::after) {
+  width: 16px !important;
+  height: 16px !important;
+  background-color: var(--slider-handle-bg) !important;
+  border-color: var(--slider-handle-border) !important;
+  box-shadow: none !important;
+  transform: translate(-12%, -12%) !important;
+}
+
+.lightPanel :global(.ant-slider-handle:active::after),
+.lightPanel :global(.ant-slider-handle:hover::after) {
+  background-color: var(--slider-handle-bg) !important;
+  border-color: var(--slider-handle-border) !important;
+}
+
+.lightPanel :global(.ant-slider-mark-text) {
+  color: var(--color) !important;
+}
+
+.lightPanel :global(.ant-slider-handle:focus-visible) {
+  outline: none !important;
+}
+
+.lightPanel {
+  margin-top: 20px;
+}
+
+/* Кнопки панели */
+.shareButton,
+.removeButton,
+.autorotateButton,
+.cameraButton,
+.screenshotButton,
+.lightButton {
+  border: none;
+  cursor: pointer;
+  background-color: var(--share-btn-bg);
+  transition: none;
+  position: relative;
+  z-index: 1100;
+}
+
+.shareButton:not(:disabled):not(.ant-btn-disabled):hover,
+.removeButton:not(:disabled):not(.ant-btn-disabled):hover,
+.autorotateButton:not(:disabled):not(.ant-btn-disabled):hover,
+.cameraButton:not(:disabled):not(.ant-btn-disabled):hover,
+.screenshotButton:not(:disabled):not(.ant-btn-disabled):hover,
+.lightButton:not(:disabled):not(.ant-btn-disabled):hover,
+.autorotateButton_enabled {
+  border: none !important;
+  background-color: var(--share-btn-hovered-bg);
+  transition: none;
+  outline: none !important;
+}
+
+.shareButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.removeButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.autorotateButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.cameraButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.screenshotButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.lightButton:not(:disabled):not(.ant-btn-disabled):hover svg,
+.autorotateButton_enabled svg {
+  filter: invert(100%) sepia(29%) saturate(2%) hue-rotate(3deg) brightness(108%) contrast(100%);
+}
+
+.shareButton:not(:disabled):not(.ant-btn-disabled):not(:hover),
+.removeButton:not(:disabled):not(.ant-btn-disabled):not(:hover),
+.autorotateButton:not(:disabled):not(.ant-btn-disabled):not(:hover),
+.screenshotButton:not(:disabled):not(.ant-btn-disabled):not(:hover),
+.lightButton:not(:disabled):not(.ant-btn-disabled):not(:hover),
+.cameraButton:not(:disabled):not(.ant-btn-disabled):not(:hover) {
+  outline: none !important;
+  border: none !important;
+  transition: none;
+}
+
+.controlButton:not(:disabled):not(.ant-btn-disabled) {
+  position: relative;
+  width: 40px;
+  height: 40px !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+
+.copiedTooltip {
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 100;
+}
+
+/* планшеты */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .controlsContainer {
+    top: 58%;
+    left: 25px;
+    width: 150px;
+  }
+
+  .infoText__prompt {
+    font-weight: 600;
+    color: var(--touch-color);
+    font-size: 16px;
+  }
+
+  .styledPromt {
+    font-weight: 400;
+    color: var(--color);
+    font-size: 15px;
+  }
+}
+
+/* смартфоны */
+@media screen and (max-width: 659px) {
+  .controlsContainer {
+    position: relative;
+    top: -25px;
+    left: 0 !important;
+    right: auto !important;
+    inset-inline: 0;
+    transform: none !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .controlsContainer > * {
+    max-width: 100%;
+  }
+
+  .infoText__prompt {
+    font-weight: 600;
+    color: var(--touch-color);
+    font-size: 16px;
+  }
+
+  .styledPromt {
+    font-weight: 400;
+    color: var(--color);
+    font-size: 15px;
+  }
+
+  .autorotateButton {
+    position: absolute !important;
+    right: 40px;
+  }
+}

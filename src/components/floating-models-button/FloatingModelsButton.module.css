@@ -1,0 +1,15 @@
+.floatingWrapper {
+  position: fixed;
+  right: 30px;
+  top: 8px;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 659px) {
+  .floatingWrapper {
+    right: 15px;
+    top: 8px;
+  }
+}

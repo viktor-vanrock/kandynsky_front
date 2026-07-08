@@ -1,0 +1,28 @@
+.container {
+  height: 85vh;
+}
+
+.contentContainer {
+  max-width: 100vw;
+  overflow-x: visible;
+  position: relative;
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .contentContainer {
+    position: relative;
+    width: 100%;
+  }
+  .previewsWrapper {
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 80px;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .contentContainer {
+    height: 180px;
+  }
+}

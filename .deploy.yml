@@ -1,0 +1,89 @@
+deploy_ADVOSD_dev:
+  extends: .kube_deploy
+  stage: deploy
+  rules:
+    - !reference [.rules, rules_mr]
+    - !reference [.rules, rules_main]
+    - !reference [.rules, rules_tag]
+  tags: [kubernetes-std]
+  dependencies:
+    - get_version
+    - build_node
+    - docker_kaniko
+  variables:
+    APP_NAME: text-to-3d-frontend
+    APP_NAMESPACE: d-rndml-adhoc
+    CHART_DIR: './helm'
+    CHART_NAME: '.'
+    CHART_REPO: https://gitlab-ci-token:$CI_JOB_TOKEN@git.sberdevices.ru/rndml/devops/helm-template.git
+    CHART_REF: 'master'
+    CHART_VALUES: shift-dev
+    ENVIRONMENT: shift-dev
+    VALUES_PATH: envs/shift-dev.yaml
+
+deploy_ADVOSP_prod:
+  extends: .kube_deploy
+  stage: deploy
+  rules:
+    - !reference [.rules, rules_tag]
+  tags: [p-deployer]
+  dependencies:
+    - get_version
+    - build_node
+    - docker_kaniko
+  variables:
+    APP_NAME: text-to-3d-frontend
+    APP_NAMESPACE: p-rndml-adhoc
+    CHART_DIR: './helm'
+    CHART_NAME: '.'
+    CHART_REPO: https://gitlab-ci-token:$CI_JOB_TOKEN@git.sberdevices.ru/rndml/devops/helm-template.git
+    CHART_REF: 'master'
+    CHART_VALUES: shift-prod
+    ENVIRONMENT: shift-prod
+    VALUES_PATH: envs/shift-prod.yaml
+
+deploy_GK_dev:
+  extends: .kube_deploy
+  stage: deploy
+  rules:
+    - !reference [.rules, rules_mr]
+    - !reference [.rules, rules_main]
+    - !reference [.rules, rules_tag]
+  tags: [kube-stage]  
+  dependencies:
+    - get_version
+    - build_node
+    - docker_kaniko
+  variables:
+    APP_NAME: text-to-3d-frontend
+    APP_NAMESPACE: text-to-3d-dev
+    CHART_DIR: './helm'
+    CHART_NAME: '.'
+    CHART_REPO: https://gitlab-ci-token:$CI_JOB_TOKEN@git.sberdevices.ru/rndml/devops/helm-template.git
+    CHART_REF: 'master'
+    CHART_VALUES: dev
+    ENVIRONMENT: dev
+    VALUES_PATH: envs/dev.yaml
+  when: manual
+
+deploy_GK_prod:
+  extends: .kube_deploy
+  stage: deploy
+  rules:
+    - !reference [.rules, rules_tag]
+  tags: [kube-stage]  
+  dependencies:
+    - get_version
+    - build_node
+    - docker_kaniko
+  variables:
+    APP_NAME: text-to-3d-frontend
+    APP_NAMESPACE: text-to-3d
+    CHART_DIR: './helm'
+    CHART_NAME: '.'
+    CHART_REPO: https://gitlab-ci-token:$CI_JOB_TOKEN@git.sberdevices.ru/rndml/devops/helm-template.git
+    CHART_REF: 'master'
+    CHART_VALUES: stage
+    ENVIRONMENT: stage
+    VALUES_PATH: envs/stage.yaml
+  when: manual

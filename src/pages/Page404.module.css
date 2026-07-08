@@ -1,0 +1,19 @@
+[data-theme='dark'] {
+  --color: rgba(255, 255, 255, 0.842);
+}
+
+[data-theme='light'] {
+  --color: rgba(38, 38, 38, 1);
+}
+
+.container {
+  color: var(--color);
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+}

@@ -1,0 +1,46 @@
+image:
+  repository: registry.sberdevices.ru/rndml/text-to-3d/text-to-3d-frontend/text-to-3d-frontend
+  tag: "latest"
+
+imagePullSecrets:
+  - name: gitlab-registry-secret
+
+serviceAccount:
+  create: false
+
+securityContext: {}
+podSecurityContext: {}
+
+service:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+  hosts:
+    - host: text-to-3d-dev.sp.dev.mlrnd.ru
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: text-to-3d-frontend-tls
+      hosts:
+        - text-to-3d-dev.sp.dev.mlrnd.ru
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http

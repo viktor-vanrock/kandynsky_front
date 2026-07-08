@@ -1,0 +1,117 @@
+fragment PreviewEntityFragment on PreviewEntity {
+  id
+  updatedAt
+  modelName
+  queryId
+  status
+  readyEstimationTime
+  readyEstimationSeconds
+  prompt
+  sessionToken
+  gallery
+  censorChecking
+  censored
+  errorMessage
+  sourceImageOrder
+  meshSourceOrder
+  numTargetFaces
+  doQuadrification
+  generationMode
+  generationType
+  createLod
+  images {
+    id
+    url
+    order
+    meshRequests {
+      id
+      status
+      readyEstimationSeconds
+      censorChecking
+      prompt
+      meshFormats {
+        id
+        url
+        format {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+fragment MeshRequestEntityFragment on MeshRequestEntity {
+  id
+  modelName
+  queryId
+  status
+  readyEstimationTime
+  readyEstimationSeconds
+  errorMessage
+  censored
+  generationMode
+  token
+  previewPrompt
+  doQuadrification
+  numTargetFaces
+  createLod
+  meshFormats {
+    id
+    format {
+      id
+      name
+    }
+    url
+  }
+}
+
+fragment MeshRequestWithPreviewFragment on MeshRequestEntity {
+  id
+  modelName
+  queryId
+  status
+  readyEstimationTime
+  readyEstimationSeconds
+  errorMessage
+  censored
+  token
+  previewPrompt
+  doQuadrification
+  numTargetFaces
+  generationMode
+  createLod
+  image {
+    id
+    url
+    order
+    preview {
+      id
+      prompt
+      images {
+        id
+        url
+        order
+      }
+    }
+  }
+  meshFormats {
+    id
+    format {
+      id
+      name
+    }
+    url
+  }
+}
+
+fragment PrintingQueueEntityFragment on PrintingQueueEntity {
+  id
+  userId
+  addedAt
+  status
+  notes
+  meshRequest {
+    ...MeshRequestWithPreviewFragment
+  }
+}

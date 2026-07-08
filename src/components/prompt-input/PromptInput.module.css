@@ -1,0 +1,250 @@
+[data-theme='light'] {
+  --search-border-color: rgba(8, 8, 8, 0.56);
+  --search-placeholder-color: rgba(8, 8, 8, 0.28);
+  --search-color: rgba(8, 8, 8, 0.96);
+  --search-bg-mobile: rgba(255, 255, 255, 1);
+  --icon-main-color: #757575;
+}
+
+[data-theme='dark'] {
+  --search-border-color: rgba(255, 255, 255, 0.4);
+  --search-placeholder-color: rgba(255, 255, 255, 0.28);
+  --search-color: rgba(255, 255, 255, 0.96);
+  --search-bg-mobile: rgba(23, 23, 23, 1);
+  --icon-main-color: #999999;
+}
+
+.mainLogo {
+  align-self: center;
+  margin: 0 0 14px 0;
+}
+
+.searchInput {
+  background-color: var(--search-bg-mobile) !important;
+  border: 1px solid var(--search-border-color) !important;
+  color: var(--search-color) !important;
+  border-radius: 32px;
+  font-size: 22px;
+  min-height: 90px !important;
+  padding: 13px 125px 50px 18px !important;
+}
+
+.searchInput::placeholder {
+  color: var(--search-placeholder-color) !important;
+  padding: 0px 0 0 0px;
+}
+
+.searchInput_withImage {
+  min-height: 120px !important;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 15px 9px 30px;
+  margin-top: -40px;
+}
+
+.imageButton {
+  display: flex;
+}
+
+.imagePreview {
+  display: flex;
+  position: absolute;
+  top: 155px;
+  left: 50px;
+  width: 90%;
+}
+.imagePreview__info {
+  margin-top: 5px;
+}
+
+.removeImageButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitButton {
+  font-size: 13px;
+  -webkit-transition: bottom 0.3s ease-in-out;
+  transition: bottom 0.3s ease-in-out;
+  border-radius: 20px;
+  padding: 7px 12px 7px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.submitButton:disabled {
+  background-color: rgba(42, 114, 248, 0.5);
+  color: rgba(255, 255, 255, 0.96);
+  border: none;
+}
+
+.inputContainer {
+  overflow: hidden;
+  padding: 20px;
+}
+
+.imagePreview__filename {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 500px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.imageButtonGroup {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.infoButton {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.infoIcon {
+  font-size: 18px;
+  color: var(--icon-main-color);
+}
+
+.quadToggleButton {
+  margin-left: 4px;
+}
+
+.quadSwitch {
+  margin-left: 6px;
+}
+
+.polygonInput {
+  margin-left: 8px;
+}
+
+.infoCloseButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  color: var(--icon-main-color);
+}
+
+.infoCloseButton:focus,
+.infoCloseButton:hover {
+  opacity: 0.7;
+}
+
+.subTitle {
+  display: block;
+  margin: 0 0 24px 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  opacity: 0.75;
+  color: var(--search-color);
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+  width: 100%;
+}
+
+.inputDropWrapper {
+  width: 100%;
+}
+
+.inputDropWrapper_over {
+  border: 2px dashed #1890ff;
+  border-radius: 12px;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .mainLogo {
+    width: 100%;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .inputContainer {
+    padding: 0;
+  }
+
+  .submitButton {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .mainLogo {
+    width: 65%;
+    margin: 0;
+  }
+
+  .searchInput {
+    margin: 0;
+    background-color: var(--search-bg-mobile) !important;
+    border: 1px solid var(--search-bg-mobile) !important;
+    border-radius: 24px;
+    font-size: 18px;
+    line-height: 1.2 !important;
+    min-height: 120px !important;
+    padding: 16px 20px 50px 15px !important;
+
+    &:active {
+      background-color: var(--search-bg-mobile) !important;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--search-bg-mobile) !important;
+      box-shadow: none;
+    }
+  }
+
+  .buttonWrapper {
+    bottom: 0;
+    padding: 0px 52px 9px 5px;
+    margin-top: -40px;
+  }
+
+  .imagePreview {
+    top: 80px;
+    left: 5px;
+    width: 98%;
+  }
+
+  .imagePreview__filename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 200px;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .buttonWrapper {
+    margin-top: -40px;
+    padding: 0px 15px 9px 30px;
+  }
+}

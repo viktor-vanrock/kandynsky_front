@@ -1,0 +1,303 @@
+[data-theme='dark'] {
+  --editorBg: linear-gradient(180deg, rgba(0, 0, 0, 1), rgba(31, 35, 56, 1));
+  --color: rgba(255, 255, 255, 0.96);
+  --sub-color: rgba(255, 255, 255, 0.56);
+  --share-btn-bg: rgba(255, 255, 255, 0.12);
+  --share-btn-hovered-bg: rgba(249, 249, 249, 1);
+  --gallery-btn-label: rgba(255, 255, 255, 0.56);
+  --gallery-icon-bg: rgba(255, 255, 255, 0.12);
+  --touch-color: rgba(255, 255, 255, 0.56);
+  --active-fv-border: rgba(255, 255, 255, 0.96);
+  --model-settings-bg: rgba(8, 8, 8, 0.03);
+  --loading-text-color: rgba(255, 255, 255, 0.96);
+  --hdri-button-bg: rgba(255, 255, 255, 0.06);
+  --hdri-button-color: rgba(255, 255, 255, 0.96);
+  --hdri-button-hover: rgba(255, 255, 255, 0.2);
+  --hdri-button-selected: rgba(249, 249, 249, 1);
+  --menu-header: rgba(255, 255, 255, 0.56);
+  --hdri-button-selected-color: rgba(8, 8, 8, 0.96);
+  --loading-text-color: rgba(255, 255, 255, 0.96);
+}
+
+[data-theme='light'] {
+  --editorBg: linear-gradient(180deg, rgba(244, 249, 255, 1), rgb(50, 50, 50));
+  --color: rgba(8, 8, 8, 0.96);
+  --sub-color: rgba(8, 8, 8, 0.56);
+  --share-btn-bg: rgba(8, 8, 8, 0.06);
+  --share-btn-hovered-bg: rgba(8, 8, 8, 1);
+  --gallery-btn-label: rgba(8, 8, 8, 0.56);
+  --gallery-icon-bg: rgba(8, 8, 8, 0.06);
+  --touch-color: rgba(8, 8, 8, 0.56);
+  --active-fv-border: rgba(8, 8, 8, 0.96);
+  --model-settings-bg: rgba(8, 8, 8, 0.03);
+  --loading-text-color: rgba(8, 8, 8, 0.96);
+  --hdri-button-bg: rgba(8, 8, 8, 0.03);
+  --hdri-button-color: rgba(8, 8, 8, 0.96);
+  --hdri-button-hover: rgba(8, 8, 8, 0.12);
+  --hdri-button-selected: rgba(8, 8, 8, 1);
+  --menu-header: rgba(8, 8, 8, 0.56);
+  --hdri-button-selected-color: rgba(255, 255, 255, 0.96);
+  --loading-text-color: rgba(8, 8, 8, 0.96);
+}
+
+.editorContainer.iframe[data-theme='light'] {
+  --editorBg: linear-gradient(180deg, #f6f6f6, rgb(50, 50, 50));
+}
+
+.modelViewerContainer {
+  display: inline-block;
+  top: 72px;
+}
+
+.editorContainer {
+  background: var(--editorBg);
+}
+
+.allModelsButton {
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.allModelsButton__icon {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  background: var(--gallery-icon-bg);
+}
+
+.allModelsButton__label {
+  text-align: center;
+  color: var(--gallery-btn-label);
+}
+
+.canvas {
+  transform: translateY(-100px);
+}
+
+.loadingContainer {
+  width: 50%;
+  height: 30vh;
+  min-height: 350px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  transform: translateY(-20%);
+}
+
+.loadingText {
+  color: var(--loading-text-color);
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.previewPlaceholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--gallery-icon-bg);
+  color: var(--sub-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.qrStand {
+  position: fixed;
+  right: 70px;
+  bottom: 70px;
+  z-index: 2000;
+}
+
+.canvas,
+.editorContainer,
+.modelViewerContainer {
+  background: transparent !important;
+}
+
+.backButton {
+  position: fixed;
+  top: 25px;
+  left: 20px;
+  z-index: 2100;
+  background: var(--share-btn-bg);
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
+  padding: 8px;
+  pointer-events: auto;
+}
+
+.backButton:hover {
+  background: var(--share-btn-hovered-bg);
+  opacity: 1;
+}
+
+[data-theme='dark'] .backButton:hover svg {
+  color: rgba(8, 8, 8, 0.96);
+}
+
+[data-theme='dark'] .backButton:hover svg path {
+  stroke: rgba(8, 8, 8, 0.96);
+  fill: rgba(8, 8, 8, 0.96);
+}
+
+.openInEditorButton {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 2100;
+  background: var(--share-btn-bg);
+  color: var(--color);
+  border: none;
+  backdrop-filter: blur(6px);
+}
+
+.openInEditorButton:hover,
+.openInEditorButton:focus {
+  background: var(--share-btn-hovered-bg);
+  color: var(--hdri-button-selected-color);
+}
+
+[data-theme='dark'] .openInEditorButton:hover,
+[data-theme='dark'] .openInEditorButton:focus {
+  color: rgba(8, 8, 8, 0.96) !important;
+}
+
+[data-theme='light'] .openInEditorButton:hover,
+[data-theme='light'] .openInEditorButton:focus {
+  color: rgba(8, 8, 8, 0.8) !important;
+}
+
+@media screen and (max-width: 659px) {
+  .backButton {
+    top: 12px;
+    left: 12px;
+    padding: 6px;
+  }
+
+  .openInEditorButton {
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .allModelsButton {
+    width: 72px;
+    height: 72px;
+  }
+
+  .allModelsButton__icon {
+    display: none;
+  }
+
+  .allModelsButton__label {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    width: 72px;
+    height: 72px;
+    background: var(--gallery-icon-bg);
+  }
+
+  .gallery-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .modelViewerContainer {
+    overflow: visible;
+  }
+
+  .modelPanels {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    position: absolute;
+    bottom: 110px;
+  }
+
+  .allModelsButton {
+    width: 72px;
+    height: 72px;
+  }
+
+  .allModelsButton__icon {
+    display: none;
+  }
+
+  .allModelsButton__label {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    width: 72px;
+    height: 72px;
+    background: var(--gallery-icon-bg);
+  }
+
+  .gallery-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .loadingContainer {
+    position: absolute;
+    top: 12%;
+    min-height: 130px;
+  }
+
+  .loadingText {
+    margin-top: 0px;
+    font-size: 13px;
+  }
+
+  .openInEditorButton {
+    top: 12px;
+    left: 12px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .loadingText {
+    margin-top: 0;
+  }
+
+  .loadingContainer {
+    min-height: 200px;
+    margin-top: -100px;
+  }
+
+  .allModelsButton__icon {
+    width: 36px;
+    height: 36px;
+  }
+  .allModelsButton__label {
+    line-height: 16px;
+    font-size: 14px;
+  }
+}

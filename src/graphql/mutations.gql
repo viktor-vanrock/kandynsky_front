@@ -1,0 +1,39 @@
+mutation GeneratePreview($input: GeneratePreviewInput!) {
+  generatePreview(input: $input) {
+    ...PreviewEntityFragment
+  }
+}
+
+mutation GenerateMesh($input: GenerateMeshInput!) {
+  generateMesh(input: $input) {
+    ...MeshRequestEntityFragment
+  }
+}
+
+mutation RemoveMeshById($id: String!, $sourceImageIndex: Int!, $all: Boolean) {
+  removeMeshById(id: $id, sourceImageIndex: $sourceImageIndex, all: $all)
+}
+
+mutation AddToPrintQueue($input: AddToPrintQueueInput!) {
+  addToPrintQueue(input: $input) {
+    ...PrintingQueueEntityFragment
+  }
+}
+
+mutation RemoveFromPrintQueue($id: String!) {
+  removeFromPrintQueue(id: $id)
+}
+
+mutation UpdatePrintQueueStatus($input: UpdatePrintQueueStatusInput!) {
+  updatePrintQueueStatus(input: $input) {
+    ...PrintingQueueEntityFragment
+  }
+}
+
+mutation RemovePreviewById($id: String!) {
+  removePreviewById(id: $id)
+}
+
+mutation SubmitCensorComplaint($previewId: String!, $sessionToken: String) {
+  submitCensorComplaint(previewId: $previewId, sessionToken: $sessionToken)
+}

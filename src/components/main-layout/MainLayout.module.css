@@ -1,0 +1,48 @@
+.mainLayout.iframe[data-theme='light'] {
+  --layout-bg: #f6f6f6;
+}
+
+.mainLayout {
+  background-color: var(--layout-bg);
+  color: var(--layout-color);
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+.contentContainer {
+  color: var(--layout-color);
+}
+
+.iframe .contentContainer {
+  margin: 30px 5px 0 5px;
+}
+
+.iframe .contentContainer.noContentMargin {
+  margin: 0;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .contentContainer {
+    margin: 0px;
+  }
+}
+
+:global(.container) {
+  width: 100%;
+  max-width: 100%;
+  margin: 72px 0 20px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 659px) {
+  :global(.container) {
+    margin: 56px 0 20px;
+    padding: 0 10px;
+  }
+}

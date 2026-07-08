@@ -1,0 +1,94 @@
+[data-theme="dark"] {
+  --toggle-bg: rgba(38, 38, 38, 1);
+  --toggle-fg: rgba(255, 255, 255, 1);
+  --toggle-border: rgba(255, 255, 255, 0.56);
+}
+
+[data-theme="light"] {
+  --toggle-bg: rgba(245, 245, 245, 1);
+  --toggle-fg: rgba(8, 8, 8, 1);
+  --toggle-border: rgba(8, 8, 8, 1);
+}
+
+.toggleContainer {
+  position: absolute;
+  top: 8px;
+  right: 64px; 
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  display: none;
+}
+
+.toggle + label {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--primart-text-color);
+}
+
+.toggle + label::before {
+  content: "";
+  height: 28px;
+  width: 44px;
+  border-radius: 1em;
+  border: 1px solid var(--toggle-border);
+  background-color: var(--toggle-bg);
+  margin-right: 0.5em;
+  /* transition: background-color 100ms ease-in-out; */
+}
+
+.toggle + label::after {
+  content: "";
+  height: 22px;
+  width: 22px;
+  border-radius: 1em;
+  background-color: var(--toggle-fg);
+  border: 1px solid var(--toggle-border);
+  color: var(--toggle-fg);
+  position: absolute;
+  left: 0.2em;
+  /* transition: transform 100ms ease-in-out; */
+}
+
+.toggle:checked + label::after {
+  transform: translate(60%);
+}
+
+[data-theme="dark"] .toggle__icon {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  height: 16px;
+  width: 16px;
+}
+
+[data-theme="light"] .toggle__icon {
+  position: absolute;
+  z-index: 1;
+  left: 8px;
+  height: 16px;
+  width: 16px;
+}
+
+/* 768px - 660px (Планшеты) */
+@media screen and (min-width: 660px) and (max-width: 769px) {
+  .toggleContainer {
+    position: absolute;
+    top: 0;
+    right: 20px;
+  }
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .toggleContainer {
+    position: absolute;
+    top: 0;
+    right: 5px;
+  }
+}

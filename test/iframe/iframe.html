@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Тест страницы в iframe-е</title>
+    <style>
+      /* Reset */
+      html,
+      body,
+      div,
+      span,
+      applet,
+      object,
+      iframe,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      blockquote,
+      pre,
+      a,
+      abbr,
+      acronym,
+      address,
+      big,
+      cite,
+      code,
+      del,
+      dfn,
+      em,
+      img,
+      ins,
+      kbd,
+      q,
+      s,
+      samp,
+      small,
+      strike,
+      strong,
+      sub,
+      sup,
+      tt,
+      var,
+      b,
+      u,
+      i,
+      center,
+      dl,
+      dt,
+      dd,
+      ol,
+      ul,
+      li,
+      fieldset,
+      form,
+      label,
+      legend,
+      table,
+      caption,
+      tbody,
+      tfoot,
+      thead,
+      tr,
+      th,
+      td,
+      article,
+      aside,
+      canvas,
+      details,
+      embed,
+      figure,
+      figcaption,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      output,
+      ruby,
+      section,
+      summary,
+      time,
+      mark,
+      audio,
+      video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+        box-sizing: border-box;
+      }
+      body {
+        background: #f6f8fb;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      h3 {
+        margin-top: 40px;
+        margin-bottom: 101px;
+        font-size: 2rem;
+        color: #222;
+        text-align: center;
+      }
+      .iframe-wrapper {
+        width: 100%;
+        max-width: 1440px;
+        margin: auto;
+        padding: 64px;
+        background-color: #f5f5f5;
+        position: relative;
+        min-height: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #my-iframe {
+        width: 90%;
+        height: 600px;
+        border: none;
+        display: block;
+        margin: auto;
+      }
+
+      .square-block {
+        position: absolute;
+        right: 64px;
+        top: 64px;
+        padding: 16px;
+        cursor: pointer;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+      }
+      .square-block svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+      }
+
+      @media (max-width: 900px) {
+        .iframe-wrapper {
+          padding: 16px;
+          border-radius: 16px;
+        }
+        #my-iframe {
+          width: 100%;
+          border-radius: 12px;
+        }
+        .square-block {
+          width: 48px;
+          height: 48px;
+          padding: 12px;
+          border-radius: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Тест страницы в iframe-е</h3>
+    <div class="iframe-wrapper">
+      <div class="square-block" onclick="alert('Кнопка выхода')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M6 5H14C14.5523 5 15 4.55228 15 4C15 3.44772 14.5523 3 14 3H6C4.89491 3 4 3.89552 4 5V19C4 20.1045 4.89491 21 6 21H14C14.5523 21 15 20.5523 15 20C15 19.4477 14.5523 19 14 19H6V5ZM16.3276 14.2963L17.6062 13H11C10.4477 13 10 12.5523 10 12C10 11.4477 10.4477 11 11 11H17.6062L16.3276 9.70372C15.939 9.31134 15.942 8.67818 16.3344 8.28953C16.7267 7.90087 17.3599 7.90389 17.7486 8.29628L20.7106 11.2963C21.0966 11.686 21.0966 12.314 20.7106 12.7037L17.7486 15.7037C17.3599 16.0961 16.7267 16.0991 16.3344 15.7105C15.942 15.3218 15.939 14.6887 16.3276 14.2963Z"
+            fill="black"
+            fill-opacity="0.96"
+          ></path>
+        </svg>
+      </div>
+      <iframe id="my-iframe" src="http://localhost:5173/"></iframe>
+    </div>
+    <script>
+      // Эмулируем async получение токена и передачу в iframe
+      setTimeout(() => {
+        const token = 'USER-TOKEN-123-ABC';
+        document.getElementById('my-iframe').contentWindow.postMessage({ authentication: { token } }, '*');
+        console.log('postMessage sent', token);
+      }, 5000);
+    </script>
+  </body>
+</html>

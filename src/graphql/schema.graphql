@@ -1,0 +1,262 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type FormatEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  format: String!
+  meshFormats: [MeshFormatEntity!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MeshFormatEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  meshRequestId: String!
+  meshRequest: MeshRequestEntity!
+  format: FormatEntity!
+  url: String!
+  urlBackup: String
+}
+
+type MeshRequestEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  image: ImageEntity
+  modelName: String!
+  generationMode: MeshModels!
+  queryId: String!
+  status: GenerationStatus!
+  readyEstimationTime: DateTime!
+  readyEstimationSeconds: Float
+  meshFormats: [MeshFormatEntity!]
+  sessionToken: String
+  token: String
+  censored: Boolean
+  censorChecking: Boolean
+  prompt: String
+  errorMessage: String
+  previewPrompt: String
+  doQuadrification: Boolean
+  numTargetFaces: Int
+  createLod: Int
+}
+
+"""Модели для генерации меша"""
+enum MeshModels {
+  MESH_V1
+  IMAGE_TO_3D
+  IMAGE_TO_GEOMETRY
+  TEXT_TO_GEOMETRY
+  XR_3D
+  PREVIEW_V1
+}
+
+"""Статусы генерации"""
+enum GenerationStatus {
+  READY
+  VALIDATION
+  PENDING
+  UNKNOWN_QUERY_ID
+  CANCELLED_VALIDATION
+  CANCELLED
+}
+
+type ImageEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  preview: PreviewEntity!
+  url: String!
+  order: Int!
+  urlBackup: String
+  meshRequests: [MeshRequestEntity!]
+}
+
+type PreviewEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  prompt: String!
+  user: UserEntity!
+  modelName: String!
+  generationMode: MeshModels!
+  generationType: FrontGenerationType
+  queryId: String!
+  status: GenerationStatus!
+  readyEstimationTime: DateTime!
+  readyEstimationSeconds: Float
+  sessionToken: String
+  gallery: Boolean!
+  censorChecking: Boolean!
+  images: [ImageEntity!]!
+  censored: Boolean
+  doQuadrification: Boolean
+  createLod: Int
+  sourceImageOrder: Int
+  errorMessage: String
+  meshSourceOrder: Int
+  token: String
+  numTargetFaces: Int
+  sourceImageS3Key: String
+}
+
+"""Тип генерации по странице фронта"""
+enum FrontGenerationType {
+  STANDARD
+  GAMEDEV
+  PRINT
+}
+
+type UserEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  login: String!
+  username: String!
+  role: UserRole!
+  generationRequests: [PreviewEntity!]
+}
+
+"""Роли для пользователей"""
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+type PaginatedRequest {
+  data: [PreviewEntity!]!
+  limit: Int!
+  page: Int!
+  sessionToken: String
+  total: Int!
+  total_pages: Int!
+}
+
+type PrintingQueueEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  meshRequest: MeshRequestEntity!
+  userId: String
+  addedAt: DateTime!
+  status: PrintingQueueStatus!
+  notes: String
+}
+
+"""Статусы очереди печати"""
+enum PrintingQueueStatus {
+  PENDING
+  PRINTING
+  COMPLETED
+  CANCELLED
+}
+
+type PaginatedPrintingQueue {
+  data: [PrintingQueueEntity!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  total_pages: Int!
+}
+
+type Query {
+  getGeneratedPreviews(pagination: PaginationInput!, sessionToken: String): PaginatedRequest!
+  getPreviewById(id: String!): PreviewEntity!
+  getCensorCheckingPreviews(limit: Int): [PreviewEntity!]!
+  getCensorCheckingMeshRequests(limit: Int): [MeshRequestEntity!]!
+  getMeshById(id: String!, sourceImageIndex: Int): MeshRequestEntity!
+  getFavoriteModels(sessionToken: String!): [PreviewEntity!]!
+
+  """Получить список моделей в очереди печати с пагинацией"""
+  getPrintingQueue(pagination: PaginationInput!): PaginatedPrintingQueue!
+}
+
+input PaginationInput {
+  page: Int! = 1
+  limit: Int! = 10
+  status: GenerationStatus = READY
+}
+
+type Mutation {
+  generatePreview(input: GeneratePreviewInput!): PreviewEntity!
+  generateMesh(input: GenerateMeshInput!): MeshRequestEntity!
+  removeMeshById(id: String!, sourceImageIndex: Int!, all: Boolean): Boolean!
+  removePreviewById(id: String!): Boolean!
+  togglePreviewGalleryStatus(id: String!): Boolean!
+  submitCensorComplaint(previewId: String!, sessionToken: String): Boolean!
+
+  """Добавить модель в очередь печати"""
+  addToPrintQueue(input: AddToPrintQueueInput!): PrintingQueueEntity!
+
+  """Удалить модель из очереди печати"""
+  removeFromPrintQueue(id: String!): Boolean!
+
+  """Обновить статус элемента очереди печати"""
+  updatePrintQueueStatus(input: UpdatePrintQueueStatusInput!): PrintingQueueEntity!
+}
+
+input GeneratePreviewInput {
+  prompt: String!
+  token: String!
+  sessionToken: String!
+  censorChecking: Boolean
+  doQuadrification: Boolean
+  create_lod: Int
+  num_target_faces: Int
+
+  """Тип генерации (xr:3d_mesh, xr:image_to_3d, ...)"""
+  mode: MeshModels!
+
+  """Тип фронтовой генерации (standard, gamedev, 3dprint)"""
+  generationType: FrontGenerationType!
+
+  """Список форматов моделей, которые нужно сгенерировать"""
+  modelFormats: [String!]! = ["obj", "stl", "fbx", "glb", "usdz"]
+  preview_num: Int
+  enableVisualCensor: Boolean = true
+  enableTextCensor: Boolean = true
+}
+
+input GenerateMeshInput {
+  """ID исходного запроса, связанного с генерацией модели"""
+  previewId: String!
+
+  """Индекс изображения в массиве исходных изображений"""
+  sourceImageIndex: Int!
+
+  """Список форматов моделей, которые нужно сгенерировать"""
+  modelFormats: [String!]! = ["obj", "stl", "fbx", "glb", "usdz"]
+  token: String!
+}
+
+input AddToPrintQueueInput {
+  """ID mesh request для добавления в очередь печати"""
+  meshRequestId: String!
+
+  """Дополнительные заметки для оператора принтера"""
+  notes: String
+}
+
+input UpdatePrintQueueStatusInput {
+  """ID элемента очереди печати"""
+  id: String!
+
+  """Новый статус элемента очереди"""
+  status: PrintingQueueStatus!
+}
+
+type Subscription {
+  previewStatusChanged(id: String!): PreviewEntity
+  meshStatusChanged(id: String!): MeshRequestEntity
+}

@@ -1,0 +1,165 @@
+.modelSettings {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 160px;
+  left: 64px;
+  width: 214px;
+  height: 64px;
+  z-index: 1400;
+}
+
+.modelSettingWrapper {
+  width: 214px;
+  height: 66px;
+  padding: 3px;
+  gap: 2px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 12px;
+  background: #ffffff0f;
+}
+
+.modelSettings__button {
+  width: 68px;
+  height: 58px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modelSettings__buttonDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.modelSettings__buttonDisabled .modelSettings_label {
+  color: #8b8b8b;
+}
+
+.modelSettings__buttonDisabled svg {
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.modelSettings_label {
+  color: var(--color);
+}
+
+.modelSettings__icon {
+  height: 75% !important;
+}
+
+/* HDRI меню */
+.hdriMenuWrapper {
+  position: absolute;
+  transform: translateY(-360px);
+  width: 205px;
+  border-radius: 12px;
+  padding: 0 5px 15px 5px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  z-index: 1500;
+}
+
+.hdriMenuWrapper[data-theme='dark'] {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.hdriMenuWrapper[data-theme='light'] {
+  background-color: rgba(8, 8, 8, 0.08);
+}
+
+.menuHeaderPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menuClose {
+  padding: 5px 10px;
+}
+
+.menuHeader {
+  font-weight: 600;
+  color: var(--menu-header);
+  font-size: 15px;
+  padding: 12px 12px 0 6px;
+  margin-bottom: 12px;
+  margin-top: 0px;
+}
+
+.menuButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+
+.hdriButton {
+  position: relative;
+  background: var(--hdri-button-bg);
+  color: var(--hdri-button-color);
+  width: 190px;
+  min-height: 40px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0px 4px 0 11px;
+  font-weight: 600;
+}
+
+.hdriButton:not(:disabled):not(.ant-btn-disabled):hover {
+  background: var(--hdri-button-hover);
+  outline: none !important;
+  border: none;
+  transition: none;
+  cursor: pointer;
+}
+
+.hdriButton_active {
+  background: var(--hdri-button-selected);
+  color: var(--hdri-button-selected-color);
+}
+
+.hdriButton_active:not(:disabled):not(.ant-btn-disabled):hover {
+  background: var(--hdri-button-selected);
+  color: var(--hdri-button-selected-color);
+}
+
+@media screen and (max-width: 659px) {
+  .modelSettings {
+    position: relative;
+    top: initial;
+    bottom: initial;
+    left: initial;
+    display: flex;
+    justify-content: end;
+    width: 100vw;
+  }
+
+  .modelSettingWrapper {
+    width: 230px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modelSettings__button {
+    width: 77px;
+    height: 63px;
+  }
+
+  .modelSettings_label {
+    font-size: 13px;
+  }
+
+  .modelSettings__icon svg {
+    width: 38px;
+    height: 38px;
+  }
+}

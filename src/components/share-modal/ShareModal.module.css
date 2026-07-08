@@ -1,0 +1,67 @@
+.shareIcon {
+  border-radius: 50%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.shareModal .ant-modal-close) {
+  top: 55px !important;
+  right: 55px !important;
+}
+
+:global(.shareModal .ant-modal-close > span) {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+:global(.shareModal .ant-modal-close > span:hover) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+:global(.shareModal .ant-modal-close > span:hover svg) {
+  color: #555;
+}
+
+:global(.shareModal .ant-modal-content) {
+  margin: 0 15px !important;
+  padding: 15px 24px 5px 24px !important;
+}
+
+/* Планшеты: от 660 до 768px */
+@media screen and (min-width: 660px) and (max-width: 768px) {
+  :global(.shareModal .ant-modal-content) {
+    margin: 0 15px;
+  }
+
+  :global(.shareModal .ant-modal-title) {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .shareIcon {
+    padding: 10px;
+  }
+}
+
+/* Смартфоны до 659px */
+@media screen and (max-width: 659px) {
+  :global(.shareModal .ant-modal-content) {
+    margin: 0 15px !important;
+    padding: 15px 24px 1px 24px !important;
+  }
+
+  :global(.shareModal .ant-modal-header) {
+    margin-bottom: 15px !important;
+  }
+
+  :global(.shareModal .ant-modal-title) {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .shareIcon {
+    padding: 8px;
+  }
+}

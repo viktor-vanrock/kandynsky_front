@@ -1,0 +1,23 @@
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity 0.2s ease;
+  pointer-events: auto;
+  position: relative;
+  z-index: 9999;
+}
+
+.backButton:hover {
+  opacity: 0.8;
+}
+
+.backButton:active {
+  opacity: 0.6;
+}
+

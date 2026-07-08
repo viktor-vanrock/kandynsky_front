@@ -1,0 +1,11 @@
+subscription OnMeshStatusChanged($id: String!) {
+    meshStatusChanged(id: $id) {
+        ...MeshRequestEntityFragment
+    }
+}
+
+subscription OnPreviewStatusChanged($id: String!) {
+    previewStatusChanged(id: $id) {
+        ...PreviewEntityFragment
+    }
+}

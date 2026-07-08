@@ -1,0 +1,7 @@
+VITE_SERVER_URL=https://scenesdev.sxr.su/api
+# Для демо принтера
+#VITE_PRINTER_DEMO=true
+
+#VITE_TURNSTILE_SITE_KEY_INVISIBLE=1x00000000000000000000AA   # invisible: always true
+#VITE_TURNSTILE_SITE_KEY_INVISIBLE=2x00000000000000000000BB   # invisible: always fails
+#VITE_TURNSTILE_SITE_KEY_VISIBLE=2x00000000000000000000AB     # visible: always fails

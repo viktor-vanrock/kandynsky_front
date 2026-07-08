@@ -1,0 +1,131 @@
+[data-theme='dark'] {
+  --button-bg: rgba(255, 255, 255, 0.12);
+  --color: rgba(255, 255, 255, 0.96);
+  --button-hover-bg: rgba(249, 249, 249, 1);
+  --download-format-btn-bg: rgba(255, 255, 255, 0.06);
+  --download-format-btn-bg-hover: rgba(255, 255, 255, 0.2);
+  --download-format-btn-color: rgba(255, 255, 255, 0.96);
+  --download-header: rgba(255, 255, 255, 0.56);
+}
+
+[data-theme='light'] {
+  --button-bg: rgba(8, 8, 8, 0.06);
+  --color: rgba(8, 8, 8, 0.96);
+  --button-hover-bg: rgba(8, 8, 8, 1);
+  --download-format-btn-bg: rgba(8, 8, 8, 0.03);
+  --download-format-btn-bg-hover: rgba(8, 8, 8, 0.2);
+  --download-format-btn-color: rgba(8, 8, 8, 0.96);
+  --download-header: rgba(8, 8, 8, 0.56);
+}
+
+.downloadButton {
+  position: relative;
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  width: 40px;
+  height: 40px !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+
+.downloadButton:not(:disabled):not(.ant-btn-disabled):hover {
+  background: var(--button-hover-bg);
+  outline: none !important;
+  border: none;
+  transition: none;
+}
+
+.downloadButton:not(:disabled):not(.ant-btn-disabled):not(:hover) {
+  outline: none !important;
+  border: none;
+  transition: none;
+}
+
+.downloadMenuWrapper {
+  width: clamp(240px, 90vw, 344px);
+  border-radius: 12px;
+  padding: 0 5px 15px 5px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.downloadMenuWrapper[data-theme='dark'] {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.downloadMenuWrapper[data-theme='light'] {
+  background-color: rgba(8, 8, 8, 0.06);
+}
+
+.downloadMenuHeader {
+  font-weight: 600;
+  color: var(--download-header);
+  font-size: 18px;
+  padding: 8px 12px 0 12px;
+  margin-bottom: 5px;
+}
+
+.downloadButtonWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-auto-rows: 56px;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 5px 10px;
+}
+
+.downloadFormatButton {
+  width: 100%;
+  height: 56px;
+  background-color: var(--download-format-btn-bg);
+  color: var(--download-format-btn-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+.downloadFormatButton:hover {
+  background: var(--download-format-btn-bg-hover);
+  cursor: pointer;
+}
+
+.downloadButtonIcon {
+  color: black;
+}
+
+.noFormats {
+  padding: 14px 12px 18px 12px;
+  color: var(--color);
+  opacity: 0.9;
+}
+
+@media (max-width: 320px) {
+  .downloadMenuHeader {
+    font-size: 16px;
+    padding: 8px 10px 0 10px;
+    margin-bottom: 4px;
+  }
+
+  .downloadButtonWrapper {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    padding: 5px 8px;
+  }
+
+  .downloadFormatButton {
+    height: 48px;
+    padding: 0 12px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+}

@@ -1,0 +1,161 @@
+.printCard {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--search-bg-mobile);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.printCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  overflow: hidden;
+  background-color: var(--search-bg-mobile);
+}
+
+.imageWrapper > img,
+.imageWrapper > .noImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #888;
+  font-size: 14px;
+}
+
+.cardFooter {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.cardStatus {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #e8f4f8;
+  color: #1890ff;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.cardStatus[data-status='printing'] {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.cardStatus[data-status='completed'] {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.cardStatus[data-status='cancelled'] {
+  background-color: #fff1f0;
+  color: #f5222d;
+}
+
+.cardDate {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.downloadButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.downloadButton {
+  padding: 2px 8px !important;
+  height: auto !important;
+  font-size: 11px !important;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.04);
+  transition: background-color 0.2s;
+}
+
+.downloadButton:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.notes {
+  font-size: 12px;
+  color: #888;
+  padding-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Dark theme */
+[data-theme='dark'] .printCard {
+  background-color: #1f1f1f;
+}
+
+[data-theme='dark'] .noImage {
+  background-color: #2a2a2a;
+  color: #666;
+}
+
+[data-theme='dark'] .cardInfo {
+  color: #999;
+}
+
+[data-theme='dark'] .downloadButton {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+[data-theme='dark'] .downloadButton:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme='dark'] .notes {
+  color: #666;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Responsive */
+@media screen and (max-width: 659px) {
+  .cardFooter {
+    padding: 8px;
+  }
+
+  .downloadButtons {
+    gap: 3px;
+  }
+
+  .downloadButton {
+    font-size: 10px !important;
+    padding: 1px 6px !important;
+  }
+}

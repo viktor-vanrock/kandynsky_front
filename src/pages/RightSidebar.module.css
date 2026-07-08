@@ -1,0 +1,877 @@
+:global(.ant-btn).iconCircle {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  line-height: 1;
+  border: none;
+  border-radius: 50%;
+  background: none;
+}
+
+:global(.ant-btn).iconCircle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+:global(.ant-btn).iconCircle:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.sidebar[data-theme='dark'] :global(.ant-btn).iconCircle:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+:global(.ant-btn).iconCircle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(64, 128, 255, 0.35);
+}
+
+.sidebar {
+  color: var(--sidebar-fg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.sidebar[data-theme='dark'] {
+  --sidebar-fg: rgba(255, 255, 255, 0.92);
+  --sidebar-muted: rgba(255, 255, 255, 0.65);
+  --sidebar-title: rgba(255, 255, 255, 0.8);
+  --sidebar-sep: rgba(255, 255, 255, 0.08);
+  background-color: rgba(23, 23, 23, 0.5);
+}
+
+.sidebar[data-theme='light'] {
+  --sidebar-fg: #0e0e0e;
+  --sidebar-muted: rgba(0, 0, 0, 0.6);
+  --sidebar-title: rgba(0, 0, 0, 0.82);
+  --sidebar-sep: rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.blockTitle {
+  color: var(--sidebar-title);
+  font-weight: 650;
+  font-size: 12px;
+}
+
+.block {
+  margin: 0 0 28px;
+}
+
+.block:last-child {
+  margin-bottom: 0;
+}
+
+.blockNoMargin {
+  margin-bottom: 0 !important;
+}
+
+.blockWithTopMargin {
+  margin-top: 12px;
+}
+
+.blockBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.blockBodyCompact {
+  margin-top: 6px;
+}
+
+.blockBodySmallMargin {
+  margin-top: 2px;
+}
+
+.objectsList,
+.objectItem {
+  color: var(--sidebar-fg);
+}
+
+.propGrid {
+  color: var(--sidebar-fg);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 16px;
+}
+
+.propLabel {
+  color: var(--sidebar-fg);
+  font-size: 11px;
+}
+.propValue {
+  color: var(--sidebar-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.propValueWrap {
+  white-space: normal;
+  overflow: visible;
+  word-break: break-all;
+}
+
+.objectsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.textureToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.textureToggle input {
+  margin: 0;
+}
+
+.textureToggle span {
+  color: var(--sidebar-fg);
+  font-size: 11px;
+}
+
+.catalogEmpty {
+  color: var(--sidebar-muted);
+}
+
+.topbar {
+  display: flex;
+  border-bottom: 1px solid var(--sidebar-sep);
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.promptSection {
+  padding: 10px 5px 5px 0;
+  border-bottom: 1px solid var(--sidebar-sep);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.promptLabel {
+  color: var(--sidebar-title);
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.promptText {
+  color: var(--sidebar-muted);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+}
+
+.iconButton {
+  color: inherit;
+}
+
+.iconButton :global(svg),
+.exportButton :global(svg) {
+  fill: currentColor;
+  color: currentColor;
+}
+
+.exportButton {
+  color: #fff !important;
+}
+.exportButton:global(.ant-btn),
+.exportButton:global(.ant-btn-primary) {
+  color: #fff !important;
+}
+.exportButton:global(.ant-btn):hover,
+.exportButton:global(.ant-btn):focus {
+  color: #fff !important;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.tabs :global(.ant-tabs-nav) {
+  border-bottom: 1px solid var(--sidebar-sep);
+  flex-shrink: 0;
+  margin-bottom: 0 !important;
+}
+
+.tabs :global(.ant-tabs-content-holder) {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tabs :global(.ant-tabs-content) {
+  height: 100%;
+}
+
+.tabs :global(.ant-tabs-tabpane) {
+  height: 100%;
+}
+.tabs :global(.ant-tabs-tab-btn) {
+  color: var(--text-icons-default-general-secondary, rgba(255, 255, 255, 0.56));
+}
+
+.tabs :global(.ant-tabs-tab-active) {
+  color: var(--text-icons-default-general-primary, rgba(255, 255, 255, 0.96));
+}
+
+.tabs :global(.ant-tabs-tab-active .ant-tabs-tab-btn),
+.tabs :global(.ant-tabs-tab-btn:hover) {
+  color: var(--sidebar-fg);
+}
+.tabs :global(.ant-tabs-ink-bar) {
+  background: var(--sidebar-fg);
+}
+
+.tabBody {
+  padding: 0 5px;
+  height: 100%;
+  overflow-y: auto;
+  /* стилизация скроллбара для Webkit */
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-muted) transparent;
+}
+
+.tabBody::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tabBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabBody::-webkit-scrollbar-thumb {
+  background-color: var(--sidebar-muted);
+  border-radius: 3px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.tabBody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sidebar-fg);
+}
+
+.block:has(.catalogGrid) {
+  margin-left: -2px;
+  margin-right: -2px;
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.catalogItem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--hdri-button-bg);
+  cursor: pointer;
+  border: none;
+  display: block;
+}
+
+.catalogItem > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.catalogLoading {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 2px;
+}
+
+.catalogEmpty {
+  text-align: center;
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.catalogLoaderSentinel {
+  height: 1px;
+  visibility: hidden;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.fieldLabel {
+  font-size: 11px;
+  color: var(--sidebar-fg);
+  opacity: 0.95;
+  user-select: none;
+}
+
+.flatSelect {
+  min-width: 110px;
+  max-width: 110px;
+  font-size: 11px !important;
+}
+
+.flatSelect :global(.ant-select-selector) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flatSelect :global(.ant-select-selection-item) {
+  color: var(--sidebar-fg) !important;
+  width: 100%;
+  text-align: right;
+  font-size: 11px !important;
+}
+
+.flatSelect :global(.ant-select-arrow) {
+  color: var(--sidebar-muted) !important;
+  inset-inline-end: 2px !important;
+  margin-top: -5px !important;
+}
+
+.flatSelect:hover :global(.ant-select-selector) {
+  border: none !important;
+}
+
+.exportModalRoot.themeDark [data-theme='dark'],
+.exportModalRoot.themeLight [data-theme='light'] {
+  font-size: inherit;
+}
+
+.exportModalRoot.themeDark {
+  --modal-bg: rgba(255, 255, 255, 0.12);
+  --button-bg: rgba(255, 255, 255, 0.12);
+  --color: rgba(255, 255, 255, 0.96);
+  --button-hover-bg: rgba(249, 249, 249, 1);
+  --download-format-btn-bg: rgba(255, 255, 255, 0.06);
+  --download-format-btn-bg-hover: rgba(255, 255, 255, 0.2);
+  --download-format-btn-color: rgba(255, 255, 255, 0.96);
+  --download-header: rgba(255, 255, 255, 0.56);
+}
+
+.exportModalRoot.themeLight {
+  --modal-bg: rgba(255, 255, 255, 0.8);
+  --button-bg: rgba(8, 8, 8, 0.06);
+  --color: rgba(8, 8, 8, 0.96);
+  --button-hover-bg: rgba(8, 8, 8, 1);
+  --download-format-btn-bg: rgba(8, 8, 8, 0.06);
+  --download-format-btn-bg-hover: rgba(8, 8, 8, 0.12);
+  --download-format-btn-color: rgba(8, 8, 8, 0.96);
+  --download-header: rgba(8, 8, 8, 0.56);
+}
+
+.exportModalRoot :global(.ant-modal-content) {
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: auto;
+  background: var(--modal-bg) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  padding: 12px 16px 16px 16px;
+}
+
+.exportModalRoot :global(.ant-modal-body) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.exportModalRoot :global(.ant-modal-wrap),
+.exportModalRoot :global(.ant-modal) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.exportModalRoot.themeLight :global(.ant-modal-mask) {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+.exportModalRoot.themeDark :global(.ant-modal-mask) {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+
+.exportModalRoot :global(.ant-modal-close) {
+  top: 10px;
+  inset-inline-end: 10px;
+}
+.exportModalRoot :global(.ant-modal-close-x) {
+  color: var(--color);
+}
+
+.downloadMenuWrapper {
+  width: clamp(240px, 90vw, 344px);
+  border-radius: 12px;
+  padding: 0 5px 15px 5px;
+  background: transparent;
+}
+
+.downloadMenuHeader {
+  font-weight: 600;
+  color: var(--download-header);
+  font-size: 20px;
+  padding: 8px 12px 0 12px;
+  margin-bottom: 6px;
+}
+
+.downloadButtonWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-auto-rows: 56px;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 5px 10px;
+}
+
+.downloadFormatButton {
+  width: 100%;
+  height: 56px;
+  background-color: var(--download-format-btn-bg);
+  color: var(--download-format-btn-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.downloadFormatButton:hover {
+  background: var(--download-format-btn-bg-hover);
+  cursor: pointer;
+}
+
+.downloadButtonIcon {
+  color: inherit;
+}
+
+.noFormats {
+  padding: 14px 12px 18px 12px;
+  color: var(--color);
+  opacity: 0.9;
+}
+
+@media (max-width: 320px) {
+  .downloadMenuHeader {
+    font-size: 16px;
+    padding: 8px 10px 0 10px;
+    margin-bottom: 4px;
+  }
+  .downloadButtonWrapper {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    padding: 5px 8px;
+  }
+  .downloadFormatButton {
+    height: 48px;
+    padding: 0 12px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+}
+
+.downloadFormatButton,
+.downloadFormatButton:link,
+.downloadFormatButton:visited,
+.downloadFormatButton:hover,
+.downloadFormatButton:active {
+  background-color: var(--download-format-btn-bg) !important;
+  color: var(--download-format-btn-color) !important;
+  text-decoration: none !important;
+}
+
+.objectRow {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.06);
+  outline: 1px solid var(--sidebar-sep);
+  cursor: default;
+}
+
+.sidebar[data-theme='dark'] .objectRow {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.objectRow:hover {
+  outline-color: transparent;
+  background: rgba(0, 0, 0, 0.08);
+}
+.sidebar[data-theme='dark'] .objectRow:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.objectDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sidebar-fg);
+  opacity: 0.9;
+  justify-self: center;
+}
+
+.objectName {
+  color: var(--sidebar-fg);
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.objectEmpty {
+  color: var(--sidebar-muted);
+  font-size: 13px;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.downloadButton {
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.downloadButton :global(.ant-btn-icon) {
+  margin: 0;
+  margin-left: -12px;
+  margin-right: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.downloadButton:global(.ant-btn:not(.ant-btn-icon-only)) :global(.ant-btn-icon:not(:last-child)) {
+  margin-inline-end: 3px !important;
+}
+
+.downloadButton :global(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+.downloadButton :global(.ant-btn) {
+  padding-left: 0;
+  justify-content: center;
+}
+
+.printButton {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--sidebar-sep);
+  color: var(--sidebar-fg);
+}
+
+.sidebar[data-theme='dark'] .printButton {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--sidebar-fg);
+}
+
+.sidebar[data-theme='light'] .printButton {
+  background: rgba(8, 8, 8, 0.96);
+  border-color: rgba(8, 8, 8, 0.96);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.printButton:hover,
+.printButton:focus {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: var(--sidebar-sep);
+  color: var(--sidebar-fg);
+}
+
+.sidebar[data-theme='dark'] .printButton:hover,
+.sidebar[data-theme='dark'] .printButton:focus {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--sidebar-fg);
+}
+
+.sidebar[data-theme='light'] .printButton:hover,
+.sidebar[data-theme='light'] .printButton:focus {
+  background: rgba(8, 8, 8, 0.7);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.printButton:global(.ant-btn):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* выпадающих списки темная тема */
+:global(.hdri-dropdown-dark.ant-select-dropdown),
+:global(.ant-select-dropdown.hdri-dropdown-dark),
+:global(.right-lod-dropdown-dark.ant-select-dropdown),
+:global(.ant-select-dropdown.right-lod-dropdown-dark),
+:global(.pbr-dropdown-dark.ant-select-dropdown),
+:global(.ant-select-dropdown.pbr-dropdown-dark) {
+  background: #333333 !important;
+  background-color: #333333 !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.hdri-dropdown-dark .rc-virtual-list),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .rc-virtual-list),
+:global(.pbr-dropdown-dark.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.pbr-dropdown-dark .rc-virtual-list),
+:global(.hdri-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.hdri-dropdown-dark .rc-virtual-list-holder),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .rc-virtual-list-holder),
+:global(.pbr-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.pbr-dropdown-dark .rc-virtual-list-holder),
+:global(.hdri-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.hdri-dropdown-dark .rc-virtual-list-holder-inner),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .rc-virtual-list-holder-inner),
+:global(.pbr-dropdown-dark.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.pbr-dropdown-dark .rc-virtual-list-holder-inner) {
+  background: #333333 !important;
+  background-color: #333333 !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item),
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option) {
+  color: #ffffff !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option-selected),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option-selected),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option-selected) {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option-selected .ant-select-item-option-content) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option-selected:hover),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option-selected:hover),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option-selected:hover),
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option-selected.ant-select-item-option-active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option-active),
+:global(.hdri-dropdown-dark.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.hdri-dropdown-dark .ant-select-item-option:hover),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option-active),
+:global(.right-lod-dropdown-dark.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.right-lod-dropdown-dark .ant-select-item-option:hover),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option-active),
+:global(.pbr-dropdown-dark.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.pbr-dropdown-dark .ant-select-item-option:hover) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* выпадающие списки светлая тема */
+:global(.hdri-dropdown-light.ant-select-dropdown),
+:global(.ant-select-dropdown.hdri-dropdown-light),
+:global(.right-lod-dropdown-light.ant-select-dropdown),
+:global(.ant-select-dropdown.right-lod-dropdown-light),
+:global(.pbr-dropdown-light.ant-select-dropdown),
+:global(.ant-select-dropdown.pbr-dropdown-light) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.hdri-dropdown-light .rc-virtual-list),
+:global(.right-lod-dropdown-light.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.right-lod-dropdown-light .rc-virtual-list),
+:global(.pbr-dropdown-light.ant-select-dropdown .rc-virtual-list),
+:global(.ant-select-dropdown.pbr-dropdown-light .rc-virtual-list),
+:global(.hdri-dropdown-light.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.hdri-dropdown-light .rc-virtual-list-holder),
+:global(.right-lod-dropdown-light.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.right-lod-dropdown-light .rc-virtual-list-holder),
+:global(.pbr-dropdown-light.ant-select-dropdown .rc-virtual-list-holder),
+:global(.ant-select-dropdown.pbr-dropdown-light .rc-virtual-list-holder),
+:global(.hdri-dropdown-light.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.hdri-dropdown-light .rc-virtual-list-holder-inner),
+:global(.right-lod-dropdown-light.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.right-lod-dropdown-light .rc-virtual-list-holder-inner),
+:global(.pbr-dropdown-light.ant-select-dropdown .rc-virtual-list-holder-inner),
+:global(.ant-select-dropdown.pbr-dropdown-light .rc-virtual-list-holder-inner) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item),
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option) {
+  color: #0e0e0e !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option-selected),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option-selected),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option-selected),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option-selected) {
+  color: #0e0e0e !important;
+  background: rgba(8, 8, 8, 0.08) !important;
+  background-color: rgba(8, 8, 8, 0.08) !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option-selected .ant-select-item-option-content),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option-selected .ant-select-item-option-content) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option-selected:hover),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option-selected:hover),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option-selected:hover),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option-selected:hover),
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option-selected.ant-select-item-option-active),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option-selected.ant-select-item-option-active) {
+  background: rgba(8, 8, 8, 0.08) !important;
+  background-color: rgba(8, 8, 8, 0.08) !important;
+}
+
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option-active),
+:global(.hdri-dropdown-light.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.hdri-dropdown-light .ant-select-item-option:hover),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option-active),
+:global(.right-lod-dropdown-light.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.right-lod-dropdown-light .ant-select-item-option:hover),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option-active),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option-active),
+:global(.pbr-dropdown-light.ant-select-dropdown .ant-select-item-option:hover),
+:global(.ant-select-dropdown.pbr-dropdown-light .ant-select-item-option:hover) {
+  background: rgba(8, 8, 8, 0.08) !important;
+  background-color: rgba(8, 8, 8, 0.08) !important;
+}

@@ -1,0 +1,271 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 24px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.tabsWrapper {
+  padding-top: 8px;
+}
+
+:global(.ant-tabs-tab-btn) {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+:global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 600;
+}
+
+:global(.ant-tabs-ink-bar) {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.table td {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.promptCell {
+  width: 320px;
+}
+
+.statusCell {
+  width: 140px;
+}
+
+.statusBadge {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 0;
+  background: none;
+}
+
+.statusReady {
+  color: #52c41a;
+}
+
+.statusPending {
+  color: #faad14;
+}
+
+.statusDefault {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.prompt {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.promptImage {
+  max-width: 280px;
+  max-height: 180px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  object-fit: cover;
+  display: block;
+}
+
+.previewLink {
+  display: inline-flex;
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.previewLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.previewLink:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.previewImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.noImage {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.loadingCell,
+.empty {
+  text-align: center;
+  padding: 24px 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.error {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 77, 79, 0.15);
+  color: #ff4d4f;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.imageCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.imageCardPreviewLink {
+  display: block;
+}
+
+.imageCardPreview {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.noImagePlaceholder {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.imageMeta {
+  padding: 12px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.imageMetaTitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.imageMetaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.imageMetaLabel {
+  white-space: nowrap;
+}
+
+.imageMetaValue {
+  text-align: right;
+  word-break: break-word;
+  font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.meshPromptValue {
+  display: block;
+  margin-left: auto;
+  text-align: right;
+  word-break: break-word;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.accessDenied {
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.accessDenied h1 {
+  margin-bottom: 12px;
+}
+
+.accessDenied p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .promptCell {
+    width: auto;
+  }
+
+  .previewImage {
+    width: 80px;
+    height: 80px;
+  }
+
+  .imageCardPreview {
+    height: 180px;
+  }
+}

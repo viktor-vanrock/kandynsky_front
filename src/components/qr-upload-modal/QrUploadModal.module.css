@@ -1,0 +1,48 @@
+.root.themeDark {
+  --modal-bg: rgb(35, 35, 35);
+  --modal-color: rgba(255, 255, 255, 0.96);
+  --modal-color-secondary: rgba(255, 255, 255, 0.56);
+  --modal-border: rgba(255, 255, 255, 0.12);
+}
+
+.root.themeLight {
+  --modal-bg: #ffffff;
+  --modal-color: rgba(8, 8, 8, 0.96);
+  --modal-color-secondary: rgba(8, 8, 8, 0.56);
+  --modal-border: rgba(8, 8, 8, 0.12);
+}
+
+.root :global(.ant-modal-content) {
+  background: var(--modal-bg) !important;
+  color: var(--modal-color) !important;
+  border: 1px solid var(--modal-border) !important;
+  padding: 0 !important;
+  width: 384px !important;
+  height: 502px !important;
+}
+
+.root :global(.ant-modal-header) {
+  display: none !important;
+}
+
+.root :global(.ant-modal-body) {
+  height: 100% !important;
+}
+
+.root :global(.ant-modal-title) {
+  color: var(--modal-color) !important;
+}
+
+.root :global(.ant-modal-close) {
+  color: var(--modal-color) !important;
+}
+
+.root.themeDark :global(.ant-modal-close:hover) {
+  color: var(--modal-color) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.root.themeLight :global(.ant-modal-close:hover) {
+  color: var(--modal-color) !important;
+  background: rgba(8, 8, 8, 0.06) !important;
+}

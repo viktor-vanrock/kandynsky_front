@@ -1,0 +1,48 @@
+query GetGeneratedPreviews($pagination: PaginationInput!, $sessionToken: String) {
+  getGeneratedPreviews(pagination: $pagination, sessionToken: $sessionToken) {
+    data {
+      ...PreviewEntityFragment
+    }
+    limit
+    page
+    total
+    total_pages
+  }
+}
+
+query GetPreviewById($id: String!) {
+  getPreviewById(id: $id) {
+    ...PreviewEntityFragment
+  }
+}
+
+query GetMeshById($id: String!, $sourceImageIndex: Int) {
+  getMeshById(id: $id, sourceImageIndex: $sourceImageIndex) {
+    ...MeshRequestEntityFragment
+  }
+}
+
+query GetFavoriteModels($sessionToken: String!) {
+  getFavoriteModels(sessionToken: $sessionToken) {
+    ...PreviewEntityFragment
+  }
+}
+
+query GetPrintingQueue($pagination: PaginationInput!) {
+  getPrintingQueue(pagination: $pagination) {
+    data {
+      ...PrintingQueueEntityFragment
+    }
+    limit
+    page
+    total
+    total_pages
+  }
+}
+
+query GetCensorCheckingPreviews($limit: Int) {
+  getCensorCheckingPreviews(limit: $limit) {
+    ...PreviewEntityFragment
+  }
+}
+

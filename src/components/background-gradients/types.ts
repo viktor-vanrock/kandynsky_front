@@ -1,0 +1,1 @@
+export type ModeType = 'standard' | 'gamedev' | '3dprint';

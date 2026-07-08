@@ -1,0 +1,28 @@
+.iconRotatorContainer {
+  width: 200px;
+  height: 85%;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* < 660px (Смартфоны) */
+@media screen and (max-width: 659px) {
+  .iconRotatorContainer {
+    width: 120px;
+    height: 85%;
+    display: inline-block;
+    margin: 0 auto;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .iconRotatorContainer {
+    width: 140px;
+    height: 85%;
+    margin-top: 0px;
+  }
+
+  .favoriteModels {
+    top: 0;
+  }
+}

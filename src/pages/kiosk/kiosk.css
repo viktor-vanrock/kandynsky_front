@@ -1,0 +1,225 @@
+/* ======================================================
+   kiosk.css — Scoped to .kiosk-root
+   All styles are namespaced so they don't bleed into the main app.
+   @font-face and @keyframes are global (safe — unique names).
+   ====================================================== */
+
+@font-face {
+  font-family: 'SB Sans Display';
+  src: url('./assets/fonts/SBSansDisplay-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SB Sans Text';
+  src: url('./assets/fonts/SBSansText-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Design tokens scoped to the kiosk container */
+.kiosk-root {
+  --k-bg:           #0A0A0A;
+  --k-surface:      #141416;
+  --k-raised:       #1C1C20;
+  --k-hairline:     rgba(255,255,255,0.08);
+  --k-fg:           #FFFFFF;
+  --k-fg-muted:     rgba(255,255,255,0.60);
+  --k-fg-dim:       rgba(255,255,255,0.32);
+  --k-accent:       #3DDC84;
+  --k-accent-ink:   #1FB766;
+  --k-accent-2:     #6FE7A8;
+  --k-accent-3:     #A8F0C6;
+  --k-accent-grad:  linear-gradient(135deg, #3DDC84 0%, #6FE7A8 55%, #A8F0C6 100%);
+  --k-pink:         #F9B2FD;
+  --k-mint:         #24F2BF;
+  --k-amber:        #E48039;
+
+  /* Re-export as the names used in components */
+  --fg:             var(--k-fg);
+  --fg-muted:       var(--k-fg-muted);
+  --fg-dim:         var(--k-fg-dim);
+  --hairline:       var(--k-hairline);
+  --accent:         var(--k-accent);
+  --accent-grad:    var(--k-accent-grad);
+  --display:        'SB Sans Display', sans-serif;
+  --text:           'SB Sans Text', sans-serif;
+  --mint:           var(--k-mint);
+  --amber:          var(--k-amber);
+  --pink:           var(--k-pink);
+
+  /* Layout */
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--k-bg);
+  color: var(--k-fg);
+  overflow: hidden;
+  font-family: 'SB Sans Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kiosk-root * {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Typography */
+.kiosk-root .display {
+  font-family: 'SB Sans Display', sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.kiosk-root .text {
+  font-family: 'SB Sans Text', sans-serif;
+  font-weight: 500;
+}
+
+/* Scrollbars */
+.kiosk-root .no-scrollbar::-webkit-scrollbar { display: none; }
+.kiosk-root .no-scrollbar { scrollbar-width: none; }
+
+/* Interactive elements */
+.kiosk-root button,
+.kiosk-root .tappable {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 140ms cubic-bezier(.2,.9,.3,1), background 160ms, opacity 160ms, box-shadow 200ms;
+}
+.kiosk-root button:active,
+.kiosk-root .tappable:active {
+  transform: scale(0.97);
+}
+
+/* Printer status dot */
+.kiosk-root .status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--k-mint);
+  box-shadow: 0 0 0 0 rgba(36,242,191,0.7);
+  animation: k-pulse 2s infinite;
+}
+
+/* Screen transition layers */
+.kiosk-root .screen-anim {
+  position: absolute;
+  inset: 0;
+  will-change: transform, filter, opacity;
+}
+.kiosk-root .screen-anim.is-in {
+  z-index: 2;
+  animation: k-screen-in 560ms cubic-bezier(.2,.9,.3,1) both;
+}
+.kiosk-root .screen-anim.is-out {
+  z-index: 1;
+  pointer-events: none;
+  animation: k-screen-out 460ms cubic-bezier(.45,.05,.55,.95) both;
+}
+
+/* Utility */
+.kiosk-root .text-grad {
+  background: var(--k-accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ============ KEYFRAMES (global — safe, unique k- prefix) ============ */
+@keyframes k-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(36,242,191,0.5) }
+  70%  { box-shadow: 0 0 0 14px rgba(36,242,191,0) }
+  100% { box-shadow: 0 0 0 0 rgba(36,242,191,0) }
+}
+@keyframes k-screen-in {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(10px); }
+  55%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes k-screen-out {
+  0%   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-10px) scale(1.012); filter: blur(12px); }
+}
+@keyframes k-fadein  { from {opacity:0} to {opacity:1} }
+@keyframes k-slideup { from {opacity:0; transform: translateY(24px)} to {opacity:1; transform: translateY(0)} }
+@keyframes k-pop     { 0%{transform:scale(.94);opacity:0} 60%{transform:scale(1.01);opacity:1} 100%{transform:scale(1)} }
+@keyframes k-breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.04) } }
+@keyframes k-spin    { to { transform: rotate(360deg) } }
+@keyframes k-phrase-in {
+  0%   { opacity: 0; transform: translateX(40px); filter: blur(8px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+@keyframes k-phrase-up {
+  0%   { opacity: 0; transform: translateY(8px); filter: blur(6px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes k-print-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 10px #3DDC84; }
+  50%       { opacity: 0.6; box-shadow: 0 0 4px #3DDC84; }
+}
+@keyframes k-queue-blink {
+  0%, 100% { box-shadow: 0 8px 22px rgba(255,196,98,0.30); border-color: rgba(255,196,98,0.45); }
+  50%       { box-shadow: 0 8px 28px rgba(255,196,98,0.55); border-color: rgba(255,220,150,0.85); }
+}
+@keyframes k-a-fade-in { from {opacity:0} to {opacity:1} }
+@keyframes a-print-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 10px #3DDC84; }
+  50%       { opacity: 0.6; box-shadow: 0 0 4px #3DDC84; }
+}
+@keyframes a-fade-in { from {opacity:0} to {opacity:1} }
+@keyframes pop {
+  0%  { transform:scale(.94); opacity:0; }
+  60% { transform:scale(1.01); opacity:1; }
+  100%{ transform:scale(1); }
+}
+@keyframes slideup {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+/* Ambient bg keyframes */
+@keyframes amb-drift-a {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%       { transform: translate(8%,6%) scale(1.12); }
+}
+@keyframes amb-drift-b {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%       { transform: translate(-6%,-8%) scale(1.08); }
+}
+@keyframes amb-drift-c {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%       { transform: translate(-10%,6%) scale(1.18); }
+}
+@keyframes amb-flow {
+  0%   { transform: translateX(-30%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateX(30%); opacity: 0; }
+}
+@keyframes amb-float-0 {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(20px,-40px); }
+}
+@keyframes amb-float-1 {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(-30px,-20px); }
+}
+@keyframes amb-float-2 {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(15px,30px); }
+}

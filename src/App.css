@@ -1,0 +1,66 @@
+/* antd notification — dark theme */
+[data-theme='dark'] .ant-notification-notice {
+  background-color: rgba(28, 28, 28, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55) !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-message {
+  color: rgba(255, 255, 255, 0.96) !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-description {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-close {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-close:hover {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-icon-error .anticon {
+  color: #ff4d4f !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-icon-success .anticon {
+  color: #52c41a !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-icon-warning .anticon {
+  color: #faad14 !important;
+}
+
+[data-theme='dark'] .ant-notification-notice-icon-info .anticon {
+  color: #1677ff !important;
+}
+
+.ant-btn {
+  height: auto;
+}
+
+.ant-card-bordered {
+  border: none;
+}
+
+.ant-modal-close {
+  visibility: hidden;
+}
+
+.ant-modal-close .ant-modal-close-x {
+  visibility: visible;
+  background: #000000;
+  color: #ffffff;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: -44px;
+  right: -44px;
+}
