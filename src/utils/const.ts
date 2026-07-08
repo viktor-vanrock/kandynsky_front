@@ -20,7 +20,7 @@ export const MODES = [
   { id: 'standard', label: 'Обычный', IconComponent: DefaultModeIcon, tooltip: STANDARD_MODE_TOOLTIP, iconColor: '#3f81fd' },
   { id: 'gamedev', label: 'GameDev', badge: 'NEW', IconComponent: GameDevModeIcon, tooltip: GAMEDEV_MODE_TOOLTIP, iconColor: textWarning },
   { id: '3dprint', label: '3D-печать', badge: 'NEW', IconComponent: PrintingModeIcon, tooltip: PRINTING_MODE_TOOLTIP, iconColor: textPositive },
-  { id: 'cad', label: 'CAD', IconComponent: LockedModeIcon, disable: true, tooltip: CAD_MODE_TOOLTIP },
+  { id: 'cad', label: 'CAD', IconComponent: LockedModeIcon, disabled: true, tooltip: CAD_MODE_TOOLTIP },
 ];
 
 export const LOADING_TEXTS = [
