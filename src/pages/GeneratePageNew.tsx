@@ -301,6 +301,7 @@ const PrinterDemoButton = styled.button`
 const PRINTER_DEMO = import.meta.env.VITE_PRINTER_DEMO === 'true';
 
 const GeneratePageNew: FC = () => {
+  console.log('4')
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
@@ -336,6 +337,7 @@ const GeneratePageNew: FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastSelectedModeRef = useRef<string>('');
+  const isDarkTheme = theme === 'dark';
 
   useEffect(() => {
     const modeChanged = lastSelectedModeRef.current !== selectedMode;
@@ -749,10 +751,18 @@ const GeneratePageNew: FC = () => {
             selectedMode={selectedMode}
             onSettingsClick={() => setIsSettingsDrawerOpen(true)}
           >
-            {!inputValue && !selectedImage && selectedMode !== 'gamedev' && selectedMode !== '3dprint' && (
+            {!inputValue && !selectedImage && selectedMode !== 'gamedev' && selectedMode !== '3dprint' && selectedMode !== 'cad' && (
               <Suggestions isMobile={isMobile} onSuggestionClick={handleSuggestionClick} />
             )}
           </MainInput>
+
+          {selectedMode === 'cad' && (
+              <iframe
+                src={`https://ai-reverse.sberai.dev/?__theme=${theme}`}
+                style={{ width: '100%', height: '130vh', border: 'none' }}
+                allow="fullscreen"
+              />
+            )}
         </ContentWrapper>
 
         <ErrorMessage visible={!!showError}>{showError || ' '}</ErrorMessage>
