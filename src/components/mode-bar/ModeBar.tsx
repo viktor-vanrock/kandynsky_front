@@ -144,9 +144,11 @@ export const ModeBar: FC<ModeBarProps> = ({ selectedMode, onModeChange, theme })
             <Tooltip
               key={mode.id}
               text={
-                <BodyS color="textSecondary" style={{ maxWidth: 200 }}>
-                  {mode.tooltip}
-                </BodyS>
+                mode.tooltip ? (
+                  <BodyS color="textSecondary" style={{ maxWidth: 200 }}>
+                    {mode.tooltip}
+                  </BodyS>
+                ) : null
               }
               placement="bottom"
               hasArrow

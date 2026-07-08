@@ -42,6 +42,7 @@ const getRoutes = (allRoutes: RouteItem[]): ReactNode[] =>
   });
 
 const AppRoutes = () => {
+  console.log('3')
   const routes: RouteItem[] = [
     {
       route: '/',

@@ -1,5 +1,5 @@
-import { useState, useEffect, ReactNode, FC } from 'react';
-import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject, split } from '@apollo/client';
+import { ReactNode, FC } from 'react';
+import { ApolloClient, createHttpLink, InMemoryCache, split } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { ApolloProvider } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
@@ -9,53 +9,44 @@ interface ApolloProviderWithClientProps {
   children: ReactNode;
 }
 
-const ApolloProviderChangeToken: FC<ApolloProviderWithClientProps> = ({ children }) => {
-  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject> | null>(null);
+// Создаём клиент СИНХРОННО — вне компонента
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+    },
+  };
+});
 
-  useEffect(() => {
-    const authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          // authorization: `Bearer ${accessToken}`
-        },
-      };
-    });
+const httpLink = createHttpLink({
+  uri: '/api/graphql',
+});
 
-    const httpLink = createHttpLink({
-      uri: import.meta.env.VITE_SERVER_URL ? `${import.meta.env.VITE_SERVER_URL}/graphql` : '/api/graphql',
-    });
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:3000/api/graphql',
+  options: {
+    reconnect: true,
+  },
+});
 
-    const wsLink = new WebSocketLink({
-      uri: import.meta.env.VITE_SERVER_URL ? `${import.meta.env.VITE_SERVER_URL}/graphql` : '/api/graphql',
-      options: {
-        reconnect: true,
-      },
-    });
-
-    const link = split(
-      ({ query }) => {
-        const definition = getMainDefinition(query);
-        return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-      },
-      wsLink,
-      authLink.concat(httpLink),
+const link = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
     );
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
 
-    const newClient = new ApolloClient({
-      uri: import.meta.env.VITE_SERVER_URL ? `${import.meta.env.VITE_SERVER_URL}/graphql` : '/api/graphql',
-      cache: new InMemoryCache(),
-      link,
-      connectToDevTools: true,
-    });
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
+});
 
-    setClient(newClient);
-  }, []);
-
-  if (!client) {
-    return null;
-  }
-
+const ApolloProviderChangeToken: FC<ApolloProviderWithClientProps> = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
 

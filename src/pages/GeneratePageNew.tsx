@@ -14,6 +14,7 @@ import { getSessionToken } from '../utils/session.ts';
 import PreviewsPage from './PreviewsPage';
 import { useGameDevStore } from '../store/gamedev.ts';
 import { QrUploadModal } from '../components/qr-upload-modal/QrUploadModal';
+import { FEATURE_FLAGS } from '../utils/const.ts';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -301,6 +302,7 @@ const PrinterDemoButton = styled.button`
 const PRINTER_DEMO = import.meta.env.VITE_PRINTER_DEMO === 'true';
 
 const GeneratePageNew: FC = () => {
+  console.log('4')
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
@@ -336,6 +338,7 @@ const GeneratePageNew: FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastSelectedModeRef = useRef<string>('');
+  const isDarkTheme = theme === 'dark';
 
   useEffect(() => {
     const modeChanged = lastSelectedModeRef.current !== selectedMode;
@@ -715,6 +718,10 @@ const GeneratePageNew: FC = () => {
   };
 
   const handleModeChange = (modeId: string) => {
+    if (modeId === 'cad') {
+      window.open(`https://ai-reverse.sberai.dev/?__theme=${theme}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
     setSelectedMode(modeId);
     if (modeId !== 'gamedev') {
       setSavedPrompt(null);
@@ -749,10 +756,18 @@ const GeneratePageNew: FC = () => {
             selectedMode={selectedMode}
             onSettingsClick={() => setIsSettingsDrawerOpen(true)}
           >
-            {!inputValue && !selectedImage && selectedMode !== 'gamedev' && selectedMode !== '3dprint' && (
+            {!inputValue && !selectedImage && selectedMode !== 'gamedev' && selectedMode !== '3dprint' && selectedMode !== 'cad' && (
               <Suggestions isMobile={isMobile} onSuggestionClick={handleSuggestionClick} />
             )}
           </MainInput>
+
+          {selectedMode === 'cad' && (
+              <iframe
+                src={`https://ai-reverse.sberai.dev/?__theme=${theme}`}
+                style={{ width: '100%', height: '130vh', border: 'none' }}
+                allow="fullscreen"
+              />
+            )}
         </ContentWrapper>
 
         <ErrorMessage visible={!!showError}>{showError || ' '}</ErrorMessage>
@@ -771,7 +786,7 @@ const GeneratePageNew: FC = () => {
             hasSelectedFile={!!selectedImage}
           />
         </Drawer>
-        {!isMobile && (
+        {!isMobile && FEATURE_FLAGS.SHOW_QR_CODE && (
           <QrCodeButton
             src={theme === 'light' ? '/img/qr-light.png' : '/img/qr-dark.png'}
             alt="Загрузить с телефона"

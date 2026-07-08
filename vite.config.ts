@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 import { patchCssModules } from 'vite-css-modules';
 import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [patchCssModules(), svgr(), react()],
   assetsInclude: ['**/*.hdr', '**/*.glb', '**/*.woff', '**/*.woff2', '**/*.fbx'],
@@ -11,7 +10,13 @@ export default defineConfig({
     'process.env': {},
   },
   server: {
+    host: '0.0.0.0',
     proxy: {
+      '/api/graphql': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        ws: true,
+      },
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,

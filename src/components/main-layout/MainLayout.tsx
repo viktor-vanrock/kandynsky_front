@@ -23,6 +23,7 @@ const ContentContainer = styled(Content)<{ $fullscreen?: boolean }>`
 `;
 
 export const MainLayout: FC<MainLayoutProps> = ({ children, disableContentMargin = false }) => {
+  console.log('3.1')
   const { theme } = useTheme();
   const inIframe = useInIframe();
   const location = useLocation();
@@ -55,6 +56,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children, disableContentMargin
   const layoutStyle = {
     width: '100%',
   };
+  console.log('3.21', localStorage.getItem(['notf', 'ramec', 'ansee'].join('')))
 
   useEffect(() => {
     if (inIframe) {
@@ -72,6 +74,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children, disableContentMargin
       console.warn('Failed to preload some HDRI maps:', err);
     });
   }, []);
+  console.log('3.3', view)
 
   return (
     view && (

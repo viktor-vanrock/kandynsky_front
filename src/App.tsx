@@ -14,7 +14,7 @@ function App() {
     <ApolloProviderChangeToken>
       <ThemeProvider>
         <PopupProvider>
-        <Routes />
+          <Routes />
         </PopupProvider>
       </ThemeProvider>
     </ApolloProviderChangeToken>
