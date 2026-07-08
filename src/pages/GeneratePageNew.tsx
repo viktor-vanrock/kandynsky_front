@@ -14,6 +14,7 @@ import { getSessionToken } from '../utils/session.ts';
 import PreviewsPage from './PreviewsPage';
 import { useGameDevStore } from '../store/gamedev.ts';
 import { QrUploadModal } from '../components/qr-upload-modal/QrUploadModal';
+import { FEATURE_FLAGS } from '../utils/const.ts';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -717,6 +718,10 @@ const GeneratePageNew: FC = () => {
   };
 
   const handleModeChange = (modeId: string) => {
+    if (modeId === 'cad') {
+      window.open(`https://ai-reverse.sberai.dev/?__theme=${theme}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
     setSelectedMode(modeId);
     if (modeId !== 'gamedev') {
       setSavedPrompt(null);
@@ -781,7 +786,7 @@ const GeneratePageNew: FC = () => {
             hasSelectedFile={!!selectedImage}
           />
         </Drawer>
-        {!isMobile && (
+        {!isMobile && FEATURE_FLAGS.SHOW_QR_CODE && (
           <QrCodeButton
             src={theme === 'light' ? '/img/qr-light.png' : '/img/qr-dark.png'}
             alt="Загрузить с телефона"

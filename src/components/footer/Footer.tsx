@@ -3,7 +3,7 @@ import { useTheme } from '../../context';
 import { DTaaSLogoIcon } from '../Icons';
 import styles from './Footer.module.css';
 import { BodyS, BodyXS, Link, Tooltip } from '@salutejs/plasma-giga';
-import { SUPPORT_EMAIL } from '../../utils/const';
+import { FEATURE_FLAGS, SUPPORT_EMAIL } from '../../utils/const';
 import styled from 'styled-components';
 import { IconMailOutline } from '@salutejs/plasma-icons'
 import { textAccent, textSecondary } from '@salutejs/plasma-themes/tokens';
@@ -104,10 +104,10 @@ export const Footer: FC = () => {
         } /> 
         
       </div>
-      <div style={{cursor: 'default'}}>
+      {FEATURE_FLAGS.SHOW_FOOTER_LOGO && <div style={{cursor: 'default'}}>
         <DTaaSLogoIcon />
         <BodyXS>Бизнес-партнер</BodyXS>
-      </div>
+      </div>}
     </div>
   );
 };

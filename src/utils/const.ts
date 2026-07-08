@@ -34,3 +34,9 @@ export const LOADING_TEXTS = [
 ];
 
 export const SUPPORT_EMAIL = 'kandinsky3D@sberbank.ru';
+
+export const FEATURE_FLAGS = {
+  SHOW_3D_TEMPLATES: false,
+  SHOW_QR_CODE: false,
+  SHOW_FOOTER_LOGO: false,
+};

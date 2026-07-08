@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Settings } from 'lucide-react';
 
 import { AttachIcon, CloseCrossIcon, SubmitIcon } from '../Icons';
+import { FEATURE_FLAGS } from '../../utils/const';
 
 const MainInputSection = styled.div`
   width: 648px;
@@ -646,7 +647,7 @@ export const MainInput: FC<MainInputProps> = ({
                   <TemplateLabel>Бюст</TemplateLabel>
                 </TemplateCard>
               </TemplatesDropdown>
-              <TemplatesButton $theme={theme} type="button">
+              { FEATURE_FLAGS.SHOW_3D_TEMPLATES && <TemplatesButton $theme={theme} type="button">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M8.5204 0.346402C8.67368 -0.115324 9.32728 -0.11561 9.48025 0.346402L10.5456 3.58467C11.1476 5.41537 12.5842 6.85194 14.4149 7.45407L17.653 8.51943C18.1159 8.67202 18.1154 9.32621 17.653 9.47931L14.4149 10.5447L14.0756 10.6677C12.4079 11.3282 11.1102 12.6986 10.5456 14.4141L9.59628 17.2972L9.48025 17.6523C9.33715 18.0871 8.75169 18.1142 8.5538 17.7332L8.5204 17.6523L8.40262 17.2972L7.45507 14.4141C6.89053 12.6986 5.59268 11.3283 3.92508 10.6677L3.58579 10.5447L0.347614 9.47931C-0.115814 9.32673 -0.115929 8.67188 0.347614 8.51943L0.700966 8.40164L3.58579 7.45407C5.30129 6.8895 6.67148 5.59169 7.33202 3.92397L7.45507 3.58467L8.5204 0.346402Z"
@@ -654,7 +655,7 @@ export const MainInput: FC<MainInputProps> = ({
                   />
                 </svg>
                 Шаблоны
-              </TemplatesButton>
+              </TemplatesButton>}
             </TemplatesWrapper>
             )}
           </LeftButtons>
