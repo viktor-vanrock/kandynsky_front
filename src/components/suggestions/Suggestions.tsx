@@ -1,7 +1,8 @@
 import { Button } from '@salutejs/plasma-giga';
 import { FC } from 'react';
 import styled from 'styled-components';
-import { SUGGESTIONS } from '../../utils/const';
+import { getLocalizedSuggestions } from '../../utils/const';
+import { useLocale } from '../../context';
 
 const SuggestionsWrapper = styled.div`
   display: flex;
@@ -24,7 +25,9 @@ interface SuggestionsProps {
 }
 
 export const Suggestions: FC<SuggestionsProps> = ({ isMobile, onSuggestionClick }) => {
-  const displayedSuggestions = SUGGESTIONS.slice(0, isMobile ? 3 : SUGGESTIONS.length);
+  const { t } = useLocale();
+  const suggestions = getLocalizedSuggestions(t);
+  const displayedSuggestions = suggestions.slice(0, isMobile ? 3 : suggestions.length);
 
   return (
     <SuggestionsWrapper>

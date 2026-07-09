@@ -1,5 +1,6 @@
 import { FC, useMemo, useState, useEffect, useRef } from 'react';
 import styles from './GenerationProgress.module.css';
+import { useLocale } from '../../context';
 
 interface GenerationProgressProps {
   estimationSeconds: number | null;
@@ -7,7 +8,8 @@ interface GenerationProgressProps {
   estimationTimestamp?: number;
 }
 
-const getSecondsWord = (number: number) => {
+const getSecondsWord = (number: number, locale: 'ru' | 'en') => {
+  if (locale !== 'ru') return '';
   const lastDigit = number % 10;
   const lastTwoDigits = number % 100;
 
@@ -28,6 +30,7 @@ export const GenerationProgress: FC<GenerationProgressProps> = ({
   initialEstimationSeconds,
   estimationTimestamp,
 }) => {
+  const { t, locale } = useLocale();
   // Флаг: время истекло (< 2 сек). Необратимо.
   const [isFinishedTime, setIsFinishedTime] = useState(false);
   // Флаг: таймер завис на одном значении. Обратимо.
@@ -131,17 +134,18 @@ export const GenerationProgress: FC<GenerationProgressProps> = ({
 
   const timeText = useMemo(() => {
     if (isCalculating) {
-      return 'Рассчитываем время генерации';
+      return t.calculatingTime;
     }
     if (isFinishing) {
-      return 'Завершаем генерацию';
+      return t.finishingGeneration;
     }
     if (estimationSeconds) {
       const roundedSeconds = Math.round(estimationSeconds);
-      return `${roundedSeconds} ${getSecondsWord(roundedSeconds)}`;
+      const word = getSecondsWord(roundedSeconds, locale);
+      return word ? `${roundedSeconds} ${word}` : `${roundedSeconds} ${t.seconds}`;
     }
     return '-';
-  }, [isCalculating, isFinishing, estimationSeconds]);
+  }, [isCalculating, isFinishing, estimationSeconds, t, locale]);
 
   return (
     <div className={styles.progressContainer}>
@@ -150,7 +154,7 @@ export const GenerationProgress: FC<GenerationProgressProps> = ({
           <span>{timeText}</span>
         ) : (
           <>
-            <span>Оставшееся время генерации</span>
+            <span>{t.remainingTime}</span>
             <span>{timeText}</span>
           </>
         )}
@@ -162,7 +166,7 @@ export const GenerationProgress: FC<GenerationProgressProps> = ({
           style={!isIndeterminate ? { width: `${progressPercent}%` } : undefined}
         />
       </div>
-      <div className={styles.progressFooter}>Трудимся над Вашим запросом, нужно немного подождать</div>
+      <div className={styles.progressFooter}>{t.waitingMessage}</div>
     </div>
   );
 };

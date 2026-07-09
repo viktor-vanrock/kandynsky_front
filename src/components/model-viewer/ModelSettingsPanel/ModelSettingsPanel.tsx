@@ -4,6 +4,7 @@ import styles from './ModelSettingsPanel.module.css';
 
 import { HdriIcon, TextureIcon, MeshIcon, CloseCrossIcon } from '../../Icons';
 import { useViewerStore } from '../../../store/viewer';
+import { useLocale } from '../../../context';
 
 type Props = {
   theme: 'dark' | 'light';
@@ -31,32 +32,33 @@ export const ModelSettingsPanel: FC<Props> = ({
 }) => {
   const isShowTexture = useViewerStore((state) => state.isShowTexture);
   const showMesh = useViewerStore((state) => state.showMesh);
+  const { t } = useLocale();
   return (
     <div className={classNames(styles.modelSettings, className)} data-theme={theme}>
       <div className={styles.modelSettingWrapper}>
         <div className={styles.modelSettings__button} style={{border: 'solid 1.7px', borderRadius: '12px'}} onClick={onToggleHdriMenu}>
           <HdriIcon theme={theme} className={styles.modelSettings__icon} />
-          <span className={styles.modelSettings_label}>HDRI карта</span>
+          <span className={styles.modelSettings_label}>{t.hdriMapSettings}</span>
         </div>
 
         {hdriMenuOpen && (
           <div id="hdri-menu" className={styles.hdriMenuWrapper} data-theme={theme}>
             <div className={styles.menuHeaderPanel}>
-              <h4 className={styles.menuHeader}>HDRI карта</h4>
+              <h4 className={styles.menuHeader}>{t.hdriMapSettings}</h4>
               <CloseCrossIcon theme={theme} className={styles.menuClose} onClick={onToggleHdriMenu} />
             </div>
 
             <div className={styles.menuButtonWrapper}>
-              {['Карта 1', 'Карта 2', 'Карта 3', 'Карта 4', 'Карта 5'].map((hdri, hdriIndex) => (
+              {[1, 2, 3, 4, 5].map((n, hdriIndex) => (
                 <div
-                  key={hdri}
+                  key={n}
                   className={classNames(styles.hdriButton, hdriIndex === activeHdriIndex && styles.hdriButton_active)}
                   onClick={(e) => {
                     e.stopPropagation();
                     onSelectHdri(hdriIndex);
                   }}
                 >
-                  {hdri}
+                  {t.map} {n}
                 </div>
               ))}
             </div>
@@ -76,12 +78,12 @@ export const ModelSettingsPanel: FC<Props> = ({
           style={isShowTexture ? {border: 'solid 1.7px', borderRadius: '12px'}: undefined}
         >
           <TextureIcon theme={theme} className={styles.modelSettings__icon} />
-          <span className={styles.modelSettings_label}>Текстуры</span>
+          <span className={styles.modelSettings_label}>{t.texturesSettings}</span>
         </div>
 
         <div className={styles.modelSettings__button} onClick={onToggleMesh} style={showMesh ? {border: 'solid 1.7px', borderRadius: '12px'}: undefined}>
           <MeshIcon theme={theme} className={styles.modelSettings__icon}  />
-          <span className={styles.modelSettings_label}>Сетка</span>
+          <span className={styles.modelSettings_label}>{t.gridSettings}</span>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ import { Button, notification, Tooltip } from 'antd';
 import { useViewerStore } from '../store/viewer.ts';
 import { useGameDevStore } from '../store/gamedev.ts';
 import styled from 'styled-components';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 import { BackgroundGradients } from '../components/background-gradients/index.ts';
 import { getApiBaseUrl } from '../utils/serverUrl';
 import { GenerationProgress } from '../components/generation-progress';
@@ -37,6 +37,7 @@ import { useErrorNotification } from '../components/preview/useNotificationError
 
 const EditorPage: FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { t } = useLocale();
   const { setHdrMap } = useViewerStore();
   const isShowTexture = useViewerStore((s) => s.isShowTexture);
   const setShowTexture = useViewerStore((s) => s.setShowTexture);
@@ -798,7 +799,7 @@ const EditorPage: FC = () => {
               : networkError && typeof networkError === 'object' && 'message' in networkError
               ? (networkError as { message?: string }).message
               : undefined;
-          const errorMessage = networkErrorMessage || error?.message || 'Неизвестная ошибка';
+          const errorMessage = networkErrorMessage || error?.message || t.unknownError;
           const isNetworkError = !!networkError;
           const isImageNotFound =
             errorMessage.toLowerCase().includes('selected image not found') ||
@@ -807,8 +808,8 @@ const EditorPage: FC = () => {
           // При ошибке "image not found" сразу редиректим на главную
           if (isImageNotFound) {
             notification.error({
-              message: 'Модель недоступна',
-              description: 'Изображение для этой модели не найдено. Вы будете перенаправлены на главную страницу.',
+              message: t.modelUnavailable,
+              description: t.modelUnavailableDesc,
               duration: 5,
             });
             setTimeout(() => {
@@ -825,8 +826,8 @@ const EditorPage: FC = () => {
 
           if (!isAlreadyHandled) {
             notification.error({
-              message: 'Не удалось запустить генерацию модели',
-              description: 'Попробуйте ещё раз или измените запрос.',
+              message: t.errorStartModelGeneration,
+              description: t.errorStartModelGenerationDesc,
               duration: 8,
             });
           }
@@ -1002,8 +1003,8 @@ const EditorPage: FC = () => {
         checkAndNotify({ censored: isCensored, status: modelInfo.status, previewId: activePreviewId });
       } else {
         notification.error({
-          message: 'Генерация отменена',
-          description: modelInfo.errorMessage || 'Генерация модели была отменена',
+          message: t.generationCancelled,
+          description: modelInfo.errorMessage || t.generationCancelledDesc,
           duration: 8,
         });
       }
@@ -1030,8 +1031,8 @@ const EditorPage: FC = () => {
       if (!isSwitchingModel && hasModelUrl) {
         setIsMeshLoading(false);
         notification.warning({
-          message: 'GLB не найден',
-          description: 'Форматы меша отсутствуют или ещё не загрузились',
+          message: t.glbNotFound,
+          description: t.glbNotFoundDesc,
         });
       } else {
         setIsMeshLoading(true);
@@ -1192,10 +1193,10 @@ const EditorPage: FC = () => {
     const doQuadrification = previewData?.getPreviewById?.doQuadrification;
 
     if (doQuadrification !== undefined && doQuadrification !== null) {
-      return doQuadrification ? 'Квадраты' : 'Треугольники';
+      return doQuadrification ? t.quads : t.triangles;
     }
 
-    return 'Треугольники';
+    return t.triangles;
   }, [previewData?.getPreviewById?.doQuadrification]);
 
   // Получаем URL превью картинки для редактирования модели (image + prompt)
@@ -1328,18 +1329,18 @@ const EditorPage: FC = () => {
                 setPolygonCount(count);
               }}
               modelInfo={meshFromSubscription ?? modelInfo ?? null}
-              doQuadrification={topology === 'Квадраты'}
+              doQuadrification={topology === t.quads}
               isGameDevMode={isGameDevMode}
             />
             <BottomBar data-theme={theme}>
               <ControlsGroup>
-                <Tooltip title="Масштаб по осям" placement="top">
+                <Tooltip title={t.scaleByAxis} placement="top">
                   <ToolBtn
                     type="text"
                     shape="circle"
                     size="small"
-                    aria-label="Масштаб"
-                    title="Масштаб по осям"
+                    aria-label={t.scaleByAxis}
+                    title={t.scaleByAxis}
                     $active={transformMode === 'scale'}
                     icon={<TransformTranslateIcon theme={theme} active={transformMode === 'scale'} />}
                     onClick={() => {
@@ -1347,13 +1348,13 @@ const EditorPage: FC = () => {
                     }}
                   />
                 </Tooltip>
-                <Tooltip title="Перемещение" placement="top">
+                <Tooltip title={t.move} placement="top">
                   <ToolBtn
                     type="text"
                     shape="circle"
                     size="small"
-                    aria-label="Перемещение"
-                    title="Перемещение"
+                    aria-label={t.move}
+                    title={t.move}
                     $active={transformMode === 'translate'}
                     icon={<TransformScaleIcon theme={theme} active={transformMode === 'translate'} />}
                     onClick={() => {
@@ -1366,13 +1367,13 @@ const EditorPage: FC = () => {
                     }}
                   />
                 </Tooltip>
-                <Tooltip title="Вращение" placement="top">
+                <Tooltip title={t.rotate} placement="top">
                   <ToolBtn
                     type="text"
                     shape="circle"
                     size="small"
-                    aria-label="Вращение"
-                    title="Вращение"
+                    aria-label={t.rotate}
+                    title={t.rotate}
                     $active={transformMode === 'rotate'}
                     icon={<TransformRotateIcon theme={theme} active={transformMode === 'rotate'} />}
                     onClick={() => {
@@ -1388,13 +1389,13 @@ const EditorPage: FC = () => {
               </ControlsGroup>
             </BottomBar>
             <ModelInfoBlock data-theme={theme}>
-              <ModelInfoLine>Топология: {topology}</ModelInfoLine>
+              <ModelInfoLine>{t.topologyLabel}: {topology}</ModelInfoLine>
               <ModelInfoLine>
-                Полигоны: {polygonCount !== undefined ? polygonCount.toLocaleString('ru-RU') : '0'}
+                {t.polygonsLabel}: {polygonCount !== undefined ? polygonCount.toLocaleString() : '0'}
               </ModelInfoLine>
             </ModelInfoBlock>
             <LegendWrap>
-              <LegendImage src="/img/rectangle-22.svg" alt="Легенда" width={90} height={90} draggable={false} />
+              <LegendImage src="/img/rectangle-22.svg" alt={t.legendAlt} width={90} height={90} draggable={false} />
             </LegendWrap>
           </div>
         </main>

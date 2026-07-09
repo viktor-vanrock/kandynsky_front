@@ -4,7 +4,7 @@ import { useGameDevStore } from '../../store/gamedev';
 import { HelpCircle, Info, ChevronDown, X } from 'lucide-react';
 import { Tooltip } from 'antd';
 import { PreviewScene } from './PreviewScene';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 
 const Container = styled.div<{ theme: 'light' | 'dark'; $isInDrawer?: boolean }>`
   width: 648px;
@@ -412,6 +412,7 @@ export const GenerationSettings: FC<GenerationSettingsProps> = ({
     setPbrMode,
   } = useGameDevStore();
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   const [isPbrDropdownOpen, setIsPbrDropdownOpen] = useState(false);
   const [polyInputValue, setPolyInputValue] = useState(polyCount.toString());
@@ -498,9 +499,9 @@ export const GenerationSettings: FC<GenerationSettingsProps> = ({
   return (
     <Container theme={theme} $isInDrawer={isInDrawer}>
       <HeaderContainer theme={theme}>
-        <Header theme={theme}>Настройки генерации</Header>
+        <Header theme={theme}>{t.generationSettings}</Header>
         {isInDrawer && onClose && (
-          <CloseButton theme={theme} onClick={onClose} aria-label="Закрыть настройки">
+          <CloseButton theme={theme} onClick={onClose} aria-label={t.generationSettings}>
             <X size={24} />
           </CloseButton>
         )}
@@ -508,17 +509,17 @@ export const GenerationSettings: FC<GenerationSettingsProps> = ({
       <ContentContainer $isInDrawer={isInDrawer}>
         <LeftBlock theme={theme}>
           {/* Топология */}
-          <SectionLabel theme={theme}>Топология</SectionLabel>
+          <SectionLabel theme={theme}>{t.topology}</SectionLabel>
           <RadioGroup>
             <RadioLabel theme={theme} onClick={() => setTopology('quads')}>
               <HiddenRadio checked={topology === 'quads'} onChange={() => setTopology('quads')} />
               <StyledRadio checked={topology === 'quads'} theme={theme} />
-              Квадраты
+              {t.quads}
             </RadioLabel>
             <RadioLabel theme={theme} onClick={() => setTopology('triangles')}>
               <HiddenRadio checked={topology === 'triangles'} onChange={() => setTopology('triangles')} />
               <StyledRadio checked={topology === 'triangles'} theme={theme} />
-              Треугольники
+              {t.triangles}
             </RadioLabel>
           </RadioGroup>
 
@@ -560,10 +561,10 @@ export const GenerationSettings: FC<GenerationSettingsProps> = ({
           <SliderSection>
             <SliderHeader>
               <SectionLabel theme={theme} style={{ marginBottom: 0 }}>
-                Количество полигонов
+                {t.polygonCount}
               </SectionLabel>
               {isPolyCountAuto ? (
-                <ValueBox theme={theme} onClick={() => setIsPolyCountAuto(false)}>авто</ValueBox>
+                <ValueBox theme={theme} onClick={() => setIsPolyCountAuto(false)}>{t.autoLower}</ValueBox>
               ) : (
                 <EditableValueBox
                   theme={theme}
@@ -592,7 +593,7 @@ export const GenerationSettings: FC<GenerationSettingsProps> = ({
             <SliderHeader>
               <SectionLabel theme={theme} style={{ marginBottom: 0 }}>
                 LOD
-                <Tooltip title="Уровень детализации (Level of Detail)">
+                <Tooltip title={t.levelOfDetail + ' (Level of Detail)'}>
                   <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                     <HelpCircle
                       size={16}

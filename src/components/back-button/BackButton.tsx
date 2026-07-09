@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BackArrowIcon } from '../Icons.tsx';
 import styles from './BackButton.module.css';
+import { useLocale } from '../../context';
 
 interface BackButtonProps {
   theme: 'light' | 'dark';
@@ -9,7 +10,9 @@ interface BackButtonProps {
   title?: string;
 }
 
-export const BackButton: FC<BackButtonProps> = ({ theme, className, title = 'Вернуться' }) => {
+export const BackButton: FC<BackButtonProps> = ({ theme, className, title }) => {
+  const { t } = useLocale();
+  const resolvedTitle = title ?? t.goback;
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location as {
@@ -75,7 +78,7 @@ export const BackButton: FC<BackButtonProps> = ({ theme, className, title = 'В�
       type="button"
       className={`${styles.backButton} ${className || ''}`}
       onClick={handleBack}
-      title={title}
+      title={resolvedTitle}
       style={{ pointerEvents: 'auto' }}
     >
       <BackArrowIcon theme={theme} />

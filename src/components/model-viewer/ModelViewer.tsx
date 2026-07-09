@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import styles from './ModelViewer.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext.ts';
+import { useLocale } from '../../context';
 import { useViewerStore } from '../../store/viewer.ts';
 import { useInIframe } from '../../hooks/useInIframe.ts';
 import { getSessionToken } from '../../utils/session.ts';
@@ -54,6 +55,7 @@ export const ModelViewer: FC<ModelViewerProps> = ({
 }) => {
   //HACK isToggleThemeDisabled для блокировки тогла
   const { theme, setIsToggleThemeDisabled } = useTheme();
+  const { t } = useLocale();
   const [model, setModel] = useState<MeshFormatEntity | undefined>();
   const [activeHdriIndex, setActiveHdriIndex] = useState(0);
   const [polygonCount, setPolygonCount] = useState<number | undefined>();
@@ -69,7 +71,7 @@ export const ModelViewer: FC<ModelViewerProps> = ({
   const [hdriMenuOpen, setHdriMenuOpen] = useState(false);
   const [autoRotate, setAutoRotate] = useState(false);
   const [rotationEnabled, setRotationEnabled] = useState(false);
-  const [loadingText, setLoadingText] = useState(() => getRandomLoadingText());
+  const [loadingText, setLoadingText] = useState(() => getRandomLoadingText(t));
   const [isCameraOn, setIsCameraOn] = useState<boolean>(false);
   const [isSavingScreenshot, setIsSavingScreenshot] = useState(false);
   const [hasRendered, setHasRendered] = useState(false);
@@ -165,9 +167,9 @@ export const ModelViewer: FC<ModelViewerProps> = ({
 
   useEffect(() => {
     if (isLoadingModel) {
-      setLoadingText(getRandomLoadingText());
+      setLoadingText(getRandomLoadingText(t));
       loadingTextIntervalRef.current = setInterval(() => {
-        setLoadingText(getRandomLoadingText());
+        setLoadingText(getRandomLoadingText(t));
       }, LOADING_TEXT_INTERVAL);
     } else {
       if (loadingTextIntervalRef.current !== null) {
@@ -417,8 +419,8 @@ export const ModelViewer: FC<ModelViewerProps> = ({
   const handleRenderError = async () => {
     if (sourceImageIndex === null || !preview) {
       notification.error({
-        message: 'Невозможно восстановить модель',
-        description: 'Некорректный индекс изображения или превью не загружено.',
+        message: t.errorCannotRestoreModel,
+        description: t.errorCannotRestoreModelDesc,
         duration: 5,
       });
 
@@ -433,8 +435,8 @@ export const ModelViewer: FC<ModelViewerProps> = ({
       await removeMeshById({ variables: { id: preview.id, sourceImageIndex, all: false }, ...contextOption });
       await fetchOrGenerateMesh(sourceImageIndex);
       notification.error({
-        message: 'Ошибка отображения',
-        description: 'Произошла ошибка отображения, модель будет перегенерирована.',
+        message: t.errorRendering,
+        description: t.errorRenderingDesc,
         duration: 5,
       });
 
@@ -444,8 +446,8 @@ export const ModelViewer: FC<ModelViewerProps> = ({
     } catch (e) {
       console.error('Error during recovery after render error:', e);
       notification.error({
-        message: 'Ошибка при восстановлении модели',
-        description: 'Не удалось перегенерировать модель. Пожалуйста, попробуйте позже или измените запрос',
+        message: t.errorRestoreModel,
+        description: t.errorRestoreModelDesc,
         duration: 8,
       });
     }
@@ -462,7 +464,7 @@ export const ModelViewer: FC<ModelViewerProps> = ({
         {showPointCloud && hideControls && preview?.prompt && (
           <PointCloudHeader>
             <BodyS bold color={secondary}>
-              Промпт:
+              {t.promptLabel}:
             </BodyS>
             <ExpandableText text={preview.prompt} maxLength={100} />
           </PointCloudHeader>

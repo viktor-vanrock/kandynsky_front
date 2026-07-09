@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 import { DTaaSLogoIcon } from '../Icons';
 import styles from './Footer.module.css';
 import { BodyS, BodyXS, Link, Tooltip } from '@salutejs/plasma-giga';
@@ -35,6 +35,7 @@ const TooltipText = styled.div`
 
 export const Footer: FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [isCopied, setIsCopied] = useState(false)
 
    const handleCopyClick = async () => {
@@ -57,39 +58,39 @@ export const Footer: FC = () => {
     <div className={styles.footer} data-theme={theme}>
       <div className={styles.footer__link}>
         <Link view='secondary' href="/License_ru.pdf" target="_blank" rel="noopener noreferrer" >
-          Публичная лицензия
+          {t.publicLicense}
         </Link>
         <Link view='secondary' href="/Privacy_policy_ru.pdf" target="_blank" rel="noopener noreferrer" >
-          Политика приватности
+          {t.privacyPolicy}
         </Link>
         <Link view='secondary' href="/rules" >
-          Политика использования
+          {t.usagePolicy}
         </Link>
-        <Tooltip 
+        <Tooltip
           maxWidth={269}
           opened={isCopied}
-          placement='top' 
-          hasArrow={false} 
+          placement='top'
+          hasArrow={false}
           offset={[0,150]}
           text={
-            <BodyXS>Скопировано в буфер обмена</BodyXS>
-            } 
+            <BodyXS>{t.copiedToClipboard}</BodyXS>
+            }
           target={
-            <Tooltip 
+            <Tooltip
               animated
               maxWidth={269}
               text={
                 <TooltipContainer>
                 <TooltipText style={{ maxWidth: 269 }}>
-                    <BodyS>Напишите нам</BodyS>
-                    <BodyS color={textSecondary}>Электронная почта</BodyS>
+                    <BodyS>{t.contactUs}</BodyS>
+                    <BodyS color={textSecondary}>{t.emailLabel}</BodyS>
                     <BodyS>{SUPPORT_EMAIL}</BodyS>
-                    <BodyS color={textSecondary}>Ответим по будням с 9 до 18</BodyS>
+                    <BodyS color={textSecondary}>{t.responseHours}</BodyS>
                 </TooltipText>
                 <IconMailOutline color={textAccent}/>
                 </TooltipContainer>
-                
-              } 
+
+              }
               placement='top'
               trigger='click'
               // @ts-expect-error closeOnOverlayClick is presented but not shown
@@ -98,15 +99,15 @@ export const Footer: FC = () => {
               onClick={handleCopyClick}
               hasArrow
               target={
-                <Link view='secondary'>Обратная связь</Link>
+                <Link view='secondary'>{t.feedbackLink}</Link>
           }
         />
-        } /> 
-        
+        } />
+
       </div>
       {FEATURE_FLAGS.SHOW_FOOTER_LOGO && <div style={{cursor: 'default'}}>
         <DTaaSLogoIcon />
-        <BodyXS>Бизнес-партнер</BodyXS>
+        <BodyXS>{t.businessPartner}</BodyXS>
       </div>}
     </div>
   );

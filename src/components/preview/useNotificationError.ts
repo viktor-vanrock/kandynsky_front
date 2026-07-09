@@ -5,6 +5,7 @@ import { GenerationStatus, SubmitCensorComplaintDocument } from '../../graphql/g
 import { getSessionToken } from '../../utils/session';
 import { useApolloClient } from '@apollo/client';
 import {buttonBlackTransparent, text, buttonFocused} from '@salutejs/plasma-tokens'
+import { useLocale } from '../../context';
 
 interface StatusCheckInput {
   censored?: boolean | null;
@@ -19,6 +20,7 @@ export const useErrorNotification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const client = useApolloClient();
+  const { t } = useLocale();
 
   const resetNotification = useCallback(() => {
     setErrorNotified(false);
@@ -50,8 +52,8 @@ export const useErrorNotification = () => {
             })
             notification.destroy(key);
             notification.success({
-              message: 'Спасибо за обращение!',
-              description: 'Мы разберем Ваш запрос',
+              message: t.thankYouComplaint,
+              description: t.weWillReview,
               duration: null,
             })
           } catch(err) {
@@ -61,14 +63,14 @@ export const useErrorNotification = () => {
 
         if (isCensor) {
           notification.error({
-            message: 'Не можем сгенерировать модель по этому запросу. Попробуйте изменить текст или изображение.',
+            message: t.cannotGenerate,
             onClose: resetNotification,
             duration: null
           });
 
           notification.info({
             key,
-            message: 'Не согласны с решением?',
+            message: t.disagreeQuestion,
             btn: input.previewId
               ? React.createElement(
                   'button',
@@ -93,7 +95,7 @@ export const useErrorNotification = () => {
                       handleComplaint();
                     },
                   },
-                  'Сообщите нам',
+                  t.tellUs,
                )
               : undefined,
               duration: null,
@@ -101,9 +103,8 @@ export const useErrorNotification = () => {
           });
         } else {
           notification.error({
-            message: 'Ошибка генерации',
-            description:
-              'Произошла ошибка при генерации. Попробуйте изменить запрос и попробовать еще раз.',
+            message: t.generationError,
+            description: t.generationErrorDesc,
             onClose: resetNotification,
           });
         }
@@ -111,7 +112,7 @@ export const useErrorNotification = () => {
         navigate('/');
       }
     },
-    [errorNotified, navigate, resetNotification, client],
+    [errorNotified, navigate, resetNotification, client, t],
   );
 
   return {

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import styles from './FavoriteModelsPanel.module.css';
 import { CatalogIcon } from '../Icons';
 import { GenerationStatus, GetGeneratedPreviewsQuery } from '../../graphql/graphQlApiHooks';
+import { useLocale } from '../../context';
 
 type Props = {
   theme: 'dark' | 'light';
@@ -25,6 +26,7 @@ export const FavoriteModelsPanel: FC<Props> = ({
   onClickAllModels,
   className,
 }) => {
+  const { t } = useLocale();
   const filtered = favoriteModels.map((preview) => ({
     ...preview,
     // images: preview.images.filter((img) => img.order === 100),
@@ -50,7 +52,7 @@ export const FavoriteModelsPanel: FC<Props> = ({
             className={classNames(styles.favoriteModel, isActive && styles.favoriteModel_active)}
             onClick={() => onClickModel(modelPreview)}
           >
-            <img alt="Превью" className={styles.favoriteModel__image} src={imageUrl} />
+            <img alt={t.imageAlt} className={styles.favoriteModel__image} src={imageUrl} />
           </div>
         ) : null;
       })}
@@ -59,7 +61,7 @@ export const FavoriteModelsPanel: FC<Props> = ({
         <div className={styles.allModelsButton__icon}>
           <CatalogIcon theme={theme} />
         </div>
-        <span className={styles.allModelsButton__label}>Мои модели</span>
+        <span className={styles.allModelsButton__label}>{t.myModelsButton}</span>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   FrontGenerationType,
 } from '../graphql/graphQlApiHooks.ts';
 import { useTheme } from '../context/ThemeContext.ts';
+import { useLocale } from '../context';
 import { getSessionToken } from '../utils/session.ts';
 import IconRotator from '../components/icons-rotator/IconsRotator.tsx';
 import styles from './LeftSidebar.module.css';
@@ -57,6 +58,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
   currentPreviewImageUrl,
 }) => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [prompt, setPrompt] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -184,7 +186,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         networkErrorMessage ||
         graphQLErrors?.[0]?.message ||
         (errorObj?.message as string | undefined) ||
-        'Ошибка при получении статуса генерации';
+        t.errorPreviewSubscriptionStatus;
       const isNetworkError =
         !!networkError ||
         errorMessage.toLowerCase().includes('timeout') ||
@@ -193,14 +195,12 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         errorMessage.toLowerCase().includes('network');
 
       notification.error({
-        message: 'Ошибка при генерации превью',
-        description: isNetworkError
-          ? 'Произошла сетевая ошибка. Проверьте подключение к интернету и попробуйте ещё раз.'
-          : errorMessage,
+        message: t.errorPreviewSubscription,
+        description: isNetworkError ? t.networkError : errorMessage,
         duration: 8,
       });
     }
-  }, [subscriptionError]);
+  }, [subscriptionError, t]);
 
   const startTextGeneration = useCallback(async () => {
     if (!prompt.trim()) return;
@@ -213,7 +213,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         try {
           const imageResponse = await fetch(currentPreviewImageUrl);
           if (!imageResponse.ok) {
-            throw new Error('Не удалось загрузить превью изображения');
+            throw new Error(t.errorLoadPreviewImage);
           }
 
           const imageBlob = await imageResponse.blob();
@@ -243,7 +243,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
 
           if (!res.ok) {
             const errorText = await res.text();
-            throw new Error(errorText || 'Ошибка генерации по изображению');
+            throw new Error(errorText || t.errorImageGeneration);
           }
 
           const responseData = await res.json();
@@ -256,10 +256,9 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
           } catch (imageError) {
               console.error('Error with image generation:', imageError);
               notification.error({
-                message: 'Не удалось запустить генерацию поизображению',
-                description: imageError instanceof Error 
-                  ? imageError.message : 'Неизвестная ошибка', duration
-                  : 8,
+                message: t.errorStartGenerationByImage,
+                description: imageError instanceof Error ? imageError.message : t.unknownError,
+                duration: 8,
               });
           }
         return;
@@ -289,7 +288,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
       });
 
       if (errors) {
-        const errorMessage = errors[0]?.message || 'Не удалось запустить генерацию превью';
+        const errorMessage = errors[0]?.message || t.errorStartGenerationPreview;
         const networkError = errors[0]?.extensions?.networkError;
         const isNetworkError =
           !!networkError ||
@@ -299,10 +298,8 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
           errorMessage.toLowerCase().includes('network');
 
         notification.error({
-          message: 'Не удалось запустить генерацию',
-          description: isNetworkError
-            ? 'Произошла сетевая ошибка. Проверьте подключение к интернету и попробуйте ещё раз.'
-            : errorMessage,
+          message: t.errorStartGeneration,
+          description: isNetworkError ? t.networkError : errorMessage,
           duration: 8,
         });
         return;
@@ -341,7 +338,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         networkErrorMessage ||
         errorObj?.graphQLErrors?.[0]?.message ||
         errorObj?.message ||
-        'Не удалось запустить генерацию превью';
+        t.errorStartGenerationPreview;
       const isNetworkError =
         !!networkError ||
         errorMessage.toLowerCase().includes('timeout') ||
@@ -350,16 +347,14 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         errorMessage.toLowerCase().includes('network');
 
       notification.error({
-        message: 'Не удалось запустить генерацию',
-        description: isNetworkError
-          ? 'Произошла сетевая ошибка. Проверьте подключение к интернету и попробуйте ещё раз.'
-          : errorMessage,
+        message: t.errorStartGeneration,
+        description: isNetworkError ? t.networkError : errorMessage,
         duration: 8,
       });
     } finally {
       setIsSubmitting(false);
     }
-  }, [prompt, is3DPrintMode, polygonCount, currentPreviewImageUrl, lodCount, generatePreview, doQuadrification, onPickVariant]);
+  }, [prompt, is3DPrintMode, polygonCount, currentPreviewImageUrl, lodCount, generatePreview, doQuadrification, onPickVariant, t]);
 
   const grayImages = useMemo(() => {
     const imgs = previews?.images ?? [];
@@ -517,7 +512,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
       <Aside className={className} $collapsed={isCollapsed}>
         <Slot $collapsed={isCollapsed}>
           <BodyS bold color={secondary}>
-            Отредактируйте модель
+            {t.editModel}
           </BodyS>
           <FlatTextArea
             className={styles.textArea}
@@ -538,7 +533,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
                 announceHotkeys(true);
               }
             }}
-            placeholder="Опишите как доработать модель. Например: «Добавь шляпу»"
+            placeholder={t.editModelDesc}
             autoSize={{ minRows: 2, maxRows: 5 }}
             disabled={isDisabled}
           />
@@ -552,24 +547,24 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
             style={{ marginTop: 4 }}
             className={styles.generateButton}
           >
-            <BodyS>{isSubmitting ? 'Создание...' : 'Доработать'}</BodyS>
+            <BodyS>{isSubmitting ? t.creating : t.refine}</BodyS>
           </Button>
 
           {!is3DPrintMode && (
             <>
               <Divider style={{ margin: '12px 0' }} />
               <BodyXS bold color={primary}>
-                Параметры генерации
+                {t.parametersGeneration}
               </BodyXS>
               <Row2 style={{ marginTop: 6 }}>
-                <BodyXS>Топология</BodyXS>
+                <BodyXS>{t.topology}</BodyXS>
                 <Select
                   value={doQuadrification ? 'quads' : 'tris'}
                   target="button-like"
                   placement="bottom"
                   items={[
-                    { value: 'quads', label: 'Квадраты' },
-                    { value: 'tris', label: 'Треугольники' },
+                    { value: 'quads', label: t.quads },
+                    { value: 'tris', label: t.triangles },
                   ]}
                   onChange={(v) => {
                     if (!isDisabled) {
@@ -585,7 +580,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
               <Row2 style={{ marginTop: 6 }}>
                 <FieldLabelWithArrow>
                   <BodyXS onClick={() => setIsPolygonSliderOpen(!isPolygonSliderOpen)} style={{ cursor: 'pointer' }}>
-                    Количество полигонов
+                    {t.polygonCount}
                   </BodyXS>
                   <ArrowDownIcon
                     $isOpen={isPolygonSliderOpen}
@@ -614,7 +609,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
                     const str = String(v ?? '')
                       .trim()
                       .toLowerCase();
-                    if (str === 'авто' || str === 'auto') {
+                    if (str === t.autoLower || str === 'auto') {
                       setIsPolygonCountModified(true);
                       return 40000;
                     }
@@ -631,7 +626,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
                     const numValue = typeof v === 'number' ? v : Number(cleanValue);
                     // Проверяем, что значение равно 40000 и не было изменено
                     if (!isPolygonCountModified && (numValue === 40000 || cleanValue === '40000')) {
-                      return 'Авто';
+                      return t.auto;
                     }
                     // Форматируем число с пробелами
                     const num = typeof v === 'number' ? v : numValue;
@@ -697,28 +692,28 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
             <>
               <Divider style={{ margin: '12px 0' }} />
               <BodyXS bold color={primary}>
-                Текущий запрос
+                {t.currentPrompt}
               </BodyXS>
               <div className={styles.currentRequestBlock}>
                 <div className={styles.currentRequestRow}>
-                  <BodyXS>Промпт</BodyXS>
+                  <BodyXS>{t.prompt}</BodyXS>
                   <BodyXS color={secondary}>
                     <ExpandableText text={currentPrompt} maxLength={100} />
                   </BodyXS>
                 </div>
                 <div className={styles.currentRequestRow}>
-                  <BodyXS>Модель генерации</BodyXS>
+                  <BodyXS>{t.generationModel}</BodyXS>
                   <BodyXS color={secondary}>Kandinsky 3D</BodyXS>
                 </div>
                 {topology && (
                   <div className={styles.currentRequestRow}>
-                    <BodyXS>Топология</BodyXS>
+                    <BodyXS>{t.topology}</BodyXS>
                     <BodyXS color={secondary}>{topology}</BodyXS>
                   </div>
                 )}
                 {numTargetFaces && (
                   <div className={styles.currentRequestRow}>
-                    <BodyXS>Количество полигонов</BodyXS>
+                    <BodyXS>{t.polygonCount}</BodyXS>
                     <BodyXS color={secondary}>{numTargetFaces.toLocaleString('ru-RU')}</BodyXS>
                   </div>
                 )}
@@ -737,7 +732,7 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
         }}
         footer={null}
         width={modalWidth}
-        title="Выберите один из вариантов"
+        title={t.selectVariantTitle}
         destroyOnClose
         rootClassName={classNames(styles.previewModalRoot, theme === 'dark' ? styles.themeDark : styles.themeLight)}
       >
@@ -751,34 +746,34 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
                 color: theme === 'dark' ? '#ffffff' : '#0e0e0e',
               }}
             >
-              Вы уверены, что хотите закрыть окно? Генерация будет отменена
+              {t.confirmCancelGeneration}
             </Text>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
               <Button type="primary" onClick={handleConfirmClose}>
-                Да
+                {t.yes}
               </Button>
-              <Button onClick={handleCancelConfirmation}>Нет</Button>
+              <Button onClick={handleCancelConfirmation}>{t.no}</Button>
             </div>
           </Center>
         ) : (
           <>
             {!isLoading && previews && (!grayImages || grayImages.length === 0) && (
               <Center>
-                <Text type="secondary">Пока нет изображений. Попробуйте через несколько секунд.</Text>
+                <Text type="secondary">{t.noImagesYet}</Text>
               </Center>
             )}
             {(!previews || isLoading) && (
               <Center>
                 <IconRotator />
-                <LoaderText>Готовим превью...</LoaderText>
+                <LoaderText>{t.preparingPreview}</LoaderText>
               </Center>
             )}
 
             {!isLoading && grayImages && grayImages.length > 0 && (
               <Grid $columns={gridColumns}>
                 {grayImages.map((img) => (
-                  <Thumb key={img.order} onClick={() => pickVariant(Number(img.order))} title="Выбрать этот вариант">
-                    <img src={img.url} alt={`Вариант ${img.order}`} />
+                  <Thumb key={img.order} onClick={() => pickVariant(Number(img.order))} title={t.selectThisVariant}>
+                    <img src={img.url} alt={`${t.variantLabel} ${img.order}`} />
                   </Thumb>
                 ))}
               </Grid>
@@ -792,8 +787,8 @@ export const LeftSidebar: FC<LeftSidebarProps> = ({
           onClick={() => setIsCollapsed(!isCollapsed)}
           $collapsed={isCollapsed}
           disabled={modalOpen || isLoading || isMeshLoading}
-          title={isCollapsed ? 'Показать панель' : 'Скрыть панель'}
-          aria-label={isCollapsed ? 'Показать панель' : 'Скрыть панель'}
+          title={isCollapsed ? t.showPanel : t.hidePanel}
+          aria-label={isCollapsed ? t.showPanel : t.hidePanel}
         >
           <ArrowIcon $collapsed={isCollapsed} data-theme={theme}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

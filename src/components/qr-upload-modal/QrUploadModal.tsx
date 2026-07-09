@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import { QRCode } from 'react-qrcode-logo';
 import classNames from 'classnames';
 import styles from './QrUploadModal.module.css';
+import { useLocale } from '../../context';
 
 interface QrUploadModalProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface QrUploadModalProps {
 export const QrUploadModal: FC<QrUploadModalProps> = ({ open, onClose, theme }) => {
   const uploadUrl = `${window.location.origin}${window.location.pathname}?action=mobile-upload`;
   const isDark = theme === 'dark';
+  const { t } = useLocale();
 
   return (
     <Modal
@@ -62,7 +64,7 @@ export const QrUploadModal: FC<QrUploadModalProps> = ({ open, onClose, theme }) 
             textAlign: 'center',
           }}
         >
-          Отсканируйте QR-код, чтобы загрузить своё изображение
+          {t.scanQrToUpload}
         </p>
       </div>
     </Modal>

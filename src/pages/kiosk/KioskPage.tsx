@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLocale } from '../../context';
 import './kiosk.css';
 import {
   GenerationStatus,
@@ -26,6 +27,7 @@ const ACCENT = '#3DDC84';
 const SIZE_MINS: Record<string, number> = { S: 55, M: 90, L: 145 };
 
 const KioskPage: React.FC = () => {
+  const { t } = useLocale();
   const [screen, setScreen] = useState<KioskScreen>('home');
   const [prompt, setPrompt] = useState('');
   const [previewId, setPreviewId] = useState<string | null>(null);
@@ -60,7 +62,7 @@ const KioskPage: React.FC = () => {
       preview.status === GenerationStatus.Cancelled ||
       preview.status === GenerationStatus.CancelledValidation
     ) {
-      setGenError(preview.errorMessage || 'Генерация была отменена');
+      setGenError(preview.errorMessage || t.kioskGenerationCancelled);
       return;
     }
 
@@ -86,7 +88,7 @@ const KioskPage: React.FC = () => {
       mesh.status === GenerationStatus.Cancelled ||
       mesh.status === GenerationStatus.CancelledValidation
     ) {
-      setGenError(mesh.errorMessage || 'Генерация модели была отменена');
+      setGenError(mesh.errorMessage || t.kioskModelGenerationCancelled);
       return;
     }
 
@@ -142,7 +144,7 @@ const KioskPage: React.FC = () => {
       });
 
       if (errors) {
-        setGenError(errors[0]?.message || 'Ошибка при запуске генерации');
+        setGenError(errors[0]?.message || t.kioskGenerationStartError);
         return;
       }
 
@@ -154,7 +156,7 @@ const KioskPage: React.FC = () => {
       }
     } catch (e: unknown) {
       const err = e as { message?: string };
-      setGenError(err.message || 'Ошибка соединения с сервером');
+      setGenError(err.message || t.kioskServerConnectionError);
     }
   }, [generatePreview, resetGenerationState]);
 
@@ -166,7 +168,7 @@ const KioskPage: React.FC = () => {
     }
 
     if (!stlUrl) {
-      setSlicingError('STL-файл недоступен');
+      setSlicingError(t.kioskStlUnavailable);
       return;
     }
 
@@ -182,7 +184,7 @@ const KioskPage: React.FC = () => {
       });
 
       if (!resp.ok) {
-        throw new Error(`Слайсер вернул ошибку ${resp.status}`);
+        throw new Error(`${t.kioskSlicerError} ${resp.status}`);
       }
 
       const gcodeBlob = await resp.blob();
@@ -196,7 +198,7 @@ const KioskPage: React.FC = () => {
       setScreen('sent');
     } catch (e: unknown) {
       const err = e as { message?: string };
-      setSlicingError(err.message || 'Не удалось подключиться к слайсеру');
+      setSlicingError(err.message || t.kioskSlicerConnectionError);
     } finally {
       setSlicing(false);
     }

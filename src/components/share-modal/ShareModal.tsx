@@ -2,6 +2,7 @@ import { Modal, message } from 'antd';
 import { Copy } from 'lucide-react';
 import { FaVk, FaOdnoklassniki, FaTelegram, FaWhatsapp } from 'react-icons/fa';
 import styles from './ShareModal.module.css';
+import { useLocale } from '../../context';
 
 const shareLinks = (url: string) => ({
   vk: `https://vk.com/share.php?url=${encodeURIComponent(url)}`,
@@ -18,6 +19,7 @@ type Props = {
 
 export default function ShareModal({ visible, onClose, shareUrl }: Props) {
   const links = shareLinks(shareUrl);
+  const { t } = useLocale();
 
   const handleCopy = async () => {
     try {
@@ -31,12 +33,12 @@ export default function ShareModal({ visible, onClose, shareUrl }: Props) {
       document.body.removeChild(textarea);
     }
     navigator.clipboard.writeText(shareUrl);
-    message.success('Ссылка скопирована');
+    message.success(t.linkCopied);
   };
   const iconStyle = { width: 24, height: 24 };
 
   return (
-    <Modal open={visible} onCancel={onClose} footer={null} title="Поделиться" centered className="shareModal">
+    <Modal open={visible} onCancel={onClose} footer={null} title={t.share} centered className="shareModal">
       <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 24 }}>
         <a
           href={links.vk}
@@ -76,7 +78,7 @@ export default function ShareModal({ visible, onClose, shareUrl }: Props) {
         </a>
         <button
           onClick={handleCopy}
-          title="Скопировать ссылку"
+          title={t.copyLink}
           className={styles.shareIcon}
           style={{ backgroundColor: '#f0f0f0', border: '1px solid #d9d9d9' }}
         >

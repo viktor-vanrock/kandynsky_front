@@ -3,7 +3,7 @@ import { BodyS, BodyXS, Button } from '@salutejs/plasma-giga';
 import { useSubmitCensorComplaintMutation } from '../../graphql/graphQlApiHooks';
 import { getSessionToken } from '../../utils/session';
 import styled from 'styled-components';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 
 interface CensorComplaintPopupProps {
   isOpen: boolean;
@@ -69,6 +69,7 @@ export const CensorComplaintPopup: FC<CensorComplaintPopupProps> = ({ isOpen, on
   const [submitError, setSubmitError] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -120,16 +121,16 @@ export const CensorComplaintPopup: FC<CensorComplaintPopupProps> = ({ isOpen, on
       <PopupContent>
         {!submitted ? (
           <>
-            <BodyS>Не согласны с решением фильтра?</BodyS>
-            {submitError && <ErrorText $theme={theme}>Не удалось отправить жалобу. Попробуйте еще раз</ErrorText>}
+            <BodyS>{t.censorDisagree}</BodyS>
+            {submitError && <ErrorText $theme={theme}>{t.censorSubmitError}</ErrorText>}
             <Button view="secondary" stretching="filled" size="s" onClick={handleSubmit}>
-              <BodyS bold>Отправить жалобу</BodyS>
+              <BodyS bold>{t.censorSubmit}</BodyS>
             </Button>
           </>
         ) : (
           <>
-            <BodyS bold>Спасибо, жалоба отправлена!</BodyS>
-            <BodyXS>Фильтр иногда может срабатывать ошибочно. Мы разберем Ваш запрос.</BodyXS>
+            <BodyS bold>{t.censorThanks}</BodyS>
+            <BodyXS>{t.censorMayFail}</BodyXS>
           </>
         )}
       </PopupContent>

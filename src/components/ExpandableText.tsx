@@ -1,7 +1,7 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { BodyS } from '@salutejs/plasma-giga';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 
 interface ExpandableTextProps {
   text?: string | null;
@@ -21,6 +21,7 @@ export const ExpandableText: FC<ExpandableTextProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   const textColor = theme === 'dark' ? TEXT_COLOR_DARK : TEXT_COLOR_LIGHT;
   const linkColor = theme === 'dark' ? LINK_COLOR_DARK : LINK_COLOR_LIGHT;
@@ -48,7 +49,7 @@ export const ExpandableText: FC<ExpandableTextProps> = ({
       </TextContainer>
       {!expanded && isLong && (
         <MoreButton type="button" onClick={() => setExpanded(true)}>
-          <BodyS color={linkColor}>ещё</BodyS>
+          <BodyS color={linkColor}>{t.more}</BodyS>
         </MoreButton>
       )}
     </TextWrapper>

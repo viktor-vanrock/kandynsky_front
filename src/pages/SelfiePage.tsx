@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 import { BackgroundGradients } from '../components/background-gradients';
 
 const Wrapper = styled.div`
@@ -105,6 +105,7 @@ const RoundButton = styled.button<{ $accent?: boolean }>`
 
 const SelfiePage: FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
   const selectedTemplate = (location.state as { template?: 'figure' | 'bust' } | null)?.template ?? null;
@@ -163,7 +164,7 @@ const SelfiePage: FC = () => {
     <Wrapper>
       <BackgroundGradients />
       {cameraAvailable === false && (
-        <NoCameraText $theme={theme}>Камера отключена или доступ запрещён</NoCameraText>
+        <NoCameraText $theme={theme}>{t.cameraDisabled}</NoCameraText>
       )}
 
       {cameraAvailable === true && (
@@ -179,7 +180,7 @@ const SelfiePage: FC = () => {
 
           {!photoTaken ? (
             <ButtonsRow>
-              <RoundButton type="button" onClick={takePhoto} aria-label="Сделать фото">
+              <RoundButton type="button" onClick={takePhoto} aria-label={t.takePhoto}>
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M23 7H19.83L18 5H10L8.17 7H5C3.9 7 3 7.9 3 9V21C3 22.1 3.9 23 5 23H23C24.1 23 25 22.1 25 21V9C25 7.9 24.1 7 23 7ZM23 21H5V9H9.05L10.88 7H17.12L18.95 9H23V21ZM14 10C11.24 10 9 12.24 9 15C9 17.76 11.24 20 14 20C16.76 20 19 17.76 19 15C19 12.24 16.76 10 14 10ZM14 18C12.34 18 11 16.66 11 15C11 13.34 12.34 12 14 12C15.66 12 17 13.34 17 15C17 16.66 15.66 18 14 18Z"
@@ -190,7 +191,7 @@ const SelfiePage: FC = () => {
             </ButtonsRow>
           ) : !confirmed ? (
             <ButtonsRow>
-              <RoundButton type="button" onClick={retake} aria-label="Переснять">
+              <RoundButton type="button" onClick={retake} aria-label={t.retakePhoto}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
@@ -206,7 +207,7 @@ const SelfiePage: FC = () => {
                     navigate('/', { state: { selfieDataUrl: photoDataUrl, template: selectedTemplate } });
                   }, 2000);
                 }}
-                aria-label="Подтвердить"
+                aria-label={t.confirmPhoto}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 12L9.5 17.5L20 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

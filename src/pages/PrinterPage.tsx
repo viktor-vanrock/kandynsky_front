@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 import { BackgroundGradients } from '../components/background-gradients';
 
 const PAGE_SIZE = 6;
@@ -231,6 +231,7 @@ const StyledCardText = styled.span<{ $theme: 'light' | 'dark' }>`
 
 const PrinterPage: FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const mockArr = Array.from({ length: 12 }, (_, i) => ({ id: i }));
 
   const totalPages = Math.ceil(mockArr.length / PAGE_SIZE);
@@ -256,12 +257,12 @@ const PrinterPage: FC = () => {
       <BackgroundGradients />
       <Container>
         <Section $theme={theme} $flex={316} $mobileOrder={2}>
-          <SectionTitle $theme={theme}>В очереди</SectionTitle>
+          <SectionTitle $theme={theme}>{t.inQueue}</SectionTitle>
           <CardList>
             {mockArr.map((item) => (
               <SectionCard key={item.id}>
                 <StyledImg src="/img/mock.png" alt="mock" />
-                <StyledCardText $theme={theme}>Название модели</StyledCardText>
+                <StyledCardText $theme={theme}>{t.modelName}</StyledCardText>
               </SectionCard>
             ))}
           </CardList>
@@ -272,14 +273,14 @@ const PrinterPage: FC = () => {
             {visibleItems.map((item) => (
               <GridCard key={item.id}>
                 <GridImg src="/img/mock.png" alt="mock" />
-                <GridCardText $theme={theme}>Название модели</GridCardText>
+                <GridCardText $theme={theme}>{t.modelName}</GridCardText>
               </GridCard>
             ))}
           </CardGridWrapper>
 
           <StatusBar $theme={theme}>
             <StatusRow>
-              <StatusLabel $theme={theme}>Оставшееся время печати</StatusLabel>
+              <StatusLabel $theme={theme}>{t.printTimeLeft}</StatusLabel>
               <StatusTime $theme={theme}>4 мин.</StatusTime>
             </StatusRow>
             <ProgressTrack $theme={theme}>
@@ -289,12 +290,12 @@ const PrinterPage: FC = () => {
         </Section>
 
         <Section $theme={theme} $flex={316} $mobileOrder={3}>
-          <SectionTitle $theme={theme}>Готовы</SectionTitle>
+          <SectionTitle $theme={theme}>{t.readyModels}</SectionTitle>
           <CardList>
             {mockArr.map((item) => (
               <SectionCard key={item.id}>
                 <StyledImg src="/img/mock.png" alt="mock" />
-                <StyledCardText $theme={theme}>Название модели</StyledCardText>
+                <StyledCardText $theme={theme}>{t.modelName}</StyledCardText>
               </SectionCard>
             ))}
           </CardList>

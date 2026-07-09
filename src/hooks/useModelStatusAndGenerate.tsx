@@ -9,6 +9,7 @@ import {
 import { useIframeToken } from './useIframeToken';
 import { useInIframe } from './useInIframe';
 import { notification } from 'antd';
+import { useLocale } from '../context';
 
 type GraphQLError = {
   message?: string;
@@ -58,6 +59,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
 
   const [generateMeshMutation] = useGenerateMeshMutation();
   const [fetchMeshById, { loading: meshLoading, error: meshError }] = useGetMeshByIdLazyQuery();
+  const { t } = useLocale();
 
   const iframeToken = useIframeToken();
   const inIframe = useInIframe();
@@ -71,7 +73,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
       networkErrorMessage ||
       errorWithGraphQL?.graphQLErrors?.[0]?.message ||
       (error instanceof Error ? error.message : error?.message) ||
-      'Не удалось запустить генерацию модели';
+      t.errorStartModelGeneration;
 
     const isImageNotReady =
       errorMessage.toLowerCase().includes('not found') ||
@@ -91,17 +93,17 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
       errorMessage.toLowerCase().includes('network');
 
     notification.error({
-      message: 'Не удалось запустить генерацию модели',
+      message: t.errorStartModelGeneration,
       description: isInvalidQueryId
-        ? 'Ошибка при генерации превью. Пожалуйста, создайте новое превью и попробуйте снова.'
+        ? t.errorPreviewGeneration
         : isImageNotReady
-        ? 'Изображение для генерации модели ещё не готово. Возможно, возникли проблемы с сетью. Попробуйте ещё раз через несколько секунд.'
+        ? t.errorImageNotReady
         : isNetworkError
-        ? 'Произошла сетевая ошибка. Проверьте подключение к интернету и попробуйте ещё раз.'
+        ? t.networkError
         : errorMessage,
       duration: 8,
     });
-  }, []);
+  }, [t]);
 
   const { data: subscriptionData, error: subscriptionError } = useOnMeshStatusChangedSubscription({
     variables: { id: meshRequestId || '' },
@@ -162,7 +164,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
               ? (networkError as { message?: string }).message
               : undefined;
           const errorMessage =
-            networkErrorMessage || error.graphQLErrors?.[0]?.message || error.message || 'Неизвестная ошибка';
+            networkErrorMessage || error.graphQLErrors?.[0]?.message || error.message || t.unknownError;
           const isNotFound =
             error.graphQLErrors?.[0]?.extensions?.code === 'NOT_FOUND' ||
             errorMessage.toLowerCase().includes('not found');
@@ -197,7 +199,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
                 (generateError instanceof Error
                   ? generateError.message
                   : (generateError as { message?: string })?.message) ||
-                'Неизвестная ошибка';
+                t.unknownError;
               const isImageNotFound =
                 errorMessage.toLowerCase().includes('selected image not found') ||
                 errorMessage.toLowerCase().includes('image not found');
@@ -211,7 +213,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
             }
           } else {
             notification.error({
-              message: 'Ошибка при загрузке модели',
+              message: t.errorLoadModel,
               description: errorMessage,
               duration: 8,
             });
@@ -245,7 +247,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
             setModelInfo(generatedMesh as MeshRequestEntity);
             setMeshRequestId(generatedMesh.id);
           } else if (generateResponse.errors) {
-            const errorMessage = generateResponse.errors[0]?.message || 'Не удалось запустить генерацию модели';
+            const errorMessage = generateResponse.errors[0]?.message || t.errorStartModelGeneration;
             const isImageNotFound =
               errorMessage.toLowerCase().includes('selected image not found') ||
               errorMessage.toLowerCase().includes('image not found');
@@ -263,7 +265,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
             (generateError instanceof Error
               ? generateError.message
               : (generateError as { message?: string })?.message) ||
-            'Неизвестная ошибка';
+            t.unknownError;
           const isImageNotFound =
             errorMessage.toLowerCase().includes('selected image not found') ||
             errorMessage.toLowerCase().includes('image not found');
@@ -346,7 +348,7 @@ export const useModelStatusAndGenerate = (previewId: string | undefined, index?:
       console.error('Ошибка запроса mesh:', meshError);
 
       const errorWithGraphQL = meshError as unknown as ErrorWithGraphQL;
-      const errorMessage = meshError.message || errorWithGraphQL?.graphQLErrors?.[0]?.message || 'Неизвестная ошибка';
+      const errorMessage = meshError.message || errorWithGraphQL?.graphQLErrors?.[0]?.message || t.unknownError;
       const isImageNotFound =
         errorMessage.toLowerCase().includes('selected image not found') ||
         errorMessage.toLowerCase().includes('image not found');

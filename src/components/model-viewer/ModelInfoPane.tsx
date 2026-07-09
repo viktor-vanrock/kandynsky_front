@@ -8,6 +8,7 @@ import { SunOutlined, PublishedIcon, UnpublishedIcon } from '../Icons';
 
 import { MeshRequestEntity } from '../../graphql/graphQlApiHooks';
 import { BodyS, BodyXS, ButtonGroup, IconButton } from '@salutejs/plasma-giga';
+import { useLocale } from '../../context';
 import { textSecondary } from '@salutejs/plasma-themes/tokens';
 import { useViewerStore } from '../../store/viewer';
 import { useNavigate } from 'react-router-dom';
@@ -75,14 +76,15 @@ export const ModelInfoPane: FC<Props> = ({
   };
 
   const navigate = useNavigate();
+  const { t } = useLocale();
   const editorLinkData = useViewerStore((state) => state.editorLinkData);
   const isModelReady = useViewerStore((state) => state.isModelReady);
 
   const handleOpenEditor = () => {
     if (!editorLinkData) {
       notification.warning({
-        message: 'Модель ещё загружается',
-        description: 'Подождите завершения загрузки модели, чтобы открыть её в редакторе.',
+        message: t.modelStillLoading,
+        description: t.modelLoadingWait,
         duration: 4,
       });
       return;
@@ -105,12 +107,12 @@ export const ModelInfoPane: FC<Props> = ({
       <div>
         {/* color={theme === 'dark'? buttonWhiteSecondary :buttonBlackSecondary}  */}
         <BodyS color={textSecondary} bold>
-          {originalImageUrl ? 'Генерация по картинке' : 'Промпт:'}
+          {originalImageUrl ? t.imageToGenerationLabel : `${t.promptLabel}:`}
         </BodyS>
 
         {originalImageUrl && (
           <div className={styles.originalImageBox} style={{ marginBottom: 12 }}>
-            <ExpandableImage src={originalImageUrl} alt="Оригинальное изображение" minSize={64} maxSize={320} />
+            <ExpandableImage src={originalImageUrl} alt={t.originalImage} minSize={64} maxSize={320} />
           </div>
         )}
 
@@ -133,7 +135,7 @@ export const ModelInfoPane: FC<Props> = ({
 
         {!isLoadingModel && isStand && canControl && (
           <IconButton
-            title="Удалить"
+            title={t.deleteModel}
             size="s"
             view="secondary"
             pin="circle-circle"
@@ -144,7 +146,7 @@ export const ModelInfoPane: FC<Props> = ({
 
         {!isLoadingModel && isStand && canControl && (
           <IconButton
-            title="Опубликовать"
+            title={t.publish}
             size="s"
             view="secondary"
             pin="circle-circle"
@@ -155,7 +157,7 @@ export const ModelInfoPane: FC<Props> = ({
 
         {!isLoadingModel && (
           <IconButton
-            title="Авто-вращение"
+            title={t.autoRotate}
             size="s"
             view={autoRotate ? 'dark' : 'secondary'}
             pin="circle-circle"
@@ -173,14 +175,14 @@ export const ModelInfoPane: FC<Props> = ({
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
-            title={isCameraOn ? 'Выключить камеру' : 'Включить камеру'}
+            title={isCameraOn ? t.turnOffCamera : t.turnOnCamera}
             contentLeft={<CameraIcon theme={theme} active={isCameraOn} />}
           />
         )}
 
         {isStand && !isLoadingModel && isCameraOn && (
           <IconButton
-            title="Сделать скриншот"
+            title={t.takeScreenshot}
             pin="circle-circle"
             view="secondary"
             size="s"
@@ -195,7 +197,7 @@ export const ModelInfoPane: FC<Props> = ({
             pin="circle-circle"
             view="secondary"
             size="s"
-            title="Настроить освещённость"
+            title={t.adjustLighting}
             contentLeft={<SunOutlined theme={theme} />}
             onClick={onToggleLightPanel}
           />
@@ -207,7 +209,7 @@ export const ModelInfoPane: FC<Props> = ({
         !isLoadingModel && (
           // <div>
           <Button
-            title="Открыть в редакторе"
+            title={t.openInEditor}
             size="s"
             view="secondary"
             stretching={canControl && isStand ? 'filled' : 'fixed'}
@@ -215,7 +217,7 @@ export const ModelInfoPane: FC<Props> = ({
             disabled={!isModelReady}
           >
             <BodyS bold color="textSecondary" noWrap>
-              Открыть в редакторе
+              {t.openInEditor}
             </BodyS>
           </Button>
         )

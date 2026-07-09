@@ -2,6 +2,8 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context';
+import { useLocale } from '../../context';
+import { Locale } from '../../context/LocaleContext';
 import { BackButton } from '../back-button/BackButton';
 import { BackArrowIcon } from '../Icons';
 import LogoLightImg from '../../assets/icons/Logo-light.svg';
@@ -92,9 +94,8 @@ const Logo = styled.img`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 `;
-
 
 const ThemeSwitch = styled.button<{ isDark: boolean }>`
   position: relative;
@@ -132,6 +133,36 @@ const MoonIconImg = styled.img`
   height: 13px;
 `;
 
+const LangSwitch = styled.div`
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 2px;
+  gap: 2px;
+`;
+
+const LangButton = styled.button<{ $active: boolean }>`
+  padding: 4px 10px;
+  height: 24px;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  font-family: 'SB Sans Text', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  background: ${(props) => (props.$active ? 'rgba(255, 255, 255, 0.9)' : 'transparent')};
+  color: ${(props) => (props.$active ? 'rgba(8, 8, 8, 0.96)' : 'rgba(255, 255, 255, 0.7)')};
+  box-shadow: ${(props) => (props.$active ? '0 1px 4px rgba(0,0,0,0.12)' : 'none')};
+
+  &:hover {
+    color: ${(props) => (props.$active ? 'rgba(8, 8, 8, 0.96)' : 'rgba(255, 255, 255, 0.96)')};
+  }
+`;
+
 const SunIcon = () => (
   <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
     <circle cx="6.5" cy="6.5" r="3" fill="#080808" fillOpacity="0.96" />
@@ -144,9 +175,15 @@ const SunIcon = () => (
   </svg>
 );
 
+const LOCALES: { value: Locale; label: string }[] = [
+  { value: 'ru', label: 'RU' },
+  { value: 'en', label: 'EN' },
+];
+
 export const HeaderAppNew: FC = () => {
   //HACK isToggleThemeDisabled для блокировки тогла
   const { theme, toggleTheme, isToggleThemeDisabled } = useTheme();
+  const { locale, setLocale, t } = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -174,13 +211,13 @@ export const HeaderAppNew: FC = () => {
         {(isSelfiePage || isPrinterPage) && (
           <BackTextButton $theme={theme} type="button" onClick={() => navigate(-1)}>
             <BackArrowIcon theme={theme} />
-            Назад
+            {t.back}
           </BackTextButton>
         )}
         {isModelViewerPage && <BackButton theme={theme} />}
         {isHomePage && (
           <AllModelsButton view='clear'  $isLight={theme === 'light'} onClick={goAllModels} contentLeft={<img src={CardstackIcon} alt="" />}>
-            <StyledButtonText bold >Все модели</StyledButtonText>
+            <StyledButtonText bold >{t.allModels}</StyledButtonText>
           </AllModelsButton>
         )}
       </LeftSection>
@@ -190,6 +227,18 @@ export const HeaderAppNew: FC = () => {
       </CenterSection>
 
       <RightSection>
+        <LangSwitch>
+          {LOCALES.map(({ value, label }) => (
+            <LangButton
+              key={value}
+              $active={locale === value}
+              onClick={() => setLocale(value)}
+            >
+              {label}
+            </LangButton>
+          ))}
+        </LangSwitch>
+
         <ThemeSwitch disabled={isToggleThemeDisabled} isDark={theme === 'dark'} onClick={toggleTheme}>
           <ThemeCap>{theme === 'dark' ? <MoonIconImg src={MoonThemeIcon} alt="" /> : <SunIcon />}</ThemeCap>
         </ThemeSwitch>

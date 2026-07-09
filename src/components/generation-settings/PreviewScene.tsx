@@ -4,6 +4,7 @@ import { useGLTF, OrbitControls, Stage, Environment, Html, ContactShadows } from
 import type { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
 import { useGameDevStore } from '../../store/gamedev';
+import { useLocale } from '../../context';
 
 const MODEL_PATH = '/previewModel/preview.glb';
 const HDR_DIR = '/hdrMaps/';
@@ -21,37 +22,40 @@ const getDesiredLodFromPolyCount = (polyCount: number): number => {
   return 0;
 };
 
-const Loader = () => (
-  <Html center>
-    <div
-      style={{
-        padding: '8px 16px',
-        borderRadius: 8,
-        background: 'rgba(0,0,0,0.6)',
-        color: '#fff',
-        fontSize: 12,
-        backdropFilter: 'blur(2px)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-      }}
-    >
-      <span
+const Loader = () => {
+  const { t } = useLocale();
+  return (
+    <Html center>
+      <div
         style={{
-          width: 12,
-          height: 12,
-          borderRadius: '50%',
-          border: '2px solid #fff',
-          borderTopColor: 'transparent',
-          display: 'inline-block',
-          animation: 'spin .8s linear infinite',
+          padding: '8px 16px',
+          borderRadius: 8,
+          background: 'rgba(0,0,0,0.6)',
+          color: '#fff',
+          fontSize: 12,
+          backdropFilter: 'blur(2px)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
         }}
-      />
-      <span>Загрузка...</span>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  </Html>
-);
+      >
+        <span
+          style={{
+            width: 12,
+            height: 12,
+            borderRadius: '50%',
+            border: '2px solid #fff',
+            borderTopColor: 'transparent',
+            display: 'inline-block',
+            animation: 'spin .8s linear infinite',
+          }}
+        />
+        <span>{t.loading}</span>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    </Html>
+  );
+};
 
 const buildQuadLinesFromOBJ = (text: string, lodLevel?: number): THREE.LineSegments | null => {
   console.log(`[PreviewScene] Строим квады для LOD ${lodLevel}, длина текста: ${text.length}`);

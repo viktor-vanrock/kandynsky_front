@@ -1,5 +1,5 @@
 import Routes from './routes';
-import { ThemeProvider } from './context';
+import { ThemeProvider, LocaleProvider } from './context';
 import './App.css';
 import ApolloProviderChangeToken from './ApolloProviderChangeToken.tsx';
 import { useIframeAutoResize } from './hooks/useIframeAutoResize.ts';
@@ -12,11 +12,13 @@ function App() {
 
   return (
     <ApolloProviderChangeToken>
-      <ThemeProvider>
-        <PopupProvider>
-          <Routes />
-        </PopupProvider>
-      </ThemeProvider>
+      <LocaleProvider>
+        <ThemeProvider>
+          <PopupProvider>
+            <Routes />
+          </PopupProvider>
+        </ThemeProvider>
+      </LocaleProvider>
     </ApolloProviderChangeToken>
   );
 }

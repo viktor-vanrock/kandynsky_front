@@ -4,6 +4,7 @@ import { MeshRequestEntity } from '../../graphql/graphQlApiHooks.ts';
 import { DownloadButtonIcon } from '../Icons.tsx';
 import styles from './DownloadModel.module.css';
 import { useTheme } from '../../context/ThemeContext.ts';
+import { useLocale } from '../../context';
 
 interface DownloadModelProps {
   modelInfo: MeshRequestEntity | null;
@@ -14,6 +15,7 @@ const DownloadModel: FC<DownloadModelProps> = ({ modelInfo }) => {
   const [isHovered, setIsHovered] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   const downloadModel = (type: string) => {
     const modelType = modelInfo?.meshFormats?.find((mesh) => mesh.format.name === type);
@@ -29,7 +31,7 @@ const DownloadModel: FC<DownloadModelProps> = ({ modelInfo }) => {
 
   const menuBlocks = (
     <div className={styles.downloadMenuWrapper} data-theme={theme}>
-      <h4 className={styles.downloadMenuHeader}>Расширение</h4>
+      <h4 className={styles.downloadMenuHeader}>{t.extensionLabel}</h4>
       <div className={styles.downloadButtonWrapper}>
         {['obj', 'stl', 'fbx', 'glb', 'usdz'].map((format) => (
           <div className={styles.downloadFormatButton} key={format} onClick={() => downloadModel(format)}>

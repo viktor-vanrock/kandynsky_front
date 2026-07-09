@@ -16,6 +16,7 @@ import { MeshTextureIcon, DownloadButtonIcon } from '../components/Icons';
 import { BodyS, BodyXS, Select } from '@salutejs/plasma-giga';
 import { primary, secondary } from '@salutejs/plasma-tokens';
 import { ExpandableText } from '../components/ExpandableText.tsx';
+import { useLocale } from '../context';
 
 type Vec3 = [number, number, number];
 type PreviewModel = GetGeneratedPreviewsQuery['getGeneratedPreviews']['data'][0];
@@ -78,6 +79,7 @@ export const RightSidebar: FC<Props> = ({
 }) => {
   const [addToPrintQueue, { loading: addingToPrint }] = useAddToPrintQueueMutation();
   const { pbrMode, setPbrMode } = useGameDevStore();
+  const { t } = useLocale();
   const isStand = typeof localStorage !== 'undefined' ? localStorage.getItem('demonstration') : null;
 
   const [page, setPage] = useState<number>(1);
@@ -140,7 +142,7 @@ export const RightSidebar: FC<Props> = ({
 
   const handleSendToPrint = useCallback(async () => {
     if (!modelInfo?.id) {
-      message.error('Нет активной модели для отправки на печать');
+      message.error(t.printQueueError);
       return;
     }
 
@@ -152,13 +154,13 @@ export const RightSidebar: FC<Props> = ({
           },
         },
       });
-      message.success('Модель добавлена в очередь печати');
+      message.success(t.printQueueSuccess);
     } catch (err: unknown) {
       console.error('Failed to add to print queue:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Не удалось добавить модель в очередь печати';
+      const errorMessage = err instanceof Error ? err.message : t.printQueueFailed;
       message.error(errorMessage);
     }
-  }, [modelInfo?.id, addToPrintQueue]);
+  }, [modelInfo?.id, addToPrintQueue, t]);
 
   const formats = useMemo(() => {
     const mf = modelInfo?.meshFormats ?? [];
@@ -201,14 +203,14 @@ export const RightSidebar: FC<Props> = ({
           className={styles.iconCircle}
           icon={<MeshTextureIcon theme={theme} active={showMesh} />}
           onClick={onToggleMesh}
-          title={showMesh ? 'Скрыть сетку' : 'Показать сетку'}
-          aria-label="Переключить отображение сетки"
+          title={showMesh ? t.hideGrid : t.showGrid}
+          aria-label={showMesh ? t.hideGrid : t.showGrid}
         />
       </div>
 
       {currentPrompt && (
         <div className={styles.promptSection}>
-          <BodyXS bold>Промпт</BodyXS>
+          <BodyXS bold>{t.prompt}</BodyXS>
           <BodyXS color={secondary}>
             <ExpandableText text={currentPrompt} maxLength={100} />
           </BodyXS>
@@ -221,23 +223,23 @@ export const RightSidebar: FC<Props> = ({
         items={[
           {
             key: 'model',
-            label: <BodyXS bold>Модель</BodyXS>,
+            label: <BodyXS bold>{t.model}</BodyXS>,
             children: (
               <div className={styles.tabBody}>
                 <div className={`${styles.block} ${styles.blockWithTopMargin}`}>
                   <BodyXS bold color={primary}>
-                    Освещение{' '}
+                    {t.lighting}{' '}
                   </BodyXS>
                   <div className={styles.blockBody}>
                     <div className={styles.row2}>
-                      <BodyXS color={primary}>HDRI Карта</BodyXS>
+                      <BodyXS color={primary}>{t.hdriMap}</BodyXS>
                       <Select
                         value={String(activeHdriIndex)}
                         target="button-like"
                         onChange={(v) => onSelectHdri(Number(v))}
                         items={hdriMaps.map((m, i) => ({
                           value: String(i),
-                          label: m.name ?? `Карта ${i + 1}`,
+                          label: m.name ?? `${t.map} ${i + 1}`,
                         }))}
                         size="xs"
                         view="secondary"
@@ -246,7 +248,7 @@ export const RightSidebar: FC<Props> = ({
                   </div>
                   {!is3DPrintMode && (
                     <label className={styles.textureToggle}>
-                      <BodyXS color={primary}>Показывать текстуры</BodyXS>
+                      <BodyXS color={primary}>{t.showTextures}</BodyXS>
                       <input type="checkbox" checked={isShowTexture} onChange={onToggleTexture} />
                     </label>
                   )}
@@ -254,17 +256,17 @@ export const RightSidebar: FC<Props> = ({
 
                 <div className={styles.block}>
                   <BodyXS bold color={primary}>
-                    Трансформация
+                    {t.transform}
                   </BodyXS>
                   <div className={styles.blockBody}>
                     <div className={styles.propGrid}>
-                      <BodyXS className={styles.propLabel}>Позиция</BodyXS>
+                      <BodyXS className={styles.propLabel}>{t.position}</BodyXS>
                       <BodyXS color={secondary}>
                         X: {position[0].toFixed(2)}&nbsp;&nbsp; Y: {position[1].toFixed(2)}&nbsp;&nbsp; Z:{' '}
                         {position[2].toFixed(2)}
                       </BodyXS>
 
-                      <BodyXS>Размер</BodyXS>
+                      <BodyXS>{t.size}</BodyXS>
                       <BodyXS color={secondary}>
                         {size ? (
                           <>
@@ -276,7 +278,7 @@ export const RightSidebar: FC<Props> = ({
                         )}
                       </BodyXS>
 
-                      <BodyXS>Вращение</BodyXS>
+                      <BodyXS>{t.rotation}</BodyXS>
                       <BodyXS color={secondary}>
                         X: {toDeg(rotation[0])}°&nbsp;&nbsp; Y: {toDeg(rotation[1])}°&nbsp;&nbsp; Z:{' '}
                         {toDeg(rotation[2])}°
@@ -290,7 +292,7 @@ export const RightSidebar: FC<Props> = ({
                 {hasLod && lodOptions.length > 0 && (
                   <div className={`${styles.block} ${styles.blockNoMargin}`}>
                     <BodyXS bold color={primary}>
-                      Уровень детализации
+                      {t.levelOfDetail}
                     </BodyXS>
                     <div className={`${styles.blockBody} ${styles.blockBodySmallMargin}`}>
                       <div className={styles.row2}>
@@ -309,7 +311,7 @@ export const RightSidebar: FC<Props> = ({
 
                 <div className={`${styles.block} ${styles.blockNoMargin}`}>
                   <BodyXS bold color={primary}>
-                    Материал
+                    {t.material}
                   </BodyXS>
                   <div className={`${styles.blockBody} ${styles.blockBodySmallMargin}`}>
                     <div className={styles.row2}>
@@ -334,7 +336,7 @@ export const RightSidebar: FC<Props> = ({
                   <Dropdown
                     dropdownRender={() => (
                       <div className={downloadStyles.downloadMenuWrapper} data-theme={theme}>
-                        <h4 className={downloadStyles.downloadMenuHeader}>Расширение</h4>
+                        <h4 className={downloadStyles.downloadMenuHeader}>{t.extensionLabel}</h4>
                         {formats.length ? (
                           <div className={downloadStyles.downloadButtonWrapper}>
                             {formats.map((f) => (
@@ -354,13 +356,13 @@ export const RightSidebar: FC<Props> = ({
                           </div>
                         ) : (
                           <div className={downloadStyles.noFormats}>
-                            Нет доступных форматов для скачивания
+                            {t.noFormats}
                             {modelInfo?.status && (
                               <div style={{ opacity: 0.7, marginTop: 6 }}>
-                                Статус модели: <b>{modelInfo.status}</b>
+                                {t.modelStatus}: <b>{modelInfo.status}</b>
                                 {Array.isArray(modelInfo?.meshFormats) &&
                                   modelInfo.meshFormats.length === 0 &&
-                                  ' (форматы не загружены)'}
+                                  ` ${t.formatsNotLoaded}`}
                               </div>
                             )}
                           </div>
@@ -376,7 +378,7 @@ export const RightSidebar: FC<Props> = ({
                       icon={<DownloadButtonIcon theme={theme} hovered={false} />}
                       disabled={isMeshLoading}
                     >
-                      <BodyS>Скачать</BodyS>
+                      <BodyS>{t.download}</BodyS>
                     </Button>
                   </Dropdown>
                   {is3DPrintMode && isStand && (
@@ -387,7 +389,7 @@ export const RightSidebar: FC<Props> = ({
                       loading={addingToPrint}
                       disabled={!modelInfo?.id}
                     >
-                      Печать онлайн
+                      {t.printOnline}
                     </Button>
                   )}
                 </div>
@@ -396,7 +398,7 @@ export const RightSidebar: FC<Props> = ({
           },
           {
             key: 'catalog',
-            label: <BodyXS bold>Каталог моделей</BodyXS>,
+            label: <BodyXS bold>{t.modelCatalog}</BodyXS>,
             children: (
               <div className={styles.tabBody}>
                 <div className={styles.block}>
@@ -441,7 +443,7 @@ export const RightSidebar: FC<Props> = ({
                     </div>
                   )}
                   {!loading && !error && models.length === 0 && (
-                    <div className={styles.catalogEmpty}>Ещё нет моделей</div>
+                    <div className={styles.catalogEmpty}>{t.noModelsInCatalog}</div>
                   )}
                   <div ref={loaderRef} className={styles.catalogLoaderSentinel} />
                 </div>

@@ -2,6 +2,7 @@ import { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 import styled from 'styled-components';
 import { getServerUrl, getPublicBaseUrl } from '../../utils/serverUrl';
 import { Modal, QRCode, Spin, notification } from 'antd';
+import { useLocale } from '../../context';
 
 export type ScreenshotManagerHandle = {
   takeScreenshot: () => Promise<void>;
@@ -19,6 +20,7 @@ export const ScreenshotManager = forwardRef<ScreenshotManagerHandle, Props>(
     const [qrVisible, setQrVisible] = useState(false);
     const [shortUrl, setShortUrl] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const { t } = useLocale();
 
     const setSaving = useCallback(
       (v: boolean) => {
@@ -95,10 +97,10 @@ export const ScreenshotManager = forwardRef<ScreenshotManagerHandle, Props>(
               const publicBase = getPublicBaseUrl();
               setShortUrl(`${publicBase}/api/s/${code}`);
               setQrVisible(true);
-              notification.success({ message: 'Снимок сохранён', description: 'Сгенерирована короткая ссылка и QR' });
+              notification.success({ message: t.screenshotSaved, description: t.screenshotSavedDesc });
             } catch (err) {
               console.error(err);
-              notification.error({ message: 'Не удалось загрузить снимок' });
+              notification.error({ message: t.screenshotUploadError });
             } finally {
               setSaving(false);
             }
@@ -118,17 +120,17 @@ export const ScreenshotManager = forwardRef<ScreenshotManagerHandle, Props>(
       <>
         {isSaving && (
           <Overlay role="alert" aria-live="polite">
-            <OverlayText>Сохраняем снимок...</OverlayText>
+            <OverlayText>{t.screenshotSaving}</OverlayText>
             <Spin size="large" style={{ color: '#888' }} />
           </Overlay>
         )}
 
-        <Modal open={qrVisible} onCancel={() => setQrVisible(false)} footer={null} title="Ссылка на снимок">
+        <Modal open={qrVisible} onCancel={() => setQrVisible(false)} footer={null} title={t.screenshotLink}>
           {shortUrl && (
             <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
               <QRCode value={shortUrl} />
               <div style={{ wordBreak: 'break-all' }}>
-                <div style={{ fontSize: 12, opacity: 0.7 }}>Короткая ссылка:</div>
+                <div style={{ fontSize: 12, opacity: 0.7 }}>{t.shortLink}</div>
                 <a href={shortUrl} target="_blank" rel="noreferrer">
                   {shortUrl}
                 </a>

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import classNames from 'classnames';
+import { useLocale } from '../context';
 
 import {
   GenerationStatus,
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const PreviewsPage = ({ onMain }: Props) => {
+  const { t } = useLocale();
   const [page, setPage] = useState<number>(1);
   const [models, setModels] = useState<Array<PreviewModel>>([]);
   const loaderRef = useRef(null);
@@ -136,9 +138,9 @@ const PreviewsPage = ({ onMain }: Props) => {
 
       {!loading && !error && models.length === 0 && !onMain && (
         <div style={{ width: '100%', textAlign: 'center', margin: '60px 0', fontSize: 18, color: '#888' }}>
-          <div>Вы ещё не создали ни одной модели. </div>
+          <div>{t.noModelsYet}</div>
           <Link to="/" className={styles.createFirstLink}>
-            Перейдите на главную страницу сервиса и попробуйте что-нибудь сгенерировать
+            {t.noModelsLink}
           </Link>
         </div>
       )}

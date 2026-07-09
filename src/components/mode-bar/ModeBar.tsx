@@ -6,7 +6,8 @@ import {
 } from '@salutejs/plasma-themes/tokens';
 import { FC, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { MODES } from '../../utils/const';
+import { getLocalizedModes } from '../../utils/const';
+import { useLocale } from '../../context';
 
 const ModeBarContainer = styled.div`
   display: flex;
@@ -110,6 +111,8 @@ interface ModeBarProps {
 }
 
 export const ModeBar: FC<ModeBarProps> = ({ selectedMode, onModeChange, theme }) => {
+  const { t } = useLocale();
+  const MODES = getLocalizedModes(t);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {

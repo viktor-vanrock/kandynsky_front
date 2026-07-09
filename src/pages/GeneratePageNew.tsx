@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocale } from '../context';
 import styled from 'styled-components';
 import { BackgroundGradients } from '../components/background-gradients';
 import { MainInput } from '../components/main-input';
@@ -306,6 +307,7 @@ const GeneratePageNew: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
+  const { t, locale } = useLocale();
   const [generatePreview] = useGeneratePreviewMutation();
   const inIframe = useInIframe();
   const iframeToken = useIframeToken();
@@ -338,7 +340,6 @@ const GeneratePageNew: FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastSelectedModeRef = useRef<string>('');
-  const isDarkTheme = theme === 'dark';
 
   useEffect(() => {
     const modeChanged = lastSelectedModeRef.current !== selectedMode;
@@ -356,13 +357,13 @@ const GeneratePageNew: FC = () => {
 
   const handleSetFile = (file: File): boolean => {
     if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)) {
-      setShowError('Разрешены только JPG, JPEG, JPE, PNG, GIF лии WEBP');
+      setShowError(t.errorFileType);
       setTimeout(() => setShowError(''), 3000);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return false;
     }
     if (file.size > MAX_FILE_SIZE) {
-      setShowError(`Максимальный размер файла — ${MAX_FILE_SIZE_MB} МБ`);
+      setShowError(t.errorFileSize);
       setTimeout(() => setShowError(''), 3000);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return false;
@@ -416,7 +417,7 @@ const GeneratePageNew: FC = () => {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length > MAX_PROMPT_LENGTH) {
-      setShowError(`Максимальная длина запроса ${MAX_PROMPT_LENGTH} символов`);
+      setShowError(t.errorMaxLength);
       setInputValue(value.slice(0, MAX_PROMPT_LENGTH));
       setTimeout(() => setShowError(''), 2000);
       return;
@@ -501,12 +502,12 @@ const GeneratePageNew: FC = () => {
           | undefined;
         const censorPid = ext?.response?.previewId || ext?.originalError?.previewId;
         if (censorPid) {
-          setShowError('Сработал фильтр цензуры. Попробуйте перефразировать Ваш запрос.');
+          setShowError(t.errorCensor);
           // TODO: add censor popup
           setTimeout(() => setShowError(''), 5000);
           return;
         }
-        setShowError('Ошибка при создании превью');
+        setShowError(t.errorPreviewCreate);
         setTimeout(() => setShowError(''), 3000);
         return;
       }
@@ -546,7 +547,7 @@ const GeneratePageNew: FC = () => {
         setInputValue('');
       } else {
         console.error('[DEBUG GeneratePageNew] No generatePreview in response:', data);
-        setShowError('Не удалось получить ID превью');
+        setShowError(t.errorNoPreviewId);
         setTimeout(() => setShowError(''), 3000);
       }
     } catch (error) {
@@ -563,12 +564,12 @@ const GeneratePageNew: FC = () => {
         | undefined;
       const censorPid = gqlExt?.response?.previewId || gqlExt?.originalError?.previewId;
       if (censorPid) {
-        setShowError('Сработал фильтр цензуры. Попробуйтеперефразировать Ваш запрос.');
+        setShowError(t.errorCensor);
         // TODO: add censor popup
         setTimeout(() => setShowError(''), 5000);
         return;
       }
-      setShowError('Ошибка при создании превью');
+      setShowError(t.errorPreviewCreate);
       setTimeout(() => setShowError(''), 3000);
     } finally {
       setIsSubmitting(false);
@@ -642,9 +643,7 @@ const GeneratePageNew: FC = () => {
           try {
             const errData = await res.json();
             if (errData?.previewId) {
-              setShowError(
-                'Сработал фильтр цензуры. Попробуйте перефразировать Ваш запрос или пришлите другое изображение.',
-              );
+              setShowError(t.errorCensorImage);
               // TODO: add censor popup
               setTimeout(() => setShowError(''), 5000);
               return;
@@ -652,7 +651,7 @@ const GeneratePageNew: FC = () => {
           } catch (_) {
             // not JSON, fall through
           }
-          throw new Error('Ошибка загрузки файла');
+          throw new Error(t.errorCreate);
         }
 
         const data = await res.text();
@@ -693,7 +692,7 @@ const GeneratePageNew: FC = () => {
         await doGenerate(enableVisualCensor, enableTextCensor);
       }
     } catch (err) {
-      setShowError('Ошибка при создании');
+      setShowError(t.errorCreate);
       console.error(err);
       setTimeout(() => setShowError(''), 2000);
     }
@@ -719,7 +718,7 @@ const GeneratePageNew: FC = () => {
 
   const handleModeChange = (modeId: string) => {
     if (modeId === 'cad') {
-      window.open(`https://ai-reverse.sberai.dev/?__theme=${theme}`, '_blank', 'noopener,noreferrer');
+      window.open(`https://ai-reverse.sberai.dev/?__theme=${theme}&locale=${locale}`, '_blank', 'noopener,noreferrer');
       return;
     }
     setSelectedMode(modeId);
@@ -763,7 +762,7 @@ const GeneratePageNew: FC = () => {
 
           {selectedMode === 'cad' && (
               <iframe
-                src={`https://ai-reverse.sberai.dev/?__theme=${theme}`}
+                src={`https://ai-reverse.sberai.dev/?__theme=${theme}`} 
                 style={{ width: '100%', height: '130vh', border: 'none' }}
                 allow="fullscreen"
               />
@@ -789,7 +788,7 @@ const GeneratePageNew: FC = () => {
         {!isMobile && FEATURE_FLAGS.SHOW_QR_CODE && (
           <QrCodeButton
             src={theme === 'light' ? '/img/qr-light.png' : '/img/qr-dark.png'}
-            alt="Загрузить с телефона"
+            alt={t.uploadFromPhone}
             onClick={() => setIsQrModalOpen(true)}
           />
         )}
@@ -821,20 +820,20 @@ const GeneratePageNew: FC = () => {
           }}
         >
           <MobileUploadHandler />
-          <MobileUploadTitle $theme={theme}>Добавьте вашу модель</MobileUploadTitle>
+          <MobileUploadTitle $theme={theme}>{t.addYourModel}</MobileUploadTitle>
           <MobileUploadFormats $theme={theme}>
             <MobileUploadFormatsHighlight $theme={theme}>
-              Требования к файлам:
+              {t.fileRequirements}
               <ul>
-                <li>Форматы: JPG (JPEG, JPE), PNG, GIF</li>
-                <li>Максимальный размер: 20 МБ</li>
-                <li>Максимум 1 файл за раз</li>
+                <li>{t.fileFormats}</li>
+                <li>{t.maxFileSize}</li>
+                <li>{t.maxOneFile}</li>
               </ul>
             </MobileUploadFormatsHighlight>
-            Недопустимы изображения с запрещённым контентом
+            {t.prohibitedContent}
           </MobileUploadFormats>
           <MobileUploadButton htmlFor="mobile-upload-input">
-            Загрузить файл
+            {t.uploadFile}
           </MobileUploadButton>
           <input
             id="mobile-upload-input"
@@ -860,38 +859,38 @@ const GeneratePageNew: FC = () => {
       <QrUploadModal open={isQrModalOpen} onClose={() => setIsQrModalOpen(false)} theme={theme} />
 
       <PrinterDemoModal $visible={isPrinterDemoOpen}>
-        <PrinterDemoClose onClick={() => setIsPrinterDemoOpen(false)} aria-label="Закрыть">
+        <PrinterDemoClose onClick={() => setIsPrinterDemoOpen(false)} aria-label={t.closeLabel}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
           </svg>
         </PrinterDemoClose>
         <PrinterDemoContent>
-          <PrinterDemoTitle>Как получить красивую модель для печати?</PrinterDemoTitle>
+          <PrinterDemoTitle>{t.howToGetPrintModel}</PrinterDemoTitle>
           <PrinterDemoStep>
-            <PrinterDemoStepImg src="/img/card1.png" alt="Шаг 1" />
+            <PrinterDemoStepImg src="/img/card1.png" alt="Step 1" />
             <PrinterDemoStepText>
-              <PrinterDemoStepTitle>Шаг 1. Опишите объект</PrinterDemoStepTitle>
-              <PrinterDemoStepDesc>или загрузите изображение — нажмите «Сгенерировать»</PrinterDemoStepDesc>
+              <PrinterDemoStepTitle>{t.step1Title}</PrinterDemoStepTitle>
+              <PrinterDemoStepDesc>{t.step1Desc}</PrinterDemoStepDesc>
             </PrinterDemoStepText>
           </PrinterDemoStep>
           <PrinterDemoStep>
-            <PrinterDemoStepImg src="/img/card2.png" alt="Шаг 2" />
+            <PrinterDemoStepImg src="/img/card2.png" alt="Step 2" />
             <PrinterDemoStepText>
-              <PrinterDemoStepTitle>Шаг 2. Подождите, пока модель сгенерируется,</PrinterDemoStepTitle>
-              <PrinterDemoStepDesc>затем скачайте её в формате STL</PrinterDemoStepDesc>
+              <PrinterDemoStepTitle>{t.step2Title}</PrinterDemoStepTitle>
+              <PrinterDemoStepDesc>{t.step2Desc}</PrinterDemoStepDesc>
             </PrinterDemoStepText>
           </PrinterDemoStep>
           <PrinterDemoStep>
-            <PrinterDemoStepImg src="/img/card3.png" alt="Шаг 3" />
+            <PrinterDemoStepImg src="/img/card3.png" alt="Step 3" />
             <PrinterDemoStepText>
-              <PrinterDemoStepTitle>Шаг 3. Отправьте модель на печать</PrinterDemoStepTitle>
-              <PrinterDemoStepDesc>в свой 3D-принтер или закажите печать в студиях печати</PrinterDemoStepDesc>
+              <PrinterDemoStepTitle>{t.step3Title}</PrinterDemoStepTitle>
+              <PrinterDemoStepDesc>{t.step3Desc}</PrinterDemoStepDesc>
             </PrinterDemoStepText>
           </PrinterDemoStep>
         </PrinterDemoContent>
         <PrinterDemoFooter>
           <PrinterDemoButton onClick={() => { setIsPrinterDemoOpen(false); handleModeChange('3dprint'); }}>
-            Попробовать
+            {t.tryIt}
           </PrinterDemoButton>
         </PrinterDemoFooter>
       </PrinterDemoModal>

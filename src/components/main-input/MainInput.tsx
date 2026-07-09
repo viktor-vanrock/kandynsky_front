@@ -7,6 +7,7 @@ import { Settings } from 'lucide-react';
 
 import { AttachIcon, CloseCrossIcon, SubmitIcon } from '../Icons';
 import { FEATURE_FLAGS } from '../../utils/const';
+import { useLocale } from '../../context';
 
 const MainInputSection = styled.div`
   width: 648px;
@@ -463,6 +464,7 @@ export const MainInput: FC<MainInputProps> = ({
   const [cursorVisible, setCursorVisible] = useState(true);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t } = useLocale();
   const [templatesVisible, setTemplatesVisible] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<'figure' | 'bust' | null>(initialTemplate ?? null);
 
@@ -474,8 +476,8 @@ export const MainInput: FC<MainInputProps> = ({
   const templateFileInputRef = useRef<HTMLInputElement>(null);
 
   const templateNames: Record<'figure' | 'bust', string> = {
-    figure: 'Мини-фигурка',
-    bust: 'Бюст',
+    figure: t.miniature,
+    bust: t.bust,
   };
   const templateImages: Record<'figure' | 'bust', string> = {
     figure: '/img/figure.png',
@@ -511,18 +513,18 @@ export const MainInput: FC<MainInputProps> = ({
           <>
             <PreviewRow>
               <ImagePreviewContainer>
-                <ImagePreview src={imagePreviewUrl} alt="Загруженное изображение" />
+                <ImagePreview src={imagePreviewUrl} alt={t.uploadedImage} />
 
                 <TextImageContainer>
                   <BodyS>{selectedImage.name.split('.')[0]}</BodyS>
 
                   <BodyXS color={textSecondary}>
-                    {selectedImage.type.split('/')[1].toLocaleUpperCase()} · {Math.floor(selectedImage.size / 1024)} КБ
+                    {selectedImage.type.split('/')[1].toLocaleUpperCase()} · {Math.floor(selectedImage.size / 1024)} {t.kb}
                   </BodyXS>
                 </TextImageContainer>
 
                 {onClearImage && (
-                  <CloseCrossIconStyled theme={theme} onClick={() => { onClearImage(); setSelectedTemplate(null); }} aria-label="Удалить изображение" />
+                  <CloseCrossIconStyled theme={theme} onClick={() => { onClearImage(); setSelectedTemplate(null); }} aria-label={t.removeImage} />
                 )}
               </ImagePreviewContainer>
 
@@ -532,10 +534,10 @@ export const MainInput: FC<MainInputProps> = ({
 
                   <TextImageContainer>
                     <BodyS>{templateNames[selectedTemplate]}</BodyS>
-                    <BodyXS color={textSecondary}>Шаблон</BodyXS>
+                    <BodyXS color={textSecondary}>{t.templateLabel}</BodyXS>
                   </TextImageContainer>
 
-                  <CloseCrossIconStyled theme={theme} onClick={handleClearTemplate} aria-label="Удалить шаблон" />
+                  <CloseCrossIconStyled theme={theme} onClick={handleClearTemplate} aria-label={t.removeTemplate} />
                 </ImagePreviewContainer>
               )}
             </PreviewRow>
@@ -547,7 +549,7 @@ export const MainInput: FC<MainInputProps> = ({
                 value={inputValue}
                 onChange={onChange}
                 onKeyPress={onKeyPress}
-                placeholder="Что сгенерировать в 3D?"
+                placeholder={t.whatToGenerate}
                 rows={1}
               />
               <Cursor visible={cursorVisible && !inputValue} />
@@ -561,7 +563,7 @@ export const MainInput: FC<MainInputProps> = ({
               value={inputValue}
               onChange={onChange}
               onKeyPress={onKeyPress}
-              placeholder="Что сгенерировать в 3D?"
+              placeholder={t.whatToGenerate}
               rows={1}
             />
             <Cursor visible={cursorVisible && !inputValue} />
@@ -579,20 +581,20 @@ export const MainInput: FC<MainInputProps> = ({
               maxWidth={269}
               text={
                 <TooltipText style={{ maxWidth: 269 }}>
-                  <BodyS>Требования к файлам:</BodyS>
+                  <BodyS>{t.fileRequirementsLabel}</BodyS>
                   <ul>
                     <li>
-                      <BodyS>Форматы: JPG (JPEG, JPE), PNG, GIF, WEBP</BodyS>
+                      <BodyS>{t.fileFormatsLabel}</BodyS>
                     </li>
                     <li>
-                      <BodyS>Максимальный размер: 20 МБ</BodyS>
+                      <BodyS>{t.maxFileSizeLabel}</BodyS>
                     </li>
                     <li>
-                      <BodyS>Максимум 1 файл за раз</BodyS>
+                      <BodyS>{t.maxOneFileLabel}</BodyS>
                     </li>
                   </ul>
 
-                  <BodyS color={textSecondary}>Недопустимы изображения с запрещённым контентом </BodyS>
+                  <BodyS color={textSecondary}>{t.prohibitedContentLabel}</BodyS>
                 </TooltipText>
               }
               target={
@@ -622,7 +624,7 @@ export const MainInput: FC<MainInputProps> = ({
             {selectedMode === 'gamedev' && onSettingsClick && (
               <SettingsButton $theme={theme} onClick={onSettingsClick} type="button">
                 <Settings size={16} />
-                Настройки
+                {t.settings}
               </SettingsButton>
             )}
             {!selectedTemplate && (
@@ -636,15 +638,15 @@ export const MainInput: FC<MainInputProps> = ({
                   $selected={selectedTemplate === 'figure'}
                   onClick={() => { setSelectedTemplate('figure'); setTemplateModalOpen(true); }}
                 >
-                  <TemplateImage src="/img/figure.png" alt="Мини-фигурка" />
-                  <TemplateLabel>Мини-фигурка</TemplateLabel>
+                  <TemplateImage src="/img/figure.png" alt={t.miniature} />
+                  <TemplateLabel>{t.miniature}</TemplateLabel>
                 </TemplateCard>
                 <TemplateCard
                   $selected={selectedTemplate === 'bust'}
                   onClick={() => { setSelectedTemplate('bust'); setTemplateModalOpen(true); }}
                 >
-                  <TemplateImage src="/img/bust.png" alt="Бюст" />
-                  <TemplateLabel>Бюст</TemplateLabel>
+                  <TemplateImage src="/img/bust.png" alt={t.bust} />
+                  <TemplateLabel>{t.bust}</TemplateLabel>
                 </TemplateCard>
               </TemplatesDropdown>
               { FEATURE_FLAGS.SHOW_3D_TEMPLATES && <TemplatesButton $theme={theme} type="button">
@@ -654,7 +656,7 @@ export const MainInput: FC<MainInputProps> = ({
                     fill="#24F2BF"
                   />
                 </svg>
-                Шаблоны
+                {t.templates}
               </TemplatesButton>}
             </TemplatesWrapper>
             )}
@@ -689,8 +691,8 @@ export const MainInput: FC<MainInputProps> = ({
       <ModalOverlay $visible={templateModalOpen} $theme={theme} onClick={() => setTemplateModalOpen(false)}>
         <ModalWindow $theme={theme} onClick={(e) => e.stopPropagation()}>
           <ModalHeader>
-            <ModalTitle $theme={theme}>Сделайте селфи или загрузите фото</ModalTitle>
-            <ModalCloseButton $theme={theme} type="button" onClick={() => setTemplateModalOpen(false)} aria-label="Закрыть">
+            <ModalTitle $theme={theme}>{t.selfieOrUpload}</ModalTitle>
+            <ModalCloseButton $theme={theme} type="button" onClick={() => setTemplateModalOpen(false)} aria-label={t.back}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
@@ -705,14 +707,14 @@ export const MainInput: FC<MainInputProps> = ({
                 templateFileInputRef.current?.click();
               }}
             >
-              Загрузить фото
+              {t.uploadPhoto}
             </ModalActionButton>
             <ModalActionButton
               $theme={theme}
               type="button"
               onClick={() => { setTemplateModalOpen(false); navigate('/selfie', { state: { template: selectedTemplate } }); }}
             >
-              Сделать селфи
+              {t.takeSelfie}
             </ModalActionButton>
           </ModalActions>
         </ModalWindow>

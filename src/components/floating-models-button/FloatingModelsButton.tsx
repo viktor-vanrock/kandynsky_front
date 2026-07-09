@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { IconButton } from '@salutejs/plasma-giga';
 import { ButtonMenu } from '../button-wrapper/ButtonMenu.tsx';
 import { CatalogIcon } from '../Icons.tsx';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 import headerStyles from '../header-app/HeaderApp.module.css';
 
 import styles from './FloatingModelsButton.module.css';
@@ -13,6 +13,7 @@ export const FloatingModelsButton: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 659);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export const FloatingModelsButton: FC = () => {
         <ButtonMenu
           onClick={goAllModels}
           active={isActive('/models')}
-          text="Мои модели"
+          text={t.myModelsButton}
           className={classNames(
             headerStyles.allModelsButton,
             isHomePage && headerStyles.allModelsButton_homepage,

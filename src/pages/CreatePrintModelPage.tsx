@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { BackgroundGradients } from '../components/background-gradients';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 import { PrintOrderModal } from '../components/print-order-modal/PrintOrderModal';
 
 const rotateX = keyframes`
@@ -250,6 +250,7 @@ const iconOpacity = 0.47;
 
 const CreatePrintModelPage: FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const location = useLocation();
   const prompt: string = location.state?.prompt ?? '';
   const [modelReady, setModelReady] = useState(false);
@@ -280,10 +281,10 @@ const CreatePrintModelPage: FC = () => {
         <InfoBlock>
           {prompt && (
             <PromptSection>
-              <PromptLabel $theme={theme}>Промпт:</PromptLabel>
+              <PromptLabel $theme={theme}>{t.promptLabel2}</PromptLabel>
               <PromptTextRow>
                 <PromptText $theme={theme}>{prompt}</PromptText>
-                <PromptMore $theme={theme}>ещё</PromptMore>
+                <PromptMore $theme={theme}>{t.moreText}</PromptMore>
               </PromptTextRow>
               <PromptMeta $theme={theme}>
                 <span>Kandinsky 3D • V1-245</span>
@@ -342,10 +343,10 @@ const CreatePrintModelPage: FC = () => {
       <BottomBar $theme={theme}>
         <BottomThumb>
           <BottomThumbImg src="/img/printExample.png" alt="preview" />
-          <BottomThumbLabel>Модель</BottomThumbLabel>
+          <BottomThumbLabel>{t.modelLabel}</BottomThumbLabel>
         </BottomThumb>
         <BottomTools>
-          <BottomTool $theme={theme} aria-label="HDRI карта">
+          <BottomTool $theme={theme} aria-label={t.hdriMapSettings}>
             <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.3374 0C13.8897 0 14.3374 0.447715 14.3374 1V3.82843C14.3374 4.38071 13.8897 4.82843 13.3374 4.82843C12.7851 4.82843 12.3374 4.38071 12.3374 3.82843V1C12.3374 0.447715 12.7851 0 13.3374 0Z" fill={ic} fillOpacity={iconOpacity}/>
               <path d="M2.96362 2.96354C3.35415 2.57302 3.98731 2.57302 4.37784 2.96354L6.37784 4.96354C6.76836 5.35407 6.76836 5.98723 6.37784 6.37776C5.98731 6.76828 5.35415 6.76828 4.96362 6.37776L2.96362 4.37776C2.5731 3.98723 2.5731 3.35407 2.96362 2.96354Z" fill={ic} fillOpacity={iconOpacity}/>
@@ -357,9 +358,9 @@ const CreatePrintModelPage: FC = () => {
               <path d="M26.6748 13.3374C26.6748 13.8897 26.2271 14.3374 25.6748 14.3374H22.8464C22.2941 14.3374 21.8464 13.8897 21.8464 13.3374C21.8464 12.7851 22.2941 12.3374 22.8464 12.3374H25.6748C26.2271 12.3374 26.6748 12.7851 26.6748 13.3374Z" fill={ic} fillOpacity={iconOpacity}/>
               <path d="M3.82843 14.3374C4.38071 14.3374 4.82843 13.8897 4.82843 13.3374C4.82843 12.7851 4.38071 12.3374 3.82843 12.3374L0.999999 12.3374C0.447714 12.3374 0 12.7851 0 13.3374C0 13.8897 0.447716 14.3374 1 14.3374L3.82843 14.3374Z" fill={ic} fillOpacity={iconOpacity}/>
             </svg>
-            <span>HDRI карта</span>
+            <span>{t.hdriMapSettings}</span>
           </BottomTool>
-          <BottomTool $theme={theme} aria-label="Текстуры">
+          <BottomTool $theme={theme} aria-label={t.texturesSettings}>
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4714 0.195262C14.7318 0.455612 14.7318 0.877722 14.4714 1.13807L1.13807 14.4714C0.877722 14.7318 0.455612 14.7318 0.195262 14.4714C-0.0650874 14.2111 -0.0650874 13.7889 0.195262 13.5286L13.5286 0.195262C13.7889 -0.0650874 14.2111 -0.0650874 14.4714 0.195262Z" fill={ic} fillOpacity={iconOpacity}/>
               <path d="M18.7071 1.29289C19.0976 1.68342 19.0976 2.31658 18.7071 2.70711L2.70711 18.7071C2.31658 19.0976 1.68342 19.0976 1.29289 18.7071C0.902369 18.3166 0.902369 17.6834 1.29289 17.2929L17.2929 1.29289C17.6834 0.902369 18.3166 0.902369 18.7071 1.29289Z" fill={ic} fillOpacity={iconOpacity}/>
@@ -369,13 +370,13 @@ const CreatePrintModelPage: FC = () => {
               <path d="M23.4714 17.1953C23.7318 17.4556 23.7318 17.8777 23.4714 18.1381L18.1381 23.4714C17.8777 23.7318 17.4556 23.7318 17.1953 23.4714C16.9349 23.2111 16.9349 22.7889 17.1953 22.5286L22.5286 17.1953C22.7889 16.9349 23.2111 16.9349 23.4714 17.1953Z" fill={ic} fillOpacity={iconOpacity}/>
               <path d="M8.13807 2.80474C8.39842 2.54439 8.39842 2.12228 8.13807 1.86193C7.87772 1.60158 7.45561 1.60158 7.19526 1.86193L1.86193 7.19526C1.60158 7.45561 1.60158 7.87772 1.86193 8.13807C2.12228 8.39842 2.54439 8.39842 2.80474 8.13807L8.13807 2.80474Z" fill={ic} fillOpacity={iconOpacity}/>
             </svg>
-            <span>Текстуры</span>
+            <span>{t.texturesSettings}</span>
           </BottomTool>
-          <BottomTool $theme={theme} aria-label="Сетка">
+          <BottomTool $theme={theme} aria-label={t.gridSettings}>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.66667 0V29.3333M29.3333 8.66667L0 8.66667M20.6667 0V29.3333M29.3333 20.6667L0 20.6667" stroke={ic} strokeOpacity={iconOpacity} strokeWidth="2"/>
             </svg>
-            <span>Сетка</span>
+            <span>{t.gridSettings}</span>
           </BottomTool>
         </BottomTools>
       </BottomBar>

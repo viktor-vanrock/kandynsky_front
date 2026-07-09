@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { CSSProperties, FC, memo, ReactNode, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 import IconRotator from '../icons-rotator/IconsRotator.tsx';
 import { FrontGenerationType, GenerationStatus, GetGeneratedPreviewsQuery } from '../../graphql/graphQlApiHooks.ts';
 import styles from './PreviewBlock.module.css';
@@ -39,6 +39,7 @@ export const PreviewBlock: FC<ModelBlockProps> = memo(({ model, children, loadin
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [isHovered, setIsHovered] = useState(false);
   const { isGameDevMode, selectedMode } = useGameDevStore();
   if (!model) return null;
@@ -137,11 +138,11 @@ export const PreviewBlock: FC<ModelBlockProps> = memo(({ model, children, loadin
                   >
                     <ModeIconWrapper style={modeIconStyles} $is3DPrint={is3DPrintMode()}>
                       {getModeIcon()}
-                      {is3DPrintMode() && <ModeIconText>Без текстуры</ModeIconText>}
+                      {is3DPrintMode() && <ModeIconText>{t.noTexture}</ModeIconText>}
                     </ModeIconWrapper>
                     <StyledImage
                       src={preview.url}
-                      alt={`Генерация ${index + 1}`}
+                      alt={`${t.creation} ${index + 1}`}
                       isModel={!isHomeAndGenerate()}
                       title={model.prompt}
                       className={classNames(styles.galleryImage, styles.previewImage)}
@@ -149,7 +150,7 @@ export const PreviewBlock: FC<ModelBlockProps> = memo(({ model, children, loadin
                   </div>
                 ))}
             </div>
-            {grayImages.length > 0 && <div className={styles.labelText}>Выберите один понравившийся вариант</div>}
+            {grayImages.length > 0 && <div className={styles.labelText}>{t.selectFavorite}</div>}
           </div>
         )}
         {children}
@@ -187,7 +188,7 @@ export const PreviewBlock: FC<ModelBlockProps> = memo(({ model, children, loadin
       >
         <ModeIconWrapper style={modeIconStyles} $is3DPrint={is3DPrintMode()}>
           {getModeIcon()}
-          {is3DPrintMode() && <ModeIconText>Без текстуры</ModeIconText>}
+          {is3DPrintMode() && <ModeIconText>{t.noTexture}</ModeIconText>}
         </ModeIconWrapper>
         <div>
           {loading || !showImageUrl ? (

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import styles from './Page404.module.css';
+import { useLocale } from '../context';
 
 const Page404Container = styled.div`
   display: flex;
@@ -26,9 +27,10 @@ font-family: 'SB Sans Display', sans-serif;
 `;
 
 const Page404 = () => {
+  const { t } = useLocale();
   return (
     <Page404Container className={styles.container}>
-      <NotFoundText>Страница не найдена</NotFoundText>
+      <NotFoundText>{t.pageNotFound}</NotFoundText>
       <ErrorCode>404</ErrorCode>
     </Page404Container>
   );

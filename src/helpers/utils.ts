@@ -1,4 +1,5 @@
-import { LOADING_TEXTS } from "../utils/const";
+import { getLocalizedLoadingTexts } from "../utils/const";
+import type { Translations } from "../context/LocaleContext";
 
 export const isMobileDevice = () => {
   return (
@@ -12,8 +13,8 @@ export const testViewerPage = (pathname: string) => {
   return regex.test(pathname);
 };
 
-
-export function getRandomLoadingText() {
-  const randomIndex = Math.floor(Math.random() * LOADING_TEXTS.length);
-  return LOADING_TEXTS[randomIndex];
+export function getRandomLoadingText(t: Translations) {
+  const texts = getLocalizedLoadingTexts(t);
+  const randomIndex = Math.floor(Math.random() * texts.length);
+  return texts[randomIndex];
 }

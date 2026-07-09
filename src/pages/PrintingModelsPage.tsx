@@ -6,13 +6,14 @@ import printStyles from './PrintingModelsPage.module.css';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { useGetPrintingQueueQuery, PrintingQueueEntity } from '../graphql/graphQlApiHooks';
-import { useTheme } from '../context';
+import { useTheme, useLocale } from '../context';
 import { BackgroundGradients } from '../components/background-gradients';
 import { ModeType } from '../components/background-gradients/types';
 
 const PrintingModelsPage = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [page, setPage] = useState<number>(1);
   const [models, setModels] = useState<Array<PrintingQueueEntity>>([]);
   const loaderRef = useRef(null);
@@ -108,7 +109,7 @@ const PrintingModelsPage = () => {
         navigate('/editor', {
           state: {
             glbUrl: glbFormat.url,
-            prompt: item.meshRequest?.previewPrompt || 'Модель для печати',
+            prompt: item.meshRequest?.previewPrompt || t.modelLabel,
           },
         });
       }
@@ -130,7 +131,7 @@ const PrintingModelsPage = () => {
                 {previewUrl ? (
                   <img src={previewUrl} alt={item.meshRequest?.previewPrompt || 'preview'} className={printStyles.previewImage} />
                 ) : (
-                  <div className={printStyles.noImage}>Нет изображения</div>
+                  <div className={printStyles.noImage}>{t.noImage}</div>
                 )}
               </div>
 
@@ -155,7 +156,7 @@ const PrintingModelsPage = () => {
                         e.stopPropagation();
                         handleDownload(format.url, format.name);
                       }}
-                      title={`Скачать ${format.name.toUpperCase()}`}
+                      title={`${t.downloadFormat} ${format.name.toUpperCase()}`}
                       className={printStyles.downloadButton}
                     >
                       {format.name.toUpperCase()}
@@ -175,7 +176,7 @@ const PrintingModelsPage = () => {
 
         {!loading && !error && models.length === 0 && (
           <div style={{ width: '100%', textAlign: 'center', margin: '60px 0', fontSize: 18, color: '#888' }}>
-            Очередь печати пуста
+            {t.printQueueEmpty}
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { FC, useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { useLocale } from '../context';
 
 interface ExpandableImageProps {
   src: string;
@@ -11,12 +12,13 @@ interface ExpandableImageProps {
 
 export const ExpandableImage: FC<ExpandableImageProps> = ({
   src,
-  alt = 'Изображение',
+  alt,
   minSize = 64,
   maxSize = 300,
   className,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const { t } = useLocale();
 
   const handleClick = useCallback(() => {
     setExpanded((prev) => !prev);
@@ -29,9 +31,9 @@ export const ExpandableImage: FC<ExpandableImageProps> = ({
       className={className}
       onClick={handleClick}
       $expanded={expanded}
-      title={expanded ? 'Нажмите, чтобы уменьшить' : 'Нажмите, чтобы увеличить'}
+      title={expanded ? t.clickToCollapse : t.clickToExpand}
     >
-      <StyledImage src={src} alt={alt} $size={currentSize} $expanded={expanded} />
+      <StyledImage src={src} alt={alt ?? t.imageAlt} $size={currentSize} $expanded={expanded} />
     </ImageContainer>
   );
 };

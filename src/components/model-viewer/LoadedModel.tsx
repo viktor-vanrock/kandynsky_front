@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useViewerStore } from '../../store/viewer';
 import { useGameDevStore } from '../../store/gamedev';
 import { useTheme } from '../../context/ThemeContext.ts';
+import { useLocale } from '../../context';
 import { useFrame, useThree } from '@react-three/fiber';
 import { mergeVertices } from 'three-stdlib';
 import { MeshRequestEntity } from '../../graphql/graphQlApiHooks.ts';
@@ -106,6 +107,7 @@ export const LoadedModel = ({
   doQuadrification,
 }: ModelProps & { isGameDevMode?: boolean }) => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const { left, right } = useMovement();
   const [meshColor, setMeshColor] = useState(theme === 'dark' ? MESH_COLOR.WHITE : MESH_COLOR.BLACK);
   const isShowTexture = useViewerStore((state) => state.isShowTexture);
@@ -811,7 +813,7 @@ export const LoadedModel = ({
                 animation: 'spin .8s linear infinite',
               }}
             />
-            <span>Загрузка mesh-сетки...</span>
+            <span>{t.meshLoading}</span>
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
           </div>
         </Html>

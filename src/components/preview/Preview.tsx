@@ -3,7 +3,7 @@ import { PreviewBlock } from '../preview-block';
 import { ModelViewer } from '../model-viewer';
 import styled from 'styled-components';
 import { Button } from 'antd';
-import { useTheme } from '../../context';
+import { useTheme, useLocale } from '../../context';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   useGetPreviewByIdQuery,
@@ -31,6 +31,7 @@ type PreviewType = GetGeneratedPreviewsQuery['getGeneratedPreviews']['data'][0];
 export const Preview = () => {
   const { id } = useParams<{ id: string }>();
   const { theme } = useTheme();
+  const { t } = useLocale();
   const navigate = useNavigate();
   const [previews, setPreviews] = useState<PreviewType | undefined>(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -292,7 +293,7 @@ export const Preview = () => {
         <PreviewBlock model={previews} loading={isLoading} showGrid={true}>
           <div className={styles.buttonWrapper}>
             <ReGenerateButton onClick={startGeneratePreview} loading={isLoading} size="large" theme={theme}>
-              {'Перегенерировать'}
+              {t.regenerate}
             </ReGenerateButton>
           </div>
         </PreviewBlock>
@@ -302,15 +303,15 @@ export const Preview = () => {
           <div className={styles.noPreview}>
             <div>
               {isTimeout
-                ? 'Не удалось загрузить изображения. Возможно, проблемы с сетью.'
+                ? t.errorLoadImages
                 : isError
-                ? 'Ошибка связи с сервером. Попробуйте ещё раз или отключите VPN.'
-                : 'Не удалось получить результат генерации. Попробуйте перезагрузить страницу или перегенерировать.'}
+                ? t.errorServerConnection
+                : t.errorGetGenerationResult}
             </div>
             <div className={styles.buttonWrapper}>
-              <Button onClick={startGeneratePreview}>Перегенерировать</Button>
+              <Button onClick={startGeneratePreview}>{t.regenerate}</Button>
               <Button style={{ marginLeft: 8 }} onClick={() => window.location.reload()}>
-                Перезагрузить страницу
+                {t.reloadPage}
               </Button>
             </div>
           </div>
